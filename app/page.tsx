@@ -3,7 +3,7 @@ import Image from "next/image";
 export default function Home() {
   return (
     <main className="bg-gray-100 h-screen flex items-center justify-center p-5 dark:bg-gray-700 ">
-      <div className="bg-white shadow-lg p-5 rounded-3xl w-full max-w-sm dark:bg-gray-500">
+      <div className="bg-white shadow-lg p-5 rounded-3xl w-full max-w-sm dark:bg-gray-600">
         <div>
           <div className="flex justify-between items-center">
             <div className="flex flex-col">
@@ -30,10 +30,10 @@ export default function Home() {
             <div className="bg-green-400 absolute rounded-full w-2/3 h-2" />
           </div>
           <div className="flex justify-between items-center mt-5 text-gray-600">
-            <span>Expected</span>
-            <span>Sorting center</span>
-            <span>In transit</span>
-            <span className="text-gray-400">Deilvered</span>
+            <span className="dark:text-white">Expected</span>
+            <span className="dark:text-white">Sorting center</span>
+            <span className="dark:text-white">In transit</span>
+            <span className="text-gray-400 dark:text-gray-450">Deilvered</span>
           </div>
         </div>
       </div>
