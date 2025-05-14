@@ -2,40 +2,28 @@ import Image from "next/image";
 
 export default function Home() {
   return (
-    <main className="bg-gray-100 h-screen flex items-center justify-center p-5 dark:bg-gray-700 ">
-      <div className="bg-white shadow-lg p-5 rounded-3xl w-full max-w-sm dark:bg-gray-600">
-        <div>
-          <div className="flex justify-between items-center">
-            <div className="flex flex-col">
-              <span className="text-gray-600 font-semibold -mb-1 dark:text-gray-300">
-                In transit
-              </span>
-              <span className="text-4xl font-semibold dark:text-white ">
-                Coolblue
-              </span>
-            </div>
-            <div className="size-12 rounded-full bg-orange-400" />
-          </div>
-          <div className="my-2 flex items-center gap-2">
-            <span
-              className="bg-green-400 text-white uppercase px-2.5 py-1.5 text-xs 
-            font-medium rounded-full transition hover:bg-green-600 hover:scale-125"
-            >
-              Today
-            </span>
-            <span className="dark:text-gray-100">9:30~10:30</span>
-          </div>
-          <div className="relative">
-            <div className="bg-gray-200 absolute rounded-full w-full h-2" />
-            <div className="bg-green-400 absolute rounded-full w-2/3 h-2" />
-          </div>
-          <div className="flex justify-between items-center mt-5 text-gray-600">
-            <span className="dark:text-white">Expected</span>
-            <span className="dark:text-white">Sorting center</span>
-            <span className="dark:text-white">In transit</span>
-            <span className="text-gray-400 dark:text-gray-450">Deilvered</span>
-          </div>
-        </div>
+    <main className="bg-gray-100 h-screen flex items-center justify-center p-5">
+      <div
+        className="bg-white shadow-lg p-5 rounded-3xl w-full 
+      max-w-screen-sm flex flex-col gap-5"
+      >
+        <input
+          className="w-full rounded-full h-10 
+          bg-gray-100 pl-5 outline-none
+          ring-3 ring-transparent focus:ring-orange-500 focus:ring-offset-2
+          transition-shadow
+          placeholder:drop-shadow"
+          //여기서 h로 값을 지정할수있지만 또 py로 위아래 패딩값을 줘 크기를 지정할수있음
+          type="text"
+          placeholder="검색어를 입력하세요"
+        />
+        <button
+          className="bg-gray-900/50 text-white py-2 rounded-full 
+          focus:scale-90
+          active:scale-90 transition-transform font-medium outline-none"
+        >
+          검색
+        </button>
       </div>
     </main>
   );
