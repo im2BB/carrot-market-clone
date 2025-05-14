@@ -10,11 +10,14 @@ export default function Home() {
     >
       <div
         className="bg-white shadow-lg p-5 rounded-3xl w-full 
-      max-w-screen-sm flex md:flex-row flex-col gap-5"
+      max-w-screen-sm flex md:flex-row flex-col gap-5 *:outline-none
+      ring ring-transparent transition-shadow
+      has-[:invalid]:bg-red-100 has-[:invalid]"
+        //*를 사용하면하위에 있는 자식 컨테이너들은 기본 값으로 적용됌
+        //has를 사용하게되면 hsa뒤에 있는 값이 있는 하위 자식 컨테이너들에게 전부 적용
       >
         <input
           className="w-full rounded-full h-10 
-          bg-gray-100 pl-5 outline-none
           ring-3 ring-transparent focus:ring-green-500 focus:ring-offset-2
           transition-shadow
           placeholder:drop-shadow invalid:focus:ring-red-200 peer"
@@ -32,7 +35,6 @@ export default function Home() {
         <button
           className="text-white py-4 rounded-2xl 
           focus:scale-90 md:w-20
-          active:scale-90 transition-transform font-medium outline-none
           bg-gray-600/50
           peer-required::bg-green-500
           "
