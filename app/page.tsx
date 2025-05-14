@@ -1,5 +1,3 @@
-import Image from "next/image";
-
 export default function Home() {
   return (
     <main className="h-screen bg-gray-100 flex items-center justify-center p-5">
@@ -22,7 +20,7 @@ export default function Home() {
               //group은 부모에 주고 그 아래 자식 에 group을 이용해 각 상태에 값을 지정해줄수 있음
               //px 값으로 설정하고 싶다면 예)h-[101.569px] 이런식으로 입력 가능
               //색상값도 bg[#7d45b4] 이런식으로 값을 주면 됌
-            > 
+            >
               {person}
             </span>
             <div
