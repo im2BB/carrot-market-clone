@@ -12,6 +12,10 @@ const checkPassword = ({
   comfirm_Password: string;
 }) => password === comfirm_Password;
 
+const passwordRegex = new RegExp(
+  /^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$%^&*-]).+$/
+);
+
 const formSchema = z
   .object({
     username: z
@@ -21,6 +25,11 @@ const formSchema = z
       })
       .min(3, "닉네임이 너무 짧아요~")
       .max(10, "닉네임이 너무 길어요~~~~~")
+      .toLowerCase() //소문자로 변환
+      .trim() //공백제거
+      // .transform((username) => {
+      //   return '* {username} *'
+      // })   이런식으로 변경해서 값을 보낼수 있음
       .refine(checkUesrname, "potato는 안되요~"),
 
     email: z
@@ -28,19 +37,16 @@ const formSchema = z
         invalid_type_error: "이메일을 입력해주세요",
         required_error: "이메일을 입력해주세요",
       })
+      .toLowerCase()
       .email("이메일을 입력해주세요"),
     password: z
-      .string({
-        invalid_type_error: "특수문자는 불가능해요!",
-        required_error: "비밀번호를 입력해주세요",
-      })
-      .min(10, "비밀번호가 너무 짧아요"),
-    comfirm_Password: z
-      .string({
-        invalid_type_error: "특수문자는 불가능해요!",
-        required_error: "비밀번호를 입력해주세요",
-      })
-      .min(10, "비밀번호가 너무 짧아요"),
+      .string()
+      .min(10, "비밀번호가 너무 짧아요")
+      .regex(
+        passwordRegex,
+        "비밀번호에는 숫자, 특수문자나 영어 대문자 그리고 특수문자가 포함되어야 합니다."
+      ),
+    comfirm_Password: z.string().min(10, "비밀번호가 너무 짧아요"),
   })
   .refine(checkPassword, {
     message: "비밀번호 틀렸습니다, 다시 한번 확인해주세요.",
@@ -57,5 +63,7 @@ export async function createAccount(prevState: any, formData: FormData) {
   const result = formSchema.safeParse(data);
   if (!result.success) {
     return result.error.flatten();
+  } else {
+    console.log(result.data);
   }
 }
