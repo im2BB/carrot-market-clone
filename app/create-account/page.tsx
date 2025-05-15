@@ -38,7 +38,7 @@ export default function CreateAccount() {
           required
           errors={["비밀번호가 틀립니다"]}
         />
-        <FormBtn loading={false} text={"가입 완료"} />
+        <FormBtn text={"가입 완료"} />
       </form>
       <SocialLogin text={" 가입하기"} />
     </div>
