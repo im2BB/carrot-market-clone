@@ -15,19 +15,33 @@ export default function CreateAccount() {
         <h2 className="text-xl">당근당근 가입 당근합니다!</h2>
       </div>
       <form action={dispatch} className="flex flex-col gap-3">
-        <FormInput name="username" type="text" placeholder="닉네임" required />
-        <FormInput name="email" type="email" placeholder="Email" required />
+        <FormInput
+          name="username"
+          type="text"
+          placeholder="닉네임"
+          required
+          errors={state?.fieldErrors.username}
+        />
+        <FormInput
+          name="email"
+          type="email"
+          placeholder="Email"
+          required
+          errors={state?.fieldErrors.email}
+        />
         <FormInput
           name="password"
           type="password"
           placeholder="비밀번호"
           required
+          errors={state?.fieldErrors.password}
         />
         <FormInput
           name="comfirm_Password"
           type="password"
           placeholder="비밀번호 확인"
           required
+          errors={state?.fieldErrors.comfirm_Password}
         />
         <FormBtn text={"가입 완료"} />
       </form>
