@@ -1,3 +1,5 @@
+import FormInput from "@/components/form-input";
+import FormBtn from "@/components/from-btn";
 import {
   ChatBubbleBottomCenterIcon,
   ChatBubbleOvalLeftEllipsisIcon,
@@ -13,19 +15,31 @@ export default function CreateAccount() {
         <h2 className="text-xl">당근당근 가입 당근합니다!</h2>
       </div>
       <form className="flex flex-col gap-3">
-        <div className="flex flex-col gap-3 ">
-          <input
-            className="bg-transparent rounded-md w-full
-            h-10 foucus:outline-none ring-1 focus:ring-2
-            ring-neutral-200 focus:ring-orange-500 border-none
-            placeholder:text-neutral-400"
-            type="text"
-            placeholder="이름"
-            required
-          />
-          <span className="text-red-500 font-medium">오류 를 입력 하세요</span>
-        </div>
-        <button className="primary-btn h-10 text-">가입 완료</button>
+        <FormInput
+          type="text"
+          placeholder="사용자 이름"
+          required
+          errors={["사용자 이름이 너무 짧습니다"]}
+        />
+        <FormInput
+          type="email"
+          placeholder="e-mail"
+          required
+          errors={["email 형식이 아닙니다다"]}
+        />
+        <FormInput
+          type="password"
+          placeholder="비밀번호"
+          required
+          errors={["비밀번호가 너무 짧습니다"]}
+        />
+        <FormInput
+          type="password"
+          placeholder="비밀번호 확인"
+          required
+          errors={["비밀번호가 틀립니다"]}
+        />
+        <FormBtn loading={false} text={"가입 완료"} />
       </form>
       <div className="w-full h-px bg-neutral-500" />
       <div>
