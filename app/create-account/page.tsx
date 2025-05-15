@@ -1,42 +1,33 @@
+"use client";
+
 import FormInput from "@/components/form-input";
 import FormBtn from "@/components/from-btn";
 import SocialLogin from "@/components/social-login";
+import { useFormState } from "react-dom";
+import { createAccount } from "./action";
 
 export default function CreateAccount() {
+  const [state, dispatch] = useFormState(createAccount, null);
   return (
     <div className="flex flex-col gap-10 py-8 px-6">
       <div className="flex flex-col gap-2 *:font-medium">
         <h1 className="text-2xl">안녕하세요!</h1>
         <h2 className="text-xl">당근당근 가입 당근합니다!</h2>
       </div>
-      <form className="flex flex-col gap-3">
+      <form action={dispatch} className="flex flex-col gap-3">
+        <FormInput name="username" type="text" placeholder="닉네임" required />
+        <FormInput name="email" type="email" placeholder="Email" required />
         <FormInput
-          name="name"
-          type="text"
-          placeholder="사용자 이름"
-          required
-          errors={["사용자 이름이 너무 짧습니다"]}
-        />
-        <FormInput
-          name="email"
-          type="email"
-          placeholder="e-mail"
-          required
-          errors={["email 형식이 아닙니다다"]}
-        />
-        <FormInput
-          name="password1"
+          name="password"
           type="password"
           placeholder="비밀번호"
           required
-          errors={["비밀번호가 너무 짧습니다"]}
         />
         <FormInput
-          name="password2"
+          name="comfirm_Password"
           type="password"
           placeholder="비밀번호 확인"
           required
-          errors={["비밀번호가 틀립니다"]}
         />
         <FormBtn text={"가입 완료"} />
       </form>
