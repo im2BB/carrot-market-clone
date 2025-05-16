@@ -1,4 +1,5 @@
 "use server";
+import { PASSWORD_REGEX, PASSWORD_REGEX_ERROR } from "@/lib/constants";
 import { z } from "zod";
 
 const usernameSchema = z.string().min(5).max(10);
@@ -12,10 +13,6 @@ const checkPassword = ({
   comfirm_Password: string;
 }) => password === comfirm_Password;
 
-const passwordRegex = new RegExp(
-  /^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$%^&*-]).+$/
-);
-
 const formSchema = z
   .object({
     username: z
@@ -23,8 +20,7 @@ const formSchema = z
         invalid_type_error: "문자로만 가능해요!",
         required_error: "닉네임을 입력해주세요",
       })
-      .min(3, "닉네임이 너무 짧아요~")
-      .max(10, "닉네임이 너무 길어요~~~~~")
+
       .toLowerCase() //소문자로 변환
       .trim() //공백제거
       // .transform((username) => {
@@ -41,11 +37,8 @@ const formSchema = z
       .email("이메일을 입력해주세요"),
     password: z
       .string()
-      .min(10, "비밀번호가 너무 짧아요")
-      .regex(
-        passwordRegex,
-        "비밀번호에는 숫자, 특수문자나 영어 대문자 그리고 특수문자가 포함되어야 합니다."
-      ),
+      .min(4, "비밀번호가 너무 짧아요")
+      .regex(PASSWORD_REGEX, PASSWORD_REGEX_ERROR),
     comfirm_Password: z.string().min(10, "비밀번호가 너무 짧아요"),
   })
   .refine(checkPassword, {
