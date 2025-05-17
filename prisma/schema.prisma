@@ -8,3 +8,16 @@ datasource db {
   provider = "sqlite"
   url      = env("DATABASE_URL")
 }
+
+
+model User {
+  id Int @id @default(autoincrement()) //자동으로 생성되는 id 순차적으로 생성 1 2 순으로
+  username String @unique 
+  email String? @unique
+  password String?
+  phone String? @unique
+  github_id String? @unique
+  avater String? 
+  created_at DateTime @default(now())   //now는 생성시 시간을 저장
+  update_at DateTime @updatedAt //updatedAt 은 업데이트 된 시간 값을 저장
+}

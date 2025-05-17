@@ -10,6 +10,7 @@
   },
   "dependencies": {
     "@heroicons/react": "^2.2.0",
+    "@prisma/client": "^6.8.2",
     "autoprefixer": "^10.4.21",
     "next": "15.3.2",
     "postcss": "^8.5.3",
