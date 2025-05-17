@@ -3,12 +3,17 @@ import { PrismaClient } from "./generated/prisma";
 const db = new PrismaClient();
 
 async function test() {
-  const user = await db.user.create({
+  const token = await db.sMSToken.create({
     data: {
-      username: "qwer",
+      token: "121212",
+      user: {
+        connect: {
+          id: 1,
+        },
+      },
     },
   });
-  console.log(user);
+  console.log(token);
 }
 
 test();
