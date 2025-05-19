@@ -98,7 +98,6 @@ export async function createAccount(prevState: any, formData: FormData) {
       values: {
         username: data.username,
         email: data.email,
-        // password, comfirm_Password는 보안상 반환하지 않음
       },
     };
   } else {
