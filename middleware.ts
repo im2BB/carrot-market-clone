@@ -1,0 +1,14 @@
+import { NextRequest, NextResponse } from "next/server";
+import getSession from "./lib/seeeion";
+
+//middleware는 모든 페이지에서 전부 실행됨
+//middleware는 다른 이름으로  설정할수없음 config등도 마찬가지
+export async function middleware(request: NextRequest) {
+  console.log("hello");
+}
+
+export const config = {
+  matcher: [
+    "/((?!_next/static|_next/image|favicon.ico|.*\\.(?:svg|png|jpg|jpeg|gif|webp)$).*)",
+  ],
+};
