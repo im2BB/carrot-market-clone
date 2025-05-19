@@ -3,8 +3,30 @@ import getSession from "./lib/seeeion";
 
 //middleware는 모든 페이지에서 전부 실행됨
 //middleware는 다른 이름으로  설정할수없음 config등도 마찬가지
+
+interface Routes {
+  [key: string]: boolean;
+}
+
+const publicOnlyUrls: Routes = {
+  "/": true,
+  "/login": true,
+  "/sms": true,
+  "/create-account": true,
+};
+
 export async function middleware(request: NextRequest) {
-  console.log("hello");
+  const seeeion = await getSession();
+  const extists = publicOnlyUrls[request.nextUrl.pathname];
+  if (!seeeion.id) {
+    if (!extists) {
+      return NextResponse.redirect(new URL("/", request.url));
+    }
+  } else {
+    if (extists) {
+      return NextResponse.redirect(new URL("/home", request.url));
+    }
+  }
 }
 
 export const config = {
