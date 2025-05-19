@@ -3,6 +3,9 @@ import bcrypt from "bcrypt";
 import { PASSWORD_REGEX, PASSWORD_REGEX_ERROR } from "@/lib/constants";
 import db from "@/lib/db";
 import { boolean, z } from "zod";
+import { getIronSession } from "iron-session";
+import { cookies } from "next/headers";
+import { redirect } from "next/navigation";
 
 const usernameSchema = z.string().min(5).max(10);
 
@@ -85,7 +88,7 @@ export async function createAccount(prevState: any, formData: FormData) {
     password: formData.get("password"),
     comfirm_Password: formData.get("comfirm_Password"),
   };
-  const result = await formSchema.safeParseAsync(data);
+  const result = await formSchema.spa(data);
   if (!result.success) {
     return result.error.flatten();
   } else {
@@ -100,6 +103,14 @@ export async function createAccount(prevState: any, formData: FormData) {
         id: true,
       },
     });
-    console.log(user);
+    const cookie = await getIronSession(await cookies(), {
+      cookieName: "delicious-karrot",
+      password: process.env.COOKIE_PASSWORD!,
+    });
+    //@ts-ignore
+    cookie.id = user.id;
+    await cookie.save();
+
+    redirect("/profile");
   }
 }
