@@ -21,16 +21,18 @@ export default function CreateAccount() {
           type="text"
           placeholder="닉네임"
           required
-          errors={state?.fieldErrors.username}
+          errors={state?.fieldErrors?.username}
           minLength={3}
           maxLength={10}
+          defaultValue={String(state?.values?.username || "")}
         />
         <Input
           name="email"
           type="email"
           placeholder="Email"
           required
-          errors={state?.fieldErrors.email}
+          errors={state?.fieldErrors?.email}
+          defaultValue={String(state?.values?.email || "")}
         />
         <Input
           name="password"
@@ -41,11 +43,11 @@ export default function CreateAccount() {
           minLength={PASSWORD_MIN_LENGTH}
         />
         <Input
-          name="comfirm_Password"
+          name="confirm_password"
           type="password"
           placeholder="비밀번호 확인"
           required
-          errors={state?.fieldErrors.comfirm_Password}
+          errors={state?.fieldErrors.confirm_password}
           minLength={PASSWORD_MIN_LENGTH}
         />
         <Button text={"가입 완료"} />
