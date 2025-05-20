@@ -2,7 +2,7 @@
 
 import Input from "@/components/Input";
 import Button from "@/components/button";
-import { useFormState } from "react-dom";
+import { useActionState } from "react"; // 변경
 import { smsLogIn } from "./action";
 
 const initialState = {
@@ -12,7 +12,7 @@ const initialState = {
 };
 
 export default function SMSLogIn() {
-  const [state, dispatch] = useFormState(smsLogIn, initialState);
+  const [state, dispatch] = useActionState(smsLogIn, initialState); // 변경
   return (
     <div className="flex flex-col gap-10 py-8 px-6">
       <div className="flex flex-col gap-2 *:font-medium">
@@ -28,6 +28,7 @@ export default function SMSLogIn() {
             required
             min={100000}
             max={999999}
+            errors={state.error?.formErrors}
           />
         ) : (
           <Input
@@ -36,7 +37,7 @@ export default function SMSLogIn() {
             placeholder="전화번호를 입력하세요"
             required
             defaultValue={state.phone} // 입력값 초기화 방지
-            errors={state.error?.formErrors}
+            errors={state.error?.formErrors} //오류메시지 출력
           />
         )}
         <Button text={state.token ? "인증번호 확인" : "인증번호 보내기"} />

@@ -1,10 +1,7 @@
 "use server";
 import bcrypt from "bcrypt";
-import { PASSWORD_REGEX, PASSWORD_REGEX_ERROR } from "@/lib/constants";
 import db from "@/lib/db";
-import { boolean, z } from "zod";
-import { getIronSession } from "iron-session";
-import { cookies } from "next/headers";
+import { z } from "zod";
 import { redirect } from "next/navigation";
 import getSession from "@/lib/seeeion";
 

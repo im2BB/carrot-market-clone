@@ -4,8 +4,8 @@ import { z } from "zod";
 import crypto from "crypto";
 import validator from "validator";
 import { redirect } from "next/navigation";
-import { error } from "console";
 import db from "@/lib/db";
+import getSession from "@/lib/seeeion";
 
 const phoneSchema = z
   .string()
@@ -15,9 +15,23 @@ const phoneSchema = z
     "올바른 전화번호를 입력하세요"
   );
 
-const tokenSchema = z.coerce.number().min(100000).max(999999);
-//coerce를 사용하면 변환을 할수 있음
-// coerce.number 이런식이라면 문자열로 들어온다면 넘버로 변환
+async function tokenExists(token: number) {
+  const exists = await db.sMSToken.findUnique({
+    where: {
+      token: token.toString(),
+    },
+    select: {
+      id: true,
+    },
+  });
+  return Boolean(exists);
+}
+
+const tokenSchema = z.coerce
+  .number()
+  .min(100000)
+  .max(999999)
+  .refine(tokenExists, "인증번호가 맞지 않습니다.");
 
 interface ActionState {
   token: boolean;
@@ -84,15 +98,35 @@ export async function smsLogIn(prevState: ActionState, formData: FormData) {
       };
     }
   } else {
-    const result = tokenSchema.safeParse(token);
+    // 토큰 검증 부분
+    const result = await tokenSchema.spa(token);
     if (!result.success) {
       return {
         token: true,
-        phone, // 토큰 검증 실패시에도 전화번호 유지
+        phone,
         error: result.error.flatten(),
       };
     } else {
-      redirect("/");
+      const token = await db.sMSToken.findUnique({
+        where: {
+          token: result.data.toString(),
+        },
+        select: {
+          id: true,
+          userId: true,
+        },
+      });
+
+      const session = await getSession();
+      session.id = token!.userId;
+      await session.save();
+      await db.sMSToken.delete({
+        where: {
+          id: token!.id,
+        },
+      });
+
+      redirect("/profile");
     }
   }
 }
