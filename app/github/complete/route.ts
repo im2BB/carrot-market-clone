@@ -1,4 +1,5 @@
 import db from "@/lib/db";
+import loginUser from "@/lib/login";
 import getSession from "@/lib/seeeion";
 import { notFound, redirect } from "next/navigation";
 import { NextRequest } from "next/server";
@@ -6,7 +7,9 @@ import { NextRequest } from "next/server";
 export async function GET(request: NextRequest) {
   const code = request.nextUrl.searchParams.get("code");
   if (!code) {
-    return notFound();
+    return new Response(null, {
+      status: 400,
+    });
   }
   const accessTokenParams = new URLSearchParams({
     client_id: process.env.GITHUB_CLIENT_ID!,
@@ -42,10 +45,7 @@ export async function GET(request: NextRequest) {
     },
   });
   if (user) {
-    const session = await getSession();
-    session.id = user.id;
-    await session.save();
-    return redirect("/profile");
+    await loginUser(user);
   }
   const newUser = await db.user.create({
     data: {
@@ -57,8 +57,5 @@ export async function GET(request: NextRequest) {
       id: true,
     },
   });
-  const session = await getSession();
-  session.id = newUser.id;
-  await session.save();
-  return redirect("/profile");
+  await loginUser(newUser);
 }

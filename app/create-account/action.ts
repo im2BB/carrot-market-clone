@@ -80,7 +80,7 @@ const formSchema = z
     }
   })
   .refine(checkPasswords, {
-    message: "Both passwords should be the same!",
+    message: "비밀번호가 다릅니다!",
     path: ["confirm_password"],
   });
 
