@@ -19,6 +19,7 @@ model User {
   created_at DateTime   @default(now()) //now는 생성시 시간을 저장
   update_at  DateTime   @updatedAt //updatedAt 은 업데이트 된 시간 값을 저장
   SMSToken   SMSToken[]
+  Product    Product[]
 }
 
 model SMSToken {
@@ -26,6 +27,21 @@ model SMSToken {
   token      String   @unique
   created_at DateTime @default(now())
   update_at  DateTime @updatedAt
-  user       User     @relation(fields: [userId], references: [id]) //여기선 relation은 토큰과 유저 아이디를 연결해주줌줌
+  user       User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  //여기서 relation은 토큰과 유저 아이디를 연결해줌
+  //Cascade는 연결되어 있는 부모가 지워진다면 (여기서는 user가 지워진다면) 자식도 같이 지워진다는 의미
+  userId     Int
+}
+
+model Product {
+  id          Int    @id @default(autoincrement())
+  title       String
+  price       Float
+  description String
+  photo       String
+
+  created_at DateTime @default(now())
+  update_at  DateTime @updatedAt
+  user       User     @relation(fields: [userId], references: [id], onDelete: Cascade)
   userId     Int
 }
