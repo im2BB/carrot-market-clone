@@ -1,6 +1,7 @@
 "use server";
 
 import { z } from "zod";
+import twilio from "twilio";
 import crypto from "crypto";
 import validator from "validator";
 import { redirect } from "next/navigation";
@@ -91,7 +92,15 @@ export async function smsLogIn(prevState: ActionState, formData: FormData) {
           },
         },
       });
-
+      const client = twilio(
+        process.env.TIWILIO_ACCOUT_SID,
+        process.env.TIWILIO_AUTH_TOKEN
+      );
+      await client.messages.create({
+        body: `Your Karrot verification code is: ${token}`,
+        from: process.env.TIWILIO_PHONE_NUMBER!,
+        to: process.env.MY_PHONE_NUMBER!,
+      });
       return {
         token: true,
         phone, // 성공시에도 전화번호 유지
