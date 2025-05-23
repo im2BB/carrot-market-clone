@@ -4,15 +4,18 @@
 
 @layer base {
   a {
-    @apply text-orange-500 
-    underline-offset-4;
+    @apply text-orange-500;
+  }
+}
+
+@layer utilities {
+  .text-bigger-hello {
+    @apply text-3xl font-semibold;
   }
 }
 
 @layer components {
   .primary-btn {
-    @apply w-full bg-orange-500 text-white 
-          font-medium  rounded-md text-center hover:bg-orange-400 
-          transition-colors;
+    @apply w-full bg-orange-500 text-white  font-medium  rounded-md text-center hover:bg-orange-400 transition-colors;
   }
 }
