@@ -7,7 +7,17 @@ import { useState } from "react";
 
 export default function AddProduct() {
   const [priview, setPreview] = useState("");
-  const onImageChange = () => {};
+  const onImageChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const {
+      target: { files },
+    } = event;
+    if (!files) {
+      return;
+    }
+    const file = files[0];
+    const url = URL.createObjectURL(file);
+    setPreview(url);
+  };
   return (
     <div>
       <form className="flex flex-col gap-5 p-5">
@@ -15,10 +25,17 @@ export default function AddProduct() {
           htmlFor="photo"
           className="border-2 aspect-square flex items-center 
           justify-center flex-col text-neutral-300 border-neutral-300 
-          rounded-md border-dashed cursor-pointer"
+          rounded-md border-dashed cursor-pointer bg-center bg-cover"
+          style={{ backgroundImage: `url(${priview})` }}
         >
-          <PhotoIcon className="w-20" />
-          <div className="text-neutral-400 text-sm">사진을 추가해주세요</div>
+          {priview === "" ? (
+            <>
+              <PhotoIcon className="w-20" />
+              <div className="text-neutral-400 text-sm">
+                사진을 추가해주세요
+              </div>
+            </>
+          ) : null}
         </label>
         <input
           onChange={onImageChange}
