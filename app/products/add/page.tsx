@@ -5,6 +5,7 @@ import Input from "@/components/Input";
 import { PhotoIcon } from "@heroicons/react/24/solid";
 import { useState } from "react";
 import { uploadProduct } from "./actions";
+import { useFormState } from "react-dom";
 
 export default function AddProduct() {
   const [priview, setPreview] = useState("");
@@ -35,9 +36,10 @@ export default function AddProduct() {
     // 해당 사용 브라우져에 일시적으로 생성 새로고침시 삭제
     setPreview(url);
   };
+  const [state, action] = useFormState(uploadProduct, null);
   return (
     <div>
-      <form action={uploadProduct} className="flex flex-col gap-5 p-5">
+      <form action={action} className="flex flex-col gap-5 p-5">
         <label
           htmlFor="photo"
           className="border-2 aspect-square flex items-center 
@@ -66,18 +68,21 @@ export default function AddProduct() {
           required
           placeholder="제목을 입력해주세요"
           type="text"
+          errors={state?.fieldErrors.title}
         />
         <Input
           name="price"
           required
           placeholder="가격을 입력해주세요"
           type="number"
+          errors={state?.fieldErrors.price}
         />{" "}
         <Input
           name="description"
           required
           placeholder="설명을 입력해주세요"
           type="text"
+          errors={state?.fieldErrors.description}
         />
         <Button text="완료" />
       </form>
