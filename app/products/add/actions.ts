@@ -14,8 +14,7 @@ const productSchma = z.object({
   price: z.coerce.number({ required_error: "가격 값은 필수입니다" }),
 });
 
-export async function uploadProduct(_: any, formData: FormData) {
-  const data = {
+export async function uploadProduct(_: any, formData: FormData) {  const data = {
     photo: formData.get("photo"),
     title: formData.get("title"),
     price: formData.get("price"),
@@ -24,7 +23,7 @@ export async function uploadProduct(_: any, formData: FormData) {
   if (data.photo instanceof File) {
     const photoData = await data.photo.arrayBuffer();
     await fs.appendFile(`./public/${data.photo.name}`, Buffer.from(photoData));
-    data.photo = `/$${data.photo.name}`;
+    data.photo = `/${data.photo.name}`;
   }
   const result = productSchma.safeParse(data);
   if (!result.success) {
