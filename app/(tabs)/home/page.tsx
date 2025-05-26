@@ -3,6 +3,11 @@ import db from "@/lib/db";
 import { Prisma } from "@/lib/generated/prisma";
 import { PlusIcon } from "@heroicons/react/24/solid";
 import Link from "next/link";
+import { title } from "process";
+
+export const metadata = {
+  title: "Home",
+};
 
 async function getInitialProducts() {
   const products = await db.product.findMany({
@@ -13,7 +18,7 @@ async function getInitialProducts() {
       photo: true,
       id: true,
     },
-    take: 1,
+
     orderBy: {
       created_at: "desc",
     },

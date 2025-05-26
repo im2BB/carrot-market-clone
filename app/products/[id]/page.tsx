@@ -15,6 +15,13 @@ async function getIsOwner(userId: Number) {
   return false;
 }
 
+export async function generateMetadata({ params }: { params: { id: string } }) {
+  const product = await getProduct(Number(params.id));
+  return {
+    title: product?.title,
+  };
+}
+
 async function getProduct(id: number) {
   const product = await db.product.findUnique({
     where: {
@@ -72,9 +79,8 @@ export default async function ProductDetail({
         <div>
           <h3>{product.user.username}</h3>
         </div>
-        
       </div>
-      
+
       <div className="p-5">
         <h1 className="text-2xl font-semibold">{product.title}</h1>
         <p>{product.description}</p>
