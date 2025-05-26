@@ -4,6 +4,7 @@ import Button from "@/components/button";
 import Input from "@/components/Input";
 import { PhotoIcon } from "@heroicons/react/24/solid";
 import { useState } from "react";
+import { uploadProduct } from "./actions";
 
 export default function AddProduct() {
   const [priview, setPreview] = useState("");
@@ -15,12 +16,28 @@ export default function AddProduct() {
       return;
     }
     const file = files[0];
+
+    // 이미지 파일인지 체크
+    if (!file.type.startsWith("image/")) {
+      alert("이미지 파일만 업로드할 수 있습니다.");
+      return;
+    }
+
+    // 3MB 이하인지 체크
+    const maxSize = 3 * 1024 * 1024; // 3MB
+    if (file.size > maxSize) {
+      alert("이미지 크기는 3MB를 넘을 수 없습니다.");
+      return;
+    }
+
     const url = URL.createObjectURL(file);
+    //URL.createObjectURL(file); 업로드한 파일에 대한 URL을 생성
+    // 해당 사용 브라우져에 일시적으로 생성 새로고침시 삭제
     setPreview(url);
   };
   return (
     <div>
-      <form className="flex flex-col gap-5 p-5">
+      <form action={uploadProduct} className="flex flex-col gap-5 p-5">
         <label
           htmlFor="photo"
           className="border-2 aspect-square flex items-center 
@@ -53,7 +70,7 @@ export default function AddProduct() {
         <Input
           name="price"
           required
-          placeholder="가격격을 입력해주세요"
+          placeholder="가격을 입력해주세요"
           type="number"
         />{" "}
         <Input
