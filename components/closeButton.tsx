@@ -2,20 +2,31 @@
 
 import { XMarkIcon } from "@heroicons/react/24/solid";
 import { useRouter } from "next/navigation";
+import { useEffect } from "react";
 
 export default function CloseButton() {
   const router = useRouter();
   const onCloseClick = () => {
     router.back();
   };
+
+  // ESC 키로 닫기
+  useEffect(() => {
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if (e.key === "Escape") {
+        router.back();
+      }
+    };
+    window.addEventListener("keydown", handleKeyDown);
+    return () => window.removeEventListener("keydown", handleKeyDown);
+  }, [router]);
+
   return (
-    <>
-      <button
-        onClick={onCloseClick}
-        className=" absolute right-5 top-5 text-neutral-200"
-      >
-        <XMarkIcon className="size-10" />
-      </button>
-    </>
+    <button
+      onClick={onCloseClick}
+      className=" absolute right-5 top-5 text-neutral-200"
+    >
+      <XMarkIcon className="size-10" />
+    </button>
   );
 }

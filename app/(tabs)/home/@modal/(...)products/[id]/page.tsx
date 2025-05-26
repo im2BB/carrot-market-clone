@@ -45,7 +45,7 @@ export default async function Modal({ params }: { params: { id: string } }) {
   if (!product) {
     return notFound();
   }
-  const isOwner = await getIsOwner(product.userId);
+
   return (
     <div
       className=" absolute gap-5 w-full h-full flex flex-col z-50 justify-center 
