@@ -2,8 +2,12 @@ import ProductList from "@/components/product-list";
 import db from "@/lib/db";
 import { Prisma } from "@/lib/generated/prisma";
 import { PlusIcon } from "@heroicons/react/24/solid";
+import { unstable_cache as nextCache } from "next/cache";
 import Link from "next/link";
 
+const getCachedProducts = nextCache(getInitialProducts, ["home-products"], {
+  revalidate: 60, //60초 마다가 아닌 유저가 들어온후 60초 후 새로고침을 하게되면 새로운 캐쉬를 받음
+});
 
 export const metadata = {
   title: "Home",
@@ -31,7 +35,7 @@ export type InitialProducts = Prisma.PromiseReturnType<
 >;
 
 export default async function Products() {
-  const initialProducts = await getInitialProducts();
+  const initialProducts = await getCachedProducts();
   return (
     <div>
       <ProductList initialProducts={initialProducts} />
