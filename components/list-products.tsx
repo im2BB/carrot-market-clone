@@ -22,12 +22,12 @@ export default function ListProduct({
       <div className="relative size-28 rounded-md overflow-hidden">
         <Image
           fill
-          src={`${photo}/public`}
+          src={`${photo}/width=100,height=100`}
           className="object-cover"
           alt={title}
         />
       </div>
-      <div className="flex flex-col gap-1 *:text-white">
+      <div className="flex  flex-col gap-1 *:text-white">
         <span className="text-lg">{title}</span>
         <span className="text-sm text-neutral-500">
           {formatToTimeAgo(created_at.toString())}

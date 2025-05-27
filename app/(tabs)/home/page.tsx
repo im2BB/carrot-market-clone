@@ -3,7 +3,7 @@ import db from "@/lib/db";
 import { Prisma } from "@/lib/generated/prisma";
 import { PlusIcon } from "@heroicons/react/24/solid";
 import Link from "next/link";
-import { title } from "process";
+
 
 export const metadata = {
   title: "Home",
@@ -36,7 +36,7 @@ export default async function Products() {
     <div>
       <ProductList initialProducts={initialProducts} />
       <Link
-        href="/products/add"
+        href="/add-products"
         className="bg-orange-500 flex items-center
       justify-center rounded-full size-12 fixed 
       bottom-24 right-8 text-white transition-colors 

@@ -7,16 +7,16 @@ import getSession from "@/lib/seeeion";
 
 const productSchema = z.object({
   photo: z.string({
-    required_error: "Photo is required",
+    required_error: "사진을 넣어주세요.",
   }),
   title: z.string({
-    required_error: "Title is required",
+    required_error: "제목을 입력해주세요.",
   }),
   description: z.string({
-    required_error: "Description is required",
+    required_error: "내용을 입력해주세요.",
   }),
   price: z.coerce.number({
-    required_error: "Price is required",
+    required_error: "가격을 입력해주세요.",
   }),
 });
 
@@ -50,7 +50,6 @@ export async function uploadProduct(_: any, formData: FormData) {
         },
       });
       redirect(`/products/${product.id}`);
-      //redirect("/products")
     }
   }
 }
