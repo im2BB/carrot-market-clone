@@ -62,7 +62,7 @@ export default async function Modal({ params }: { params: { id: string } }) {
             <Image
               fill
               className="object-cover"
-              src={product.photo}
+              src={`${product.photo}/public`}
               alt={product.title}
             />
           </div>

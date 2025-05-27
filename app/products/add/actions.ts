@@ -1,31 +1,33 @@
 "use server";
 
 import { z } from "zod";
-import fs from "fs/promises";
-import { buffer } from "stream/consumers";
 import db from "@/lib/db";
-import getSession from "@/lib/seeeion";
 import { redirect } from "next/navigation";
+import getSession from "@/lib/seeeion";
 
-const productSchma = z.object({
-  photo: z.string({ required_error: "사진은 필수입니다." }),
-  title: z.string({ required_error: "제목은 필수입니다" }).min(10).max(50),
-  description: z.string({ required_error: "설명은 필수입니다" }),
-  price: z.coerce.number({ required_error: "가격 값은 필수입니다" }),
+const productSchema = z.object({
+  photo: z.string({
+    required_error: "Photo is required",
+  }),
+  title: z.string({
+    required_error: "Title is required",
+  }),
+  description: z.string({
+    required_error: "Description is required",
+  }),
+  price: z.coerce.number({
+    required_error: "Price is required",
+  }),
 });
 
-export async function uploadProduct(_: any, formData: FormData) {  const data = {
+export async function uploadProduct(_: any, formData: FormData) {
+  const data = {
     photo: formData.get("photo"),
     title: formData.get("title"),
     price: formData.get("price"),
     description: formData.get("description"),
   };
-  if (data.photo instanceof File) {
-    const photoData = await data.photo.arrayBuffer();
-    await fs.appendFile(`./public/${data.photo.name}`, Buffer.from(photoData));
-    data.photo = `/${data.photo.name}`;
-  }
-  const result = productSchma.safeParse(data);
+  const result = productSchema.safeParse(data);
   if (!result.success) {
     return result.error.flatten();
   } else {
@@ -48,7 +50,21 @@ export async function uploadProduct(_: any, formData: FormData) {  const data = 
         },
       });
       redirect(`/products/${product.id}`);
-      //redirect("/products");
+      //redirect("/products")
     }
   }
+}
+
+export async function getUploadUrl() {
+  const response = await fetch(
+    `https://api.cloudflare.com/client/v4/accounts/${process.env.CLOUDFLARE_ACCOUNT_ID}/images/v2/direct_upload`,
+    {
+      method: "POST",
+      headers: {
+        Authorization: `Bearer ${process.env.CLOUDFLARE_API_KEY}`,
+      },
+    }
+  );
+  const data = await response.json();
+  return data;
 }

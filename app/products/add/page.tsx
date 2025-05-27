@@ -3,13 +3,14 @@
 import Button from "@/components/button";
 import Input from "@/components/Input";
 import { PhotoIcon } from "@heroicons/react/24/solid";
-import { useState } from "react";
-import { uploadProduct } from "./actions";
-import { useFormState } from "react-dom";
+import { useActionState, useState } from "react";
+import { getUploadUrl, uploadProduct } from "./actions";
 
 export default function AddProduct() {
   const [priview, setPreview] = useState("");
-  const onImageChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+  const [uploadUrl, setuploadUrl] = useState("");
+  const [photoId, setphotoId] = useState("");
+  const onImageChange = async (event: React.ChangeEvent<HTMLInputElement>) => {
     const {
       target: { files },
     } = event;
@@ -35,8 +36,32 @@ export default function AddProduct() {
     //URL.createObjectURL(file); 업로드한 파일에 대한 URL을 생성
     // 해당 사용 브라우져에 일시적으로 생성 새로고침시 삭제
     setPreview(url);
+    const { success, result } = await getUploadUrl();
+    if (success) {
+      const { id, uploadURL } = result;
+      setuploadUrl(uploadURL);
+      setphotoId(id);
+    }
   };
-  const [state, action] = useFormState(uploadProduct, null);
+  const interceptAction = async (_: any, formData: FormData) => {
+    const file = formData.get("photo");
+    if (!file) {
+      return;
+    }
+    const cloudflareForm = new FormData();
+    cloudflareForm.append("file", file);
+    const response = await fetch(uploadUrl, {
+      method: "post",
+      body: cloudflareForm,
+    });
+    if (response.status !== 200) {
+      return;
+    }
+    const photoUrl = `https://imagedelivery.net/yaj69MDVrIu8_HJDUNcGIg/${photoId}`;
+    formData.set("photo", photoUrl);
+    return uploadProduct(_, formData);
+  };
+  const [state, action] = useActionState(interceptAction, null);
   return (
     <div>
       <form action={action} className="flex flex-col gap-5 p-5">
@@ -61,6 +86,7 @@ export default function AddProduct() {
           type="file"
           id="photo"
           name="photo"
+          accept="image/*"
           className="hidden"
         />
         <Input
