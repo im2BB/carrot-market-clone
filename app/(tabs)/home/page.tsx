@@ -13,6 +13,9 @@ export const metadata = {
   title: "Home",
 };
 
+// export const dynamic = "force-dynamic";  정직인 페이지를 동적인 페이지로 변경
+export const revalidate = 60; //정적인 페이지 이지만 60초후 페이지 정보 다시 받아오게 변경
+
 async function getInitialProducts() {
   const products = await db.product.findMany({
     select: {
@@ -35,7 +38,7 @@ export type InitialProducts = Prisma.PromiseReturnType<
 >;
 
 export default async function Products() {
-  const initialProducts = await getCachedProducts();
+  const initialProducts = await getInitialProducts();
   const revalidate = async () => {
     "use server";
     revalidatePath("/home");
@@ -43,9 +46,9 @@ export default async function Products() {
   return (
     <div>
       <ProductList initialProducts={initialProducts} />
-      <form action={revalidate}>
+      {/* <form action={revalidate}>
         <button>검증</button>
-      </form>
+      </form> */}
       <Link
         href="/add-products"
         className="bg-orange-500 flex items-center

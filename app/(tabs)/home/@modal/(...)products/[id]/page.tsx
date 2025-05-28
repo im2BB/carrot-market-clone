@@ -37,7 +37,7 @@ async function getProduct(id: number) {
 }
 
 export default async function Modal({ params }: { params: { id: string } }) {
-  // const Modal = await getProducts();  스켈레톤 보고싶으면 사용용
+  // const Modal = await getProducts();  스켈레톤 보고싶으면 사용
   const id = Number(params.id);
   if (isNaN(id)) {
     return notFound();
