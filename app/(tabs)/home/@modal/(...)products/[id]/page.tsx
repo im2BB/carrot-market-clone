@@ -12,10 +12,10 @@ import { notFound } from "next/navigation";
 // }  스켈레톤 보고싶으면 사용
 
 async function getIsOwner(userId: Number) {
-  const session = await getSession();
-  if (session.id) {
-    return session.id === userId;
-  }
+  // const session = await getSession();
+  // if (session.id) {
+  //   return session.id === userId;
+  // }
   return false;
 }
 
@@ -94,4 +94,13 @@ export default async function Modal({ params }: { params: { id: string } }) {
       </div>
     </ModalBackdrop>
   );
+}
+
+export async function generateStaticParams() {
+  const products = await db.product.findMany({
+    select: {
+      id: true,
+    },
+  });
+  return products.map((product) => ({ id: product.id + "" }));
 }
