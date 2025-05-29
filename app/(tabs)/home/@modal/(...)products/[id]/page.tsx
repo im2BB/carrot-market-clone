@@ -96,6 +96,9 @@ export default async function Modal({ params }: { params: { id: string } }) {
   );
 }
 
+export const dynamicParams = true;
+//false라면 빌드시 생성되어있지 않다면 페이지 생성되지 않음
+//기본 값은 true
 export async function generateStaticParams() {
   const products = await db.product.findMany({
     select: {
