@@ -2,20 +2,27 @@
 
 import { InitialChatMessages } from "@/app/chats/[id]/page";
 import { formatToTimeAgo } from "@/lib/utils";
-import { use, useState } from "react";
+import { use, useEffect, useState } from "react";
 import Image from "next/image";
 import { ArrowUpCircleIcon } from "@heroicons/react/24/solid";
+import { createClient } from "@supabase/supabase-js";
+
+const SUPERBAES_PUBLIC_KEY =
+  "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Inp6Z2psdG9hZGZlY29qZ25xdHFsIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NDkwOTg3MTAsImV4cCI6MjA2NDY3NDcxMH0.LeiHr9Nn6LlV7nZxUiLw-SYE3kWVTNlEAq1z2NQvraU";
+const SUPERBASES_URL = "https://zzgjltoadfecojgnqtql.supabase.co";
 
 interface ChatMessagesListProps {
   initialMessages: InitialChatMessages;
   userId: number;
+  chatRoomId: string;
 }
 
 export default function ChatMessagesList({
   initialMessages,
   userId,
+  chatRoomId,
 }: ChatMessagesListProps) {
-  const [messsages, setMesssages] = useState(initialMessages);
+  const [messsages, setMessages] = useState(initialMessages);
   const [message, setMessage] = useState("");
   const onChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const {
@@ -25,9 +32,26 @@ export default function ChatMessagesList({
   };
   const onSubmit = (event: React.FormEvent) => {
     event.preventDefault();
-    alert(message);
+    setMessages((prevMsgs) => [
+      ...prevMsgs,
+      {
+        id: Date.now(),
+        payload: message,
+        created_at: new Date(),
+        userId,
+        user: {
+          username: "string",
+          avater: "xxxx",
+        },
+      },
+    ]);
     setMessage("");
   };
+  useEffect(() => {
+    const client = createClient(SUPERBAES_PUBLIC_KEY, SUPERBASES_URL);
+    const channel = client.channel(`room-${chatRoomId}`);
+    channel.on("broadcast", { event: "message" } (payload));
+  }, []);
   return (
     <div className="p-5 flex flex-col gap-5 min-h-screen justify-end">
       {messsages.map((message) => (
