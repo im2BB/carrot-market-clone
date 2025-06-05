@@ -2,28 +2,32 @@
 
 import { InitialChatMessages } from "@/app/chats/[id]/page";
 import { formatToTimeAgo } from "@/lib/utils";
-import { use, useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import Image from "next/image";
 import { ArrowUpCircleIcon } from "@heroicons/react/24/solid";
-import { createClient } from "@supabase/supabase-js";
+import { RealtimeChannel, createClient } from "@supabase/supabase-js";
 
-const SUPERBAES_PUBLIC_KEY =
+const SUPABASE_PUBLIC_KEY =
   "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Inp6Z2psdG9hZGZlY29qZ25xdHFsIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NDkwOTg3MTAsImV4cCI6MjA2NDY3NDcxMH0.LeiHr9Nn6LlV7nZxUiLw-SYE3kWVTNlEAq1z2NQvraU";
-const SUPERBASES_URL = "https://zzgjltoadfecojgnqtql.supabase.co";
+const SUPABASE_URL = "https://zzgjltoadfecojgnqtql.supabase.co";
 
-interface ChatMessagesListProps {
+interface ChatMessageListProps {
   initialMessages: InitialChatMessages;
   userId: number;
   chatRoomId: string;
+  username: string;
+  avater: string;
 }
-
 export default function ChatMessagesList({
   initialMessages,
   userId,
   chatRoomId,
-}: ChatMessagesListProps) {
-  const [messsages, setMessages] = useState(initialMessages);
+  username,
+  avater,
+}: ChatMessageListProps) {
+  const [messages, setMessages] = useState(initialMessages);
   const [message, setMessage] = useState("");
+  const channel = useRef<RealtimeChannel>();
   const onChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const {
       target: { value },
@@ -41,24 +45,46 @@ export default function ChatMessagesList({
         userId,
         user: {
           username: "string",
-          avater: "xxxx",
+          avater: "xxx",
         },
       },
     ]);
+    channel.current?.send({
+      type: "broadcast",
+      event: "message",
+      payload: {
+        id: Date.now(),
+        created_at: new Date(),
+        payload: message,
+        userId,
+        user: {
+          username,
+          avater,
+        },
+      },
+    });
     setMessage("");
   };
   useEffect(() => {
-    const client = createClient(SUPERBAES_PUBLIC_KEY, SUPERBASES_URL);
-    const channel = client.channel(`room-${chatRoomId}`);
-    channel.on("broadcast", { event: "message" } (payload));
-  }, []);
+    const client = createClient(SUPABASE_URL, SUPABASE_PUBLIC_KEY);
+    channel.current = client.channel(`room-${chatRoomId}`);
+    channel.current
+      .on("broadcast", { event: "message" }, (payload) => {
+        setMessages((prevMsgs) => [...prevMsgs, payload.payload]);
+      })
+      .subscribe();
+    return () => {
+      channel.current?.unsubscribe();
+    };
+  }, [chatRoomId]);
   return (
     <div className="p-5 flex flex-col gap-5 min-h-screen justify-end">
-      {messsages.map((message) => (
+      {messages.map((message) => (
         <div
           key={message.id}
-          className={`flex gap-4 items-star 
-            ${message.userId === userId ? "justify-end" : ""}`}
+          className={`flex gap-2 items-start ${
+            message.userId === userId ? "justify-end" : ""
+          }`}
         >
           {message.userId === userId ? null : (
             <Image
@@ -77,7 +103,7 @@ export default function ChatMessagesList({
             <span
               className={`${
                 message.userId === userId ? "bg-neutral-500" : "bg-orange-500"
-              }  p-2.5 rounded-md`}
+              } p-2.5 rounded-md`}
             >
               {message.payload}
             </span>
@@ -87,8 +113,7 @@ export default function ChatMessagesList({
           </div>
         </div>
       ))}
-      <form className="flex relative w-full" onSubmit={onSubmit}>
-        보낼 메시지
+      <form className="flex relative" onSubmit={onSubmit}>
         <input
           required
           onChange={onChange}
@@ -96,7 +121,7 @@ export default function ChatMessagesList({
           className="bg-transparent rounded-full w-full h-10 focus:outline-none px-5 ring-2 focus:ring-4 transition ring-neutral-200 focus:ring-neutral-50 border-none placeholder:text-neutral-400"
           type="text"
           name="message"
-          placeholder="메시지를 입력하세요..."
+          placeholder="Write a message..."
         />
         <button className="absolute right-0">
           <ArrowUpCircleIcon className="size-10 text-orange-500 transition-colors hover:text-orange-300" />
