@@ -53,6 +53,11 @@ export type ChatRoom = $Result.DefaultSelection<Prisma.$ChatRoomPayload>
  * 
  */
 export type Message = $Result.DefaultSelection<Prisma.$MessagePayload>
+/**
+ * Model LiveStream
+ * 
+ */
+export type LiveStream = $Result.DefaultSelection<Prisma.$LiveStreamPayload>
 
 /**
  * ##  Prisma Client ʲˢ
@@ -258,6 +263,16 @@ export class PrismaClient<
     * ```
     */
   get message(): Prisma.MessageDelegate<ExtArgs, ClientOptions>;
+
+  /**
+   * `prisma.liveStream`: Exposes CRUD operations for the **LiveStream** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more LiveStreams
+    * const liveStreams = await prisma.liveStream.findMany()
+    * ```
+    */
+  get liveStream(): Prisma.LiveStreamDelegate<ExtArgs, ClientOptions>;
 }
 
 export namespace Prisma {
@@ -705,7 +720,8 @@ export namespace Prisma {
     Comment: 'Comment',
     Like: 'Like',
     ChatRoom: 'ChatRoom',
-    Message: 'Message'
+    Message: 'Message',
+    LiveStream: 'LiveStream'
   };
 
   export type ModelName = (typeof ModelName)[keyof typeof ModelName]
@@ -724,7 +740,7 @@ export namespace Prisma {
       omit: GlobalOmitOptions
     }
     meta: {
-      modelProps: "user" | "sMSToken" | "product" | "post" | "comment" | "like" | "chatRoom" | "message"
+      modelProps: "user" | "sMSToken" | "product" | "post" | "comment" | "like" | "chatRoom" | "message" | "liveStream"
       txIsolationLevel: Prisma.TransactionIsolationLevel
     }
     model: {
@@ -1320,6 +1336,80 @@ export namespace Prisma {
           }
         }
       }
+      LiveStream: {
+        payload: Prisma.$LiveStreamPayload<ExtArgs>
+        fields: Prisma.LiveStreamFieldRefs
+        operations: {
+          findUnique: {
+            args: Prisma.LiveStreamFindUniqueArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$LiveStreamPayload> | null
+          }
+          findUniqueOrThrow: {
+            args: Prisma.LiveStreamFindUniqueOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$LiveStreamPayload>
+          }
+          findFirst: {
+            args: Prisma.LiveStreamFindFirstArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$LiveStreamPayload> | null
+          }
+          findFirstOrThrow: {
+            args: Prisma.LiveStreamFindFirstOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$LiveStreamPayload>
+          }
+          findMany: {
+            args: Prisma.LiveStreamFindManyArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$LiveStreamPayload>[]
+          }
+          create: {
+            args: Prisma.LiveStreamCreateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$LiveStreamPayload>
+          }
+          createMany: {
+            args: Prisma.LiveStreamCreateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          createManyAndReturn: {
+            args: Prisma.LiveStreamCreateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$LiveStreamPayload>[]
+          }
+          delete: {
+            args: Prisma.LiveStreamDeleteArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$LiveStreamPayload>
+          }
+          update: {
+            args: Prisma.LiveStreamUpdateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$LiveStreamPayload>
+          }
+          deleteMany: {
+            args: Prisma.LiveStreamDeleteManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateMany: {
+            args: Prisma.LiveStreamUpdateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateManyAndReturn: {
+            args: Prisma.LiveStreamUpdateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$LiveStreamPayload>[]
+          }
+          upsert: {
+            args: Prisma.LiveStreamUpsertArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$LiveStreamPayload>
+          }
+          aggregate: {
+            args: Prisma.LiveStreamAggregateArgs<ExtArgs>
+            result: $Utils.Optional<AggregateLiveStream>
+          }
+          groupBy: {
+            args: Prisma.LiveStreamGroupByArgs<ExtArgs>
+            result: $Utils.Optional<LiveStreamGroupByOutputType>[]
+          }
+          count: {
+            args: Prisma.LiveStreamCountArgs<ExtArgs>
+            result: $Utils.Optional<LiveStreamCountAggregateOutputType> | number
+          }
+        }
+      }
     }
   } & {
     other: {
@@ -1412,6 +1502,7 @@ export namespace Prisma {
     like?: LikeOmit
     chatRoom?: ChatRoomOmit
     message?: MessageOmit
+    liveStream?: LiveStreamOmit
   }
 
   /* Types for Logging */
@@ -1513,6 +1604,7 @@ export namespace Prisma {
     likes: number
     chat_rooms: number
     messages: number
+    LiveStream: number
   }
 
   export type UserCountOutputTypeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
@@ -1523,6 +1615,7 @@ export namespace Prisma {
     likes?: boolean | UserCountOutputTypeCountLikesArgs
     chat_rooms?: boolean | UserCountOutputTypeCountChat_roomsArgs
     messages?: boolean | UserCountOutputTypeCountMessagesArgs
+    LiveStream?: boolean | UserCountOutputTypeCountLiveStreamArgs
   }
 
   // Custom InputTypes
@@ -1583,6 +1676,13 @@ export namespace Prisma {
    */
   export type UserCountOutputTypeCountMessagesArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     where?: MessageWhereInput
+  }
+
+  /**
+   * UserCountOutputType without action
+   */
+  export type UserCountOutputTypeCountLiveStreamArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: LiveStreamWhereInput
   }
 
 
@@ -1907,6 +2007,7 @@ export namespace Prisma {
     likes?: boolean | User$likesArgs<ExtArgs>
     chat_rooms?: boolean | User$chat_roomsArgs<ExtArgs>
     messages?: boolean | User$messagesArgs<ExtArgs>
+    LiveStream?: boolean | User$LiveStreamArgs<ExtArgs>
     _count?: boolean | UserCountOutputTypeDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["user"]>
 
@@ -1955,6 +2056,7 @@ export namespace Prisma {
     likes?: boolean | User$likesArgs<ExtArgs>
     chat_rooms?: boolean | User$chat_roomsArgs<ExtArgs>
     messages?: boolean | User$messagesArgs<ExtArgs>
+    LiveStream?: boolean | User$LiveStreamArgs<ExtArgs>
     _count?: boolean | UserCountOutputTypeDefaultArgs<ExtArgs>
   }
   export type UserIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {}
@@ -1970,6 +2072,7 @@ export namespace Prisma {
       likes: Prisma.$LikePayload<ExtArgs>[]
       chat_rooms: Prisma.$ChatRoomPayload<ExtArgs>[]
       messages: Prisma.$MessagePayload<ExtArgs>[]
+      LiveStream: Prisma.$LiveStreamPayload<ExtArgs>[]
     }
     scalars: $Extensions.GetPayloadResult<{
       id: number
@@ -2382,6 +2485,7 @@ export namespace Prisma {
     likes<T extends User$likesArgs<ExtArgs> = {}>(args?: Subset<T, User$likesArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$LikePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     chat_rooms<T extends User$chat_roomsArgs<ExtArgs> = {}>(args?: Subset<T, User$chat_roomsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ChatRoomPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     messages<T extends User$messagesArgs<ExtArgs> = {}>(args?: Subset<T, User$messagesArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$MessagePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    LiveStream<T extends User$LiveStreamArgs<ExtArgs> = {}>(args?: Subset<T, User$LiveStreamArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$LiveStreamPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
      * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -2971,6 +3075,30 @@ export namespace Prisma {
     take?: number
     skip?: number
     distinct?: MessageScalarFieldEnum | MessageScalarFieldEnum[]
+  }
+
+  /**
+   * User.LiveStream
+   */
+  export type User$LiveStreamArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the LiveStream
+     */
+    select?: LiveStreamSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the LiveStream
+     */
+    omit?: LiveStreamOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: LiveStreamInclude<ExtArgs> | null
+    where?: LiveStreamWhereInput
+    orderBy?: LiveStreamOrderByWithRelationInput | LiveStreamOrderByWithRelationInput[]
+    cursor?: LiveStreamWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: LiveStreamScalarFieldEnum | LiveStreamScalarFieldEnum[]
   }
 
   /**
@@ -10799,6 +10927,1126 @@ export namespace Prisma {
 
 
   /**
+   * Model LiveStream
+   */
+
+  export type AggregateLiveStream = {
+    _count: LiveStreamCountAggregateOutputType | null
+    _avg: LiveStreamAvgAggregateOutputType | null
+    _sum: LiveStreamSumAggregateOutputType | null
+    _min: LiveStreamMinAggregateOutputType | null
+    _max: LiveStreamMaxAggregateOutputType | null
+  }
+
+  export type LiveStreamAvgAggregateOutputType = {
+    id: number | null
+    userId: number | null
+  }
+
+  export type LiveStreamSumAggregateOutputType = {
+    id: number | null
+    userId: number | null
+  }
+
+  export type LiveStreamMinAggregateOutputType = {
+    id: number | null
+    title: string | null
+    stream_key: string | null
+    stream_id: string | null
+    created_at: Date | null
+    updated_at: Date | null
+    userId: number | null
+  }
+
+  export type LiveStreamMaxAggregateOutputType = {
+    id: number | null
+    title: string | null
+    stream_key: string | null
+    stream_id: string | null
+    created_at: Date | null
+    updated_at: Date | null
+    userId: number | null
+  }
+
+  export type LiveStreamCountAggregateOutputType = {
+    id: number
+    title: number
+    stream_key: number
+    stream_id: number
+    created_at: number
+    updated_at: number
+    userId: number
+    _all: number
+  }
+
+
+  export type LiveStreamAvgAggregateInputType = {
+    id?: true
+    userId?: true
+  }
+
+  export type LiveStreamSumAggregateInputType = {
+    id?: true
+    userId?: true
+  }
+
+  export type LiveStreamMinAggregateInputType = {
+    id?: true
+    title?: true
+    stream_key?: true
+    stream_id?: true
+    created_at?: true
+    updated_at?: true
+    userId?: true
+  }
+
+  export type LiveStreamMaxAggregateInputType = {
+    id?: true
+    title?: true
+    stream_key?: true
+    stream_id?: true
+    created_at?: true
+    updated_at?: true
+    userId?: true
+  }
+
+  export type LiveStreamCountAggregateInputType = {
+    id?: true
+    title?: true
+    stream_key?: true
+    stream_id?: true
+    created_at?: true
+    updated_at?: true
+    userId?: true
+    _all?: true
+  }
+
+  export type LiveStreamAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which LiveStream to aggregate.
+     */
+    where?: LiveStreamWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of LiveStreams to fetch.
+     */
+    orderBy?: LiveStreamOrderByWithRelationInput | LiveStreamOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     */
+    cursor?: LiveStreamWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` LiveStreams from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` LiveStreams.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned LiveStreams
+    **/
+    _count?: true | LiveStreamCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to average
+    **/
+    _avg?: LiveStreamAvgAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to sum
+    **/
+    _sum?: LiveStreamSumAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: LiveStreamMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: LiveStreamMaxAggregateInputType
+  }
+
+  export type GetLiveStreamAggregateType<T extends LiveStreamAggregateArgs> = {
+        [P in keyof T & keyof AggregateLiveStream]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregateLiveStream[P]>
+      : GetScalarType<T[P], AggregateLiveStream[P]>
+  }
+
+
+
+
+  export type LiveStreamGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: LiveStreamWhereInput
+    orderBy?: LiveStreamOrderByWithAggregationInput | LiveStreamOrderByWithAggregationInput[]
+    by: LiveStreamScalarFieldEnum[] | LiveStreamScalarFieldEnum
+    having?: LiveStreamScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: LiveStreamCountAggregateInputType | true
+    _avg?: LiveStreamAvgAggregateInputType
+    _sum?: LiveStreamSumAggregateInputType
+    _min?: LiveStreamMinAggregateInputType
+    _max?: LiveStreamMaxAggregateInputType
+  }
+
+  export type LiveStreamGroupByOutputType = {
+    id: number
+    title: string
+    stream_key: string
+    stream_id: string
+    created_at: Date
+    updated_at: Date
+    userId: number
+    _count: LiveStreamCountAggregateOutputType | null
+    _avg: LiveStreamAvgAggregateOutputType | null
+    _sum: LiveStreamSumAggregateOutputType | null
+    _min: LiveStreamMinAggregateOutputType | null
+    _max: LiveStreamMaxAggregateOutputType | null
+  }
+
+  type GetLiveStreamGroupByPayload<T extends LiveStreamGroupByArgs> = Prisma.PrismaPromise<
+    Array<
+      PickEnumerable<LiveStreamGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof LiveStreamGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], LiveStreamGroupByOutputType[P]>
+            : GetScalarType<T[P], LiveStreamGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type LiveStreamSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    title?: boolean
+    stream_key?: boolean
+    stream_id?: boolean
+    created_at?: boolean
+    updated_at?: boolean
+    userId?: boolean
+    user?: boolean | UserDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["liveStream"]>
+
+  export type LiveStreamSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    title?: boolean
+    stream_key?: boolean
+    stream_id?: boolean
+    created_at?: boolean
+    updated_at?: boolean
+    userId?: boolean
+    user?: boolean | UserDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["liveStream"]>
+
+  export type LiveStreamSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    title?: boolean
+    stream_key?: boolean
+    stream_id?: boolean
+    created_at?: boolean
+    updated_at?: boolean
+    userId?: boolean
+    user?: boolean | UserDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["liveStream"]>
+
+  export type LiveStreamSelectScalar = {
+    id?: boolean
+    title?: boolean
+    stream_key?: boolean
+    stream_id?: boolean
+    created_at?: boolean
+    updated_at?: boolean
+    userId?: boolean
+  }
+
+  export type LiveStreamOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "title" | "stream_key" | "stream_id" | "created_at" | "updated_at" | "userId", ExtArgs["result"]["liveStream"]>
+  export type LiveStreamInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    user?: boolean | UserDefaultArgs<ExtArgs>
+  }
+  export type LiveStreamIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    user?: boolean | UserDefaultArgs<ExtArgs>
+  }
+  export type LiveStreamIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    user?: boolean | UserDefaultArgs<ExtArgs>
+  }
+
+  export type $LiveStreamPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    name: "LiveStream"
+    objects: {
+      user: Prisma.$UserPayload<ExtArgs>
+    }
+    scalars: $Extensions.GetPayloadResult<{
+      id: number
+      title: string
+      stream_key: string
+      stream_id: string
+      created_at: Date
+      updated_at: Date
+      userId: number
+    }, ExtArgs["result"]["liveStream"]>
+    composites: {}
+  }
+
+  type LiveStreamGetPayload<S extends boolean | null | undefined | LiveStreamDefaultArgs> = $Result.GetResult<Prisma.$LiveStreamPayload, S>
+
+  type LiveStreamCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> =
+    Omit<LiveStreamFindManyArgs, 'select' | 'include' | 'distinct' | 'omit'> & {
+      select?: LiveStreamCountAggregateInputType | true
+    }
+
+  export interface LiveStreamDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['LiveStream'], meta: { name: 'LiveStream' } }
+    /**
+     * Find zero or one LiveStream that matches the filter.
+     * @param {LiveStreamFindUniqueArgs} args - Arguments to find a LiveStream
+     * @example
+     * // Get one LiveStream
+     * const liveStream = await prisma.liveStream.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUnique<T extends LiveStreamFindUniqueArgs>(args: SelectSubset<T, LiveStreamFindUniqueArgs<ExtArgs>>): Prisma__LiveStreamClient<$Result.GetResult<Prisma.$LiveStreamPayload<ExtArgs>, T, "findUnique", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find one LiveStream that matches the filter or throw an error with `error.code='P2025'`
+     * if no matches were found.
+     * @param {LiveStreamFindUniqueOrThrowArgs} args - Arguments to find a LiveStream
+     * @example
+     * // Get one LiveStream
+     * const liveStream = await prisma.liveStream.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUniqueOrThrow<T extends LiveStreamFindUniqueOrThrowArgs>(args: SelectSubset<T, LiveStreamFindUniqueOrThrowArgs<ExtArgs>>): Prisma__LiveStreamClient<$Result.GetResult<Prisma.$LiveStreamPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first LiveStream that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {LiveStreamFindFirstArgs} args - Arguments to find a LiveStream
+     * @example
+     * // Get one LiveStream
+     * const liveStream = await prisma.liveStream.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirst<T extends LiveStreamFindFirstArgs>(args?: SelectSubset<T, LiveStreamFindFirstArgs<ExtArgs>>): Prisma__LiveStreamClient<$Result.GetResult<Prisma.$LiveStreamPayload<ExtArgs>, T, "findFirst", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first LiveStream that matches the filter or
+     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {LiveStreamFindFirstOrThrowArgs} args - Arguments to find a LiveStream
+     * @example
+     * // Get one LiveStream
+     * const liveStream = await prisma.liveStream.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirstOrThrow<T extends LiveStreamFindFirstOrThrowArgs>(args?: SelectSubset<T, LiveStreamFindFirstOrThrowArgs<ExtArgs>>): Prisma__LiveStreamClient<$Result.GetResult<Prisma.$LiveStreamPayload<ExtArgs>, T, "findFirstOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find zero or more LiveStreams that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {LiveStreamFindManyArgs} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all LiveStreams
+     * const liveStreams = await prisma.liveStream.findMany()
+     * 
+     * // Get first 10 LiveStreams
+     * const liveStreams = await prisma.liveStream.findMany({ take: 10 })
+     * 
+     * // Only select the `id`
+     * const liveStreamWithIdOnly = await prisma.liveStream.findMany({ select: { id: true } })
+     * 
+     */
+    findMany<T extends LiveStreamFindManyArgs>(args?: SelectSubset<T, LiveStreamFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$LiveStreamPayload<ExtArgs>, T, "findMany", GlobalOmitOptions>>
+
+    /**
+     * Create a LiveStream.
+     * @param {LiveStreamCreateArgs} args - Arguments to create a LiveStream.
+     * @example
+     * // Create one LiveStream
+     * const LiveStream = await prisma.liveStream.create({
+     *   data: {
+     *     // ... data to create a LiveStream
+     *   }
+     * })
+     * 
+     */
+    create<T extends LiveStreamCreateArgs>(args: SelectSubset<T, LiveStreamCreateArgs<ExtArgs>>): Prisma__LiveStreamClient<$Result.GetResult<Prisma.$LiveStreamPayload<ExtArgs>, T, "create", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Create many LiveStreams.
+     * @param {LiveStreamCreateManyArgs} args - Arguments to create many LiveStreams.
+     * @example
+     * // Create many LiveStreams
+     * const liveStream = await prisma.liveStream.createMany({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     *     
+     */
+    createMany<T extends LiveStreamCreateManyArgs>(args?: SelectSubset<T, LiveStreamCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create many LiveStreams and returns the data saved in the database.
+     * @param {LiveStreamCreateManyAndReturnArgs} args - Arguments to create many LiveStreams.
+     * @example
+     * // Create many LiveStreams
+     * const liveStream = await prisma.liveStream.createManyAndReturn({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Create many LiveStreams and only return the `id`
+     * const liveStreamWithIdOnly = await prisma.liveStream.createManyAndReturn({
+     *   select: { id: true },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    createManyAndReturn<T extends LiveStreamCreateManyAndReturnArgs>(args?: SelectSubset<T, LiveStreamCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$LiveStreamPayload<ExtArgs>, T, "createManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Delete a LiveStream.
+     * @param {LiveStreamDeleteArgs} args - Arguments to delete one LiveStream.
+     * @example
+     * // Delete one LiveStream
+     * const LiveStream = await prisma.liveStream.delete({
+     *   where: {
+     *     // ... filter to delete one LiveStream
+     *   }
+     * })
+     * 
+     */
+    delete<T extends LiveStreamDeleteArgs>(args: SelectSubset<T, LiveStreamDeleteArgs<ExtArgs>>): Prisma__LiveStreamClient<$Result.GetResult<Prisma.$LiveStreamPayload<ExtArgs>, T, "delete", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Update one LiveStream.
+     * @param {LiveStreamUpdateArgs} args - Arguments to update one LiveStream.
+     * @example
+     * // Update one LiveStream
+     * const liveStream = await prisma.liveStream.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    update<T extends LiveStreamUpdateArgs>(args: SelectSubset<T, LiveStreamUpdateArgs<ExtArgs>>): Prisma__LiveStreamClient<$Result.GetResult<Prisma.$LiveStreamPayload<ExtArgs>, T, "update", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Delete zero or more LiveStreams.
+     * @param {LiveStreamDeleteManyArgs} args - Arguments to filter LiveStreams to delete.
+     * @example
+     * // Delete a few LiveStreams
+     * const { count } = await prisma.liveStream.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+     */
+    deleteMany<T extends LiveStreamDeleteManyArgs>(args?: SelectSubset<T, LiveStreamDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more LiveStreams.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {LiveStreamUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many LiveStreams
+     * const liveStream = await prisma.liveStream.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    updateMany<T extends LiveStreamUpdateManyArgs>(args: SelectSubset<T, LiveStreamUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more LiveStreams and returns the data updated in the database.
+     * @param {LiveStreamUpdateManyAndReturnArgs} args - Arguments to update many LiveStreams.
+     * @example
+     * // Update many LiveStreams
+     * const liveStream = await prisma.liveStream.updateManyAndReturn({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Update zero or more LiveStreams and only return the `id`
+     * const liveStreamWithIdOnly = await prisma.liveStream.updateManyAndReturn({
+     *   select: { id: true },
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    updateManyAndReturn<T extends LiveStreamUpdateManyAndReturnArgs>(args: SelectSubset<T, LiveStreamUpdateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$LiveStreamPayload<ExtArgs>, T, "updateManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Create or update one LiveStream.
+     * @param {LiveStreamUpsertArgs} args - Arguments to update or create a LiveStream.
+     * @example
+     * // Update or create a LiveStream
+     * const liveStream = await prisma.liveStream.upsert({
+     *   create: {
+     *     // ... data to create a LiveStream
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the LiveStream we want to update
+     *   }
+     * })
+     */
+    upsert<T extends LiveStreamUpsertArgs>(args: SelectSubset<T, LiveStreamUpsertArgs<ExtArgs>>): Prisma__LiveStreamClient<$Result.GetResult<Prisma.$LiveStreamPayload<ExtArgs>, T, "upsert", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+
+    /**
+     * Count the number of LiveStreams.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {LiveStreamCountArgs} args - Arguments to filter LiveStreams to count.
+     * @example
+     * // Count the number of LiveStreams
+     * const count = await prisma.liveStream.count({
+     *   where: {
+     *     // ... the filter for the LiveStreams we want to count
+     *   }
+     * })
+    **/
+    count<T extends LiveStreamCountArgs>(
+      args?: Subset<T, LiveStreamCountArgs>,
+    ): Prisma.PrismaPromise<
+      T extends $Utils.Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], LiveStreamCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a LiveStream.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {LiveStreamAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends LiveStreamAggregateArgs>(args: Subset<T, LiveStreamAggregateArgs>): Prisma.PrismaPromise<GetLiveStreamAggregateType<T>>
+
+    /**
+     * Group by LiveStream.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {LiveStreamGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends LiveStreamGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: LiveStreamGroupByArgs['orderBy'] }
+        : { orderBy?: LiveStreamGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends MaybeTupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, LiveStreamGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetLiveStreamGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+  /**
+   * Fields of the LiveStream model
+   */
+  readonly fields: LiveStreamFieldRefs;
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for LiveStream.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export interface Prisma__LiveStreamClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
+    readonly [Symbol.toStringTag]: "PrismaPromise"
+    user<T extends UserDefaultArgs<ExtArgs> = {}>(args?: Subset<T, UserDefaultArgs<ExtArgs>>): Prisma__UserClient<$Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>
+  }
+
+
+
+
+  /**
+   * Fields of the LiveStream model
+   */
+  interface LiveStreamFieldRefs {
+    readonly id: FieldRef<"LiveStream", 'Int'>
+    readonly title: FieldRef<"LiveStream", 'String'>
+    readonly stream_key: FieldRef<"LiveStream", 'String'>
+    readonly stream_id: FieldRef<"LiveStream", 'String'>
+    readonly created_at: FieldRef<"LiveStream", 'DateTime'>
+    readonly updated_at: FieldRef<"LiveStream", 'DateTime'>
+    readonly userId: FieldRef<"LiveStream", 'Int'>
+  }
+    
+
+  // Custom InputTypes
+  /**
+   * LiveStream findUnique
+   */
+  export type LiveStreamFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the LiveStream
+     */
+    select?: LiveStreamSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the LiveStream
+     */
+    omit?: LiveStreamOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: LiveStreamInclude<ExtArgs> | null
+    /**
+     * Filter, which LiveStream to fetch.
+     */
+    where: LiveStreamWhereUniqueInput
+  }
+
+  /**
+   * LiveStream findUniqueOrThrow
+   */
+  export type LiveStreamFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the LiveStream
+     */
+    select?: LiveStreamSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the LiveStream
+     */
+    omit?: LiveStreamOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: LiveStreamInclude<ExtArgs> | null
+    /**
+     * Filter, which LiveStream to fetch.
+     */
+    where: LiveStreamWhereUniqueInput
+  }
+
+  /**
+   * LiveStream findFirst
+   */
+  export type LiveStreamFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the LiveStream
+     */
+    select?: LiveStreamSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the LiveStream
+     */
+    omit?: LiveStreamOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: LiveStreamInclude<ExtArgs> | null
+    /**
+     * Filter, which LiveStream to fetch.
+     */
+    where?: LiveStreamWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of LiveStreams to fetch.
+     */
+    orderBy?: LiveStreamOrderByWithRelationInput | LiveStreamOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for LiveStreams.
+     */
+    cursor?: LiveStreamWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` LiveStreams from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` LiveStreams.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of LiveStreams.
+     */
+    distinct?: LiveStreamScalarFieldEnum | LiveStreamScalarFieldEnum[]
+  }
+
+  /**
+   * LiveStream findFirstOrThrow
+   */
+  export type LiveStreamFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the LiveStream
+     */
+    select?: LiveStreamSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the LiveStream
+     */
+    omit?: LiveStreamOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: LiveStreamInclude<ExtArgs> | null
+    /**
+     * Filter, which LiveStream to fetch.
+     */
+    where?: LiveStreamWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of LiveStreams to fetch.
+     */
+    orderBy?: LiveStreamOrderByWithRelationInput | LiveStreamOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for LiveStreams.
+     */
+    cursor?: LiveStreamWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` LiveStreams from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` LiveStreams.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of LiveStreams.
+     */
+    distinct?: LiveStreamScalarFieldEnum | LiveStreamScalarFieldEnum[]
+  }
+
+  /**
+   * LiveStream findMany
+   */
+  export type LiveStreamFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the LiveStream
+     */
+    select?: LiveStreamSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the LiveStream
+     */
+    omit?: LiveStreamOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: LiveStreamInclude<ExtArgs> | null
+    /**
+     * Filter, which LiveStreams to fetch.
+     */
+    where?: LiveStreamWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of LiveStreams to fetch.
+     */
+    orderBy?: LiveStreamOrderByWithRelationInput | LiveStreamOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing LiveStreams.
+     */
+    cursor?: LiveStreamWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` LiveStreams from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` LiveStreams.
+     */
+    skip?: number
+    distinct?: LiveStreamScalarFieldEnum | LiveStreamScalarFieldEnum[]
+  }
+
+  /**
+   * LiveStream create
+   */
+  export type LiveStreamCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the LiveStream
+     */
+    select?: LiveStreamSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the LiveStream
+     */
+    omit?: LiveStreamOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: LiveStreamInclude<ExtArgs> | null
+    /**
+     * The data needed to create a LiveStream.
+     */
+    data: XOR<LiveStreamCreateInput, LiveStreamUncheckedCreateInput>
+  }
+
+  /**
+   * LiveStream createMany
+   */
+  export type LiveStreamCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to create many LiveStreams.
+     */
+    data: LiveStreamCreateManyInput | LiveStreamCreateManyInput[]
+  }
+
+  /**
+   * LiveStream createManyAndReturn
+   */
+  export type LiveStreamCreateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the LiveStream
+     */
+    select?: LiveStreamSelectCreateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the LiveStream
+     */
+    omit?: LiveStreamOmit<ExtArgs> | null
+    /**
+     * The data used to create many LiveStreams.
+     */
+    data: LiveStreamCreateManyInput | LiveStreamCreateManyInput[]
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: LiveStreamIncludeCreateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * LiveStream update
+   */
+  export type LiveStreamUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the LiveStream
+     */
+    select?: LiveStreamSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the LiveStream
+     */
+    omit?: LiveStreamOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: LiveStreamInclude<ExtArgs> | null
+    /**
+     * The data needed to update a LiveStream.
+     */
+    data: XOR<LiveStreamUpdateInput, LiveStreamUncheckedUpdateInput>
+    /**
+     * Choose, which LiveStream to update.
+     */
+    where: LiveStreamWhereUniqueInput
+  }
+
+  /**
+   * LiveStream updateMany
+   */
+  export type LiveStreamUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to update LiveStreams.
+     */
+    data: XOR<LiveStreamUpdateManyMutationInput, LiveStreamUncheckedUpdateManyInput>
+    /**
+     * Filter which LiveStreams to update
+     */
+    where?: LiveStreamWhereInput
+    /**
+     * Limit how many LiveStreams to update.
+     */
+    limit?: number
+  }
+
+  /**
+   * LiveStream updateManyAndReturn
+   */
+  export type LiveStreamUpdateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the LiveStream
+     */
+    select?: LiveStreamSelectUpdateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the LiveStream
+     */
+    omit?: LiveStreamOmit<ExtArgs> | null
+    /**
+     * The data used to update LiveStreams.
+     */
+    data: XOR<LiveStreamUpdateManyMutationInput, LiveStreamUncheckedUpdateManyInput>
+    /**
+     * Filter which LiveStreams to update
+     */
+    where?: LiveStreamWhereInput
+    /**
+     * Limit how many LiveStreams to update.
+     */
+    limit?: number
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: LiveStreamIncludeUpdateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * LiveStream upsert
+   */
+  export type LiveStreamUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the LiveStream
+     */
+    select?: LiveStreamSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the LiveStream
+     */
+    omit?: LiveStreamOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: LiveStreamInclude<ExtArgs> | null
+    /**
+     * The filter to search for the LiveStream to update in case it exists.
+     */
+    where: LiveStreamWhereUniqueInput
+    /**
+     * In case the LiveStream found by the `where` argument doesn't exist, create a new LiveStream with this data.
+     */
+    create: XOR<LiveStreamCreateInput, LiveStreamUncheckedCreateInput>
+    /**
+     * In case the LiveStream was found with the provided `where` argument, update it with this data.
+     */
+    update: XOR<LiveStreamUpdateInput, LiveStreamUncheckedUpdateInput>
+  }
+
+  /**
+   * LiveStream delete
+   */
+  export type LiveStreamDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the LiveStream
+     */
+    select?: LiveStreamSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the LiveStream
+     */
+    omit?: LiveStreamOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: LiveStreamInclude<ExtArgs> | null
+    /**
+     * Filter which LiveStream to delete.
+     */
+    where: LiveStreamWhereUniqueInput
+  }
+
+  /**
+   * LiveStream deleteMany
+   */
+  export type LiveStreamDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which LiveStreams to delete
+     */
+    where?: LiveStreamWhereInput
+    /**
+     * Limit how many LiveStreams to delete.
+     */
+    limit?: number
+  }
+
+  /**
+   * LiveStream without action
+   */
+  export type LiveStreamDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the LiveStream
+     */
+    select?: LiveStreamSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the LiveStream
+     */
+    omit?: LiveStreamOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: LiveStreamInclude<ExtArgs> | null
+  }
+
+
+  /**
    * Enums
    */
 
@@ -10905,6 +12153,19 @@ export namespace Prisma {
   export type MessageScalarFieldEnum = (typeof MessageScalarFieldEnum)[keyof typeof MessageScalarFieldEnum]
 
 
+  export const LiveStreamScalarFieldEnum: {
+    id: 'id',
+    title: 'title',
+    stream_key: 'stream_key',
+    stream_id: 'stream_id',
+    created_at: 'created_at',
+    updated_at: 'updated_at',
+    userId: 'userId'
+  };
+
+  export type LiveStreamScalarFieldEnum = (typeof LiveStreamScalarFieldEnum)[keyof typeof LiveStreamScalarFieldEnum]
+
+
   export const SortOrder: {
     asc: 'asc',
     desc: 'desc'
@@ -10977,6 +12238,7 @@ export namespace Prisma {
     likes?: LikeListRelationFilter
     chat_rooms?: ChatRoomListRelationFilter
     messages?: MessageListRelationFilter
+    LiveStream?: LiveStreamListRelationFilter
   }
 
   export type UserOrderByWithRelationInput = {
@@ -10996,6 +12258,7 @@ export namespace Prisma {
     likes?: LikeOrderByRelationAggregateInput
     chat_rooms?: ChatRoomOrderByRelationAggregateInput
     messages?: MessageOrderByRelationAggregateInput
+    LiveStream?: LiveStreamOrderByRelationAggregateInput
   }
 
   export type UserWhereUniqueInput = Prisma.AtLeast<{
@@ -11018,6 +12281,7 @@ export namespace Prisma {
     likes?: LikeListRelationFilter
     chat_rooms?: ChatRoomListRelationFilter
     messages?: MessageListRelationFilter
+    LiveStream?: LiveStreamListRelationFilter
   }, "id" | "username" | "email" | "phone" | "github_id">
 
   export type UserOrderByWithAggregationInput = {
@@ -11488,6 +12752,73 @@ export namespace Prisma {
     userId?: IntWithAggregatesFilter<"Message"> | number
   }
 
+  export type LiveStreamWhereInput = {
+    AND?: LiveStreamWhereInput | LiveStreamWhereInput[]
+    OR?: LiveStreamWhereInput[]
+    NOT?: LiveStreamWhereInput | LiveStreamWhereInput[]
+    id?: IntFilter<"LiveStream"> | number
+    title?: StringFilter<"LiveStream"> | string
+    stream_key?: StringFilter<"LiveStream"> | string
+    stream_id?: StringFilter<"LiveStream"> | string
+    created_at?: DateTimeFilter<"LiveStream"> | Date | string
+    updated_at?: DateTimeFilter<"LiveStream"> | Date | string
+    userId?: IntFilter<"LiveStream"> | number
+    user?: XOR<UserScalarRelationFilter, UserWhereInput>
+  }
+
+  export type LiveStreamOrderByWithRelationInput = {
+    id?: SortOrder
+    title?: SortOrder
+    stream_key?: SortOrder
+    stream_id?: SortOrder
+    created_at?: SortOrder
+    updated_at?: SortOrder
+    userId?: SortOrder
+    user?: UserOrderByWithRelationInput
+  }
+
+  export type LiveStreamWhereUniqueInput = Prisma.AtLeast<{
+    id?: number
+    AND?: LiveStreamWhereInput | LiveStreamWhereInput[]
+    OR?: LiveStreamWhereInput[]
+    NOT?: LiveStreamWhereInput | LiveStreamWhereInput[]
+    title?: StringFilter<"LiveStream"> | string
+    stream_key?: StringFilter<"LiveStream"> | string
+    stream_id?: StringFilter<"LiveStream"> | string
+    created_at?: DateTimeFilter<"LiveStream"> | Date | string
+    updated_at?: DateTimeFilter<"LiveStream"> | Date | string
+    userId?: IntFilter<"LiveStream"> | number
+    user?: XOR<UserScalarRelationFilter, UserWhereInput>
+  }, "id">
+
+  export type LiveStreamOrderByWithAggregationInput = {
+    id?: SortOrder
+    title?: SortOrder
+    stream_key?: SortOrder
+    stream_id?: SortOrder
+    created_at?: SortOrder
+    updated_at?: SortOrder
+    userId?: SortOrder
+    _count?: LiveStreamCountOrderByAggregateInput
+    _avg?: LiveStreamAvgOrderByAggregateInput
+    _max?: LiveStreamMaxOrderByAggregateInput
+    _min?: LiveStreamMinOrderByAggregateInput
+    _sum?: LiveStreamSumOrderByAggregateInput
+  }
+
+  export type LiveStreamScalarWhereWithAggregatesInput = {
+    AND?: LiveStreamScalarWhereWithAggregatesInput | LiveStreamScalarWhereWithAggregatesInput[]
+    OR?: LiveStreamScalarWhereWithAggregatesInput[]
+    NOT?: LiveStreamScalarWhereWithAggregatesInput | LiveStreamScalarWhereWithAggregatesInput[]
+    id?: IntWithAggregatesFilter<"LiveStream"> | number
+    title?: StringWithAggregatesFilter<"LiveStream"> | string
+    stream_key?: StringWithAggregatesFilter<"LiveStream"> | string
+    stream_id?: StringWithAggregatesFilter<"LiveStream"> | string
+    created_at?: DateTimeWithAggregatesFilter<"LiveStream"> | Date | string
+    updated_at?: DateTimeWithAggregatesFilter<"LiveStream"> | Date | string
+    userId?: IntWithAggregatesFilter<"LiveStream"> | number
+  }
+
   export type UserCreateInput = {
     username: string
     email?: string | null
@@ -11504,6 +12835,7 @@ export namespace Prisma {
     likes?: LikeCreateNestedManyWithoutUserInput
     chat_rooms?: ChatRoomCreateNestedManyWithoutUsersInput
     messages?: MessageCreateNestedManyWithoutUserInput
+    LiveStream?: LiveStreamCreateNestedManyWithoutUserInput
   }
 
   export type UserUncheckedCreateInput = {
@@ -11523,6 +12855,7 @@ export namespace Prisma {
     likes?: LikeUncheckedCreateNestedManyWithoutUserInput
     chat_rooms?: ChatRoomUncheckedCreateNestedManyWithoutUsersInput
     messages?: MessageUncheckedCreateNestedManyWithoutUserInput
+    LiveStream?: LiveStreamUncheckedCreateNestedManyWithoutUserInput
   }
 
   export type UserUpdateInput = {
@@ -11541,6 +12874,7 @@ export namespace Prisma {
     likes?: LikeUpdateManyWithoutUserNestedInput
     chat_rooms?: ChatRoomUpdateManyWithoutUsersNestedInput
     messages?: MessageUpdateManyWithoutUserNestedInput
+    LiveStream?: LiveStreamUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateInput = {
@@ -11560,6 +12894,7 @@ export namespace Prisma {
     likes?: LikeUncheckedUpdateManyWithoutUserNestedInput
     chat_rooms?: ChatRoomUncheckedUpdateManyWithoutUsersNestedInput
     messages?: MessageUncheckedUpdateManyWithoutUserNestedInput
+    LiveStream?: LiveStreamUncheckedUpdateManyWithoutUserNestedInput
   }
 
   export type UserCreateManyInput = {
@@ -12009,6 +13344,72 @@ export namespace Prisma {
     userId?: IntFieldUpdateOperationsInput | number
   }
 
+  export type LiveStreamCreateInput = {
+    title: string
+    stream_key: string
+    stream_id: string
+    created_at?: Date | string
+    updated_at?: Date | string
+    user: UserCreateNestedOneWithoutLiveStreamInput
+  }
+
+  export type LiveStreamUncheckedCreateInput = {
+    id?: number
+    title: string
+    stream_key: string
+    stream_id: string
+    created_at?: Date | string
+    updated_at?: Date | string
+    userId: number
+  }
+
+  export type LiveStreamUpdateInput = {
+    title?: StringFieldUpdateOperationsInput | string
+    stream_key?: StringFieldUpdateOperationsInput | string
+    stream_id?: StringFieldUpdateOperationsInput | string
+    created_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    user?: UserUpdateOneRequiredWithoutLiveStreamNestedInput
+  }
+
+  export type LiveStreamUncheckedUpdateInput = {
+    id?: IntFieldUpdateOperationsInput | number
+    title?: StringFieldUpdateOperationsInput | string
+    stream_key?: StringFieldUpdateOperationsInput | string
+    stream_id?: StringFieldUpdateOperationsInput | string
+    created_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    userId?: IntFieldUpdateOperationsInput | number
+  }
+
+  export type LiveStreamCreateManyInput = {
+    id?: number
+    title: string
+    stream_key: string
+    stream_id: string
+    created_at?: Date | string
+    updated_at?: Date | string
+    userId: number
+  }
+
+  export type LiveStreamUpdateManyMutationInput = {
+    title?: StringFieldUpdateOperationsInput | string
+    stream_key?: StringFieldUpdateOperationsInput | string
+    stream_id?: StringFieldUpdateOperationsInput | string
+    created_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type LiveStreamUncheckedUpdateManyInput = {
+    id?: IntFieldUpdateOperationsInput | number
+    title?: StringFieldUpdateOperationsInput | string
+    stream_key?: StringFieldUpdateOperationsInput | string
+    stream_id?: StringFieldUpdateOperationsInput | string
+    created_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    userId?: IntFieldUpdateOperationsInput | number
+  }
+
   export type IntFilter<$PrismaModel = never> = {
     equals?: number | IntFieldRefInput<$PrismaModel>
     in?: number[]
@@ -12101,6 +13502,12 @@ export namespace Prisma {
     none?: MessageWhereInput
   }
 
+  export type LiveStreamListRelationFilter = {
+    every?: LiveStreamWhereInput
+    some?: LiveStreamWhereInput
+    none?: LiveStreamWhereInput
+  }
+
   export type SortOrderInput = {
     sort: SortOrder
     nulls?: NullsOrder
@@ -12131,6 +13538,10 @@ export namespace Prisma {
   }
 
   export type MessageOrderByRelationAggregateInput = {
+    _count?: SortOrder
+  }
+
+  export type LiveStreamOrderByRelationAggregateInput = {
     _count?: SortOrder
   }
 
@@ -12545,6 +13956,46 @@ export namespace Prisma {
     userId?: SortOrder
   }
 
+  export type LiveStreamCountOrderByAggregateInput = {
+    id?: SortOrder
+    title?: SortOrder
+    stream_key?: SortOrder
+    stream_id?: SortOrder
+    created_at?: SortOrder
+    updated_at?: SortOrder
+    userId?: SortOrder
+  }
+
+  export type LiveStreamAvgOrderByAggregateInput = {
+    id?: SortOrder
+    userId?: SortOrder
+  }
+
+  export type LiveStreamMaxOrderByAggregateInput = {
+    id?: SortOrder
+    title?: SortOrder
+    stream_key?: SortOrder
+    stream_id?: SortOrder
+    created_at?: SortOrder
+    updated_at?: SortOrder
+    userId?: SortOrder
+  }
+
+  export type LiveStreamMinOrderByAggregateInput = {
+    id?: SortOrder
+    title?: SortOrder
+    stream_key?: SortOrder
+    stream_id?: SortOrder
+    created_at?: SortOrder
+    updated_at?: SortOrder
+    userId?: SortOrder
+  }
+
+  export type LiveStreamSumOrderByAggregateInput = {
+    id?: SortOrder
+    userId?: SortOrder
+  }
+
   export type SMSTokenCreateNestedManyWithoutUserInput = {
     create?: XOR<SMSTokenCreateWithoutUserInput, SMSTokenUncheckedCreateWithoutUserInput> | SMSTokenCreateWithoutUserInput[] | SMSTokenUncheckedCreateWithoutUserInput[]
     connectOrCreate?: SMSTokenCreateOrConnectWithoutUserInput | SMSTokenCreateOrConnectWithoutUserInput[]
@@ -12593,6 +14044,13 @@ export namespace Prisma {
     connect?: MessageWhereUniqueInput | MessageWhereUniqueInput[]
   }
 
+  export type LiveStreamCreateNestedManyWithoutUserInput = {
+    create?: XOR<LiveStreamCreateWithoutUserInput, LiveStreamUncheckedCreateWithoutUserInput> | LiveStreamCreateWithoutUserInput[] | LiveStreamUncheckedCreateWithoutUserInput[]
+    connectOrCreate?: LiveStreamCreateOrConnectWithoutUserInput | LiveStreamCreateOrConnectWithoutUserInput[]
+    createMany?: LiveStreamCreateManyUserInputEnvelope
+    connect?: LiveStreamWhereUniqueInput | LiveStreamWhereUniqueInput[]
+  }
+
   export type SMSTokenUncheckedCreateNestedManyWithoutUserInput = {
     create?: XOR<SMSTokenCreateWithoutUserInput, SMSTokenUncheckedCreateWithoutUserInput> | SMSTokenCreateWithoutUserInput[] | SMSTokenUncheckedCreateWithoutUserInput[]
     connectOrCreate?: SMSTokenCreateOrConnectWithoutUserInput | SMSTokenCreateOrConnectWithoutUserInput[]
@@ -12639,6 +14097,13 @@ export namespace Prisma {
     connectOrCreate?: MessageCreateOrConnectWithoutUserInput | MessageCreateOrConnectWithoutUserInput[]
     createMany?: MessageCreateManyUserInputEnvelope
     connect?: MessageWhereUniqueInput | MessageWhereUniqueInput[]
+  }
+
+  export type LiveStreamUncheckedCreateNestedManyWithoutUserInput = {
+    create?: XOR<LiveStreamCreateWithoutUserInput, LiveStreamUncheckedCreateWithoutUserInput> | LiveStreamCreateWithoutUserInput[] | LiveStreamUncheckedCreateWithoutUserInput[]
+    connectOrCreate?: LiveStreamCreateOrConnectWithoutUserInput | LiveStreamCreateOrConnectWithoutUserInput[]
+    createMany?: LiveStreamCreateManyUserInputEnvelope
+    connect?: LiveStreamWhereUniqueInput | LiveStreamWhereUniqueInput[]
   }
 
   export type StringFieldUpdateOperationsInput = {
@@ -12750,6 +14215,20 @@ export namespace Prisma {
     deleteMany?: MessageScalarWhereInput | MessageScalarWhereInput[]
   }
 
+  export type LiveStreamUpdateManyWithoutUserNestedInput = {
+    create?: XOR<LiveStreamCreateWithoutUserInput, LiveStreamUncheckedCreateWithoutUserInput> | LiveStreamCreateWithoutUserInput[] | LiveStreamUncheckedCreateWithoutUserInput[]
+    connectOrCreate?: LiveStreamCreateOrConnectWithoutUserInput | LiveStreamCreateOrConnectWithoutUserInput[]
+    upsert?: LiveStreamUpsertWithWhereUniqueWithoutUserInput | LiveStreamUpsertWithWhereUniqueWithoutUserInput[]
+    createMany?: LiveStreamCreateManyUserInputEnvelope
+    set?: LiveStreamWhereUniqueInput | LiveStreamWhereUniqueInput[]
+    disconnect?: LiveStreamWhereUniqueInput | LiveStreamWhereUniqueInput[]
+    delete?: LiveStreamWhereUniqueInput | LiveStreamWhereUniqueInput[]
+    connect?: LiveStreamWhereUniqueInput | LiveStreamWhereUniqueInput[]
+    update?: LiveStreamUpdateWithWhereUniqueWithoutUserInput | LiveStreamUpdateWithWhereUniqueWithoutUserInput[]
+    updateMany?: LiveStreamUpdateManyWithWhereWithoutUserInput | LiveStreamUpdateManyWithWhereWithoutUserInput[]
+    deleteMany?: LiveStreamScalarWhereInput | LiveStreamScalarWhereInput[]
+  }
+
   export type IntFieldUpdateOperationsInput = {
     set?: number
     increment?: number
@@ -12853,6 +14332,20 @@ export namespace Prisma {
     update?: MessageUpdateWithWhereUniqueWithoutUserInput | MessageUpdateWithWhereUniqueWithoutUserInput[]
     updateMany?: MessageUpdateManyWithWhereWithoutUserInput | MessageUpdateManyWithWhereWithoutUserInput[]
     deleteMany?: MessageScalarWhereInput | MessageScalarWhereInput[]
+  }
+
+  export type LiveStreamUncheckedUpdateManyWithoutUserNestedInput = {
+    create?: XOR<LiveStreamCreateWithoutUserInput, LiveStreamUncheckedCreateWithoutUserInput> | LiveStreamCreateWithoutUserInput[] | LiveStreamUncheckedCreateWithoutUserInput[]
+    connectOrCreate?: LiveStreamCreateOrConnectWithoutUserInput | LiveStreamCreateOrConnectWithoutUserInput[]
+    upsert?: LiveStreamUpsertWithWhereUniqueWithoutUserInput | LiveStreamUpsertWithWhereUniqueWithoutUserInput[]
+    createMany?: LiveStreamCreateManyUserInputEnvelope
+    set?: LiveStreamWhereUniqueInput | LiveStreamWhereUniqueInput[]
+    disconnect?: LiveStreamWhereUniqueInput | LiveStreamWhereUniqueInput[]
+    delete?: LiveStreamWhereUniqueInput | LiveStreamWhereUniqueInput[]
+    connect?: LiveStreamWhereUniqueInput | LiveStreamWhereUniqueInput[]
+    update?: LiveStreamUpdateWithWhereUniqueWithoutUserInput | LiveStreamUpdateWithWhereUniqueWithoutUserInput[]
+    updateMany?: LiveStreamUpdateManyWithWhereWithoutUserInput | LiveStreamUpdateManyWithWhereWithoutUserInput[]
+    deleteMany?: LiveStreamScalarWhereInput | LiveStreamScalarWhereInput[]
   }
 
   export type UserCreateNestedOneWithoutTokensInput = {
@@ -13151,6 +14644,20 @@ export namespace Prisma {
     upsert?: UserUpsertWithoutMessagesInput
     connect?: UserWhereUniqueInput
     update?: XOR<XOR<UserUpdateToOneWithWhereWithoutMessagesInput, UserUpdateWithoutMessagesInput>, UserUncheckedUpdateWithoutMessagesInput>
+  }
+
+  export type UserCreateNestedOneWithoutLiveStreamInput = {
+    create?: XOR<UserCreateWithoutLiveStreamInput, UserUncheckedCreateWithoutLiveStreamInput>
+    connectOrCreate?: UserCreateOrConnectWithoutLiveStreamInput
+    connect?: UserWhereUniqueInput
+  }
+
+  export type UserUpdateOneRequiredWithoutLiveStreamNestedInput = {
+    create?: XOR<UserCreateWithoutLiveStreamInput, UserUncheckedCreateWithoutLiveStreamInput>
+    connectOrCreate?: UserCreateOrConnectWithoutLiveStreamInput
+    upsert?: UserUpsertWithoutLiveStreamInput
+    connect?: UserWhereUniqueInput
+    update?: XOR<XOR<UserUpdateToOneWithWhereWithoutLiveStreamInput, UserUpdateWithoutLiveStreamInput>, UserUncheckedUpdateWithoutLiveStreamInput>
   }
 
   export type NestedIntFilter<$PrismaModel = never> = {
@@ -13473,6 +14980,32 @@ export namespace Prisma {
     data: MessageCreateManyUserInput | MessageCreateManyUserInput[]
   }
 
+  export type LiveStreamCreateWithoutUserInput = {
+    title: string
+    stream_key: string
+    stream_id: string
+    created_at?: Date | string
+    updated_at?: Date | string
+  }
+
+  export type LiveStreamUncheckedCreateWithoutUserInput = {
+    id?: number
+    title: string
+    stream_key: string
+    stream_id: string
+    created_at?: Date | string
+    updated_at?: Date | string
+  }
+
+  export type LiveStreamCreateOrConnectWithoutUserInput = {
+    where: LiveStreamWhereUniqueInput
+    create: XOR<LiveStreamCreateWithoutUserInput, LiveStreamUncheckedCreateWithoutUserInput>
+  }
+
+  export type LiveStreamCreateManyUserInputEnvelope = {
+    data: LiveStreamCreateManyUserInput | LiveStreamCreateManyUserInput[]
+  }
+
   export type SMSTokenUpsertWithWhereUniqueWithoutUserInput = {
     where: SMSTokenWhereUniqueInput
     update: XOR<SMSTokenUpdateWithoutUserInput, SMSTokenUncheckedUpdateWithoutUserInput>
@@ -13666,6 +15199,35 @@ export namespace Prisma {
     userId?: IntFilter<"Message"> | number
   }
 
+  export type LiveStreamUpsertWithWhereUniqueWithoutUserInput = {
+    where: LiveStreamWhereUniqueInput
+    update: XOR<LiveStreamUpdateWithoutUserInput, LiveStreamUncheckedUpdateWithoutUserInput>
+    create: XOR<LiveStreamCreateWithoutUserInput, LiveStreamUncheckedCreateWithoutUserInput>
+  }
+
+  export type LiveStreamUpdateWithWhereUniqueWithoutUserInput = {
+    where: LiveStreamWhereUniqueInput
+    data: XOR<LiveStreamUpdateWithoutUserInput, LiveStreamUncheckedUpdateWithoutUserInput>
+  }
+
+  export type LiveStreamUpdateManyWithWhereWithoutUserInput = {
+    where: LiveStreamScalarWhereInput
+    data: XOR<LiveStreamUpdateManyMutationInput, LiveStreamUncheckedUpdateManyWithoutUserInput>
+  }
+
+  export type LiveStreamScalarWhereInput = {
+    AND?: LiveStreamScalarWhereInput | LiveStreamScalarWhereInput[]
+    OR?: LiveStreamScalarWhereInput[]
+    NOT?: LiveStreamScalarWhereInput | LiveStreamScalarWhereInput[]
+    id?: IntFilter<"LiveStream"> | number
+    title?: StringFilter<"LiveStream"> | string
+    stream_key?: StringFilter<"LiveStream"> | string
+    stream_id?: StringFilter<"LiveStream"> | string
+    created_at?: DateTimeFilter<"LiveStream"> | Date | string
+    updated_at?: DateTimeFilter<"LiveStream"> | Date | string
+    userId?: IntFilter<"LiveStream"> | number
+  }
+
   export type UserCreateWithoutTokensInput = {
     username: string
     email?: string | null
@@ -13681,6 +15243,7 @@ export namespace Prisma {
     likes?: LikeCreateNestedManyWithoutUserInput
     chat_rooms?: ChatRoomCreateNestedManyWithoutUsersInput
     messages?: MessageCreateNestedManyWithoutUserInput
+    LiveStream?: LiveStreamCreateNestedManyWithoutUserInput
   }
 
   export type UserUncheckedCreateWithoutTokensInput = {
@@ -13699,6 +15262,7 @@ export namespace Prisma {
     likes?: LikeUncheckedCreateNestedManyWithoutUserInput
     chat_rooms?: ChatRoomUncheckedCreateNestedManyWithoutUsersInput
     messages?: MessageUncheckedCreateNestedManyWithoutUserInput
+    LiveStream?: LiveStreamUncheckedCreateNestedManyWithoutUserInput
   }
 
   export type UserCreateOrConnectWithoutTokensInput = {
@@ -13732,6 +15296,7 @@ export namespace Prisma {
     likes?: LikeUpdateManyWithoutUserNestedInput
     chat_rooms?: ChatRoomUpdateManyWithoutUsersNestedInput
     messages?: MessageUpdateManyWithoutUserNestedInput
+    LiveStream?: LiveStreamUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateWithoutTokensInput = {
@@ -13750,6 +15315,7 @@ export namespace Prisma {
     likes?: LikeUncheckedUpdateManyWithoutUserNestedInput
     chat_rooms?: ChatRoomUncheckedUpdateManyWithoutUsersNestedInput
     messages?: MessageUncheckedUpdateManyWithoutUserNestedInput
+    LiveStream?: LiveStreamUncheckedUpdateManyWithoutUserNestedInput
   }
 
   export type UserCreateWithoutProductsInput = {
@@ -13767,6 +15333,7 @@ export namespace Prisma {
     likes?: LikeCreateNestedManyWithoutUserInput
     chat_rooms?: ChatRoomCreateNestedManyWithoutUsersInput
     messages?: MessageCreateNestedManyWithoutUserInput
+    LiveStream?: LiveStreamCreateNestedManyWithoutUserInput
   }
 
   export type UserUncheckedCreateWithoutProductsInput = {
@@ -13785,6 +15352,7 @@ export namespace Prisma {
     likes?: LikeUncheckedCreateNestedManyWithoutUserInput
     chat_rooms?: ChatRoomUncheckedCreateNestedManyWithoutUsersInput
     messages?: MessageUncheckedCreateNestedManyWithoutUserInput
+    LiveStream?: LiveStreamUncheckedCreateNestedManyWithoutUserInput
   }
 
   export type UserCreateOrConnectWithoutProductsInput = {
@@ -13818,6 +15386,7 @@ export namespace Prisma {
     likes?: LikeUpdateManyWithoutUserNestedInput
     chat_rooms?: ChatRoomUpdateManyWithoutUsersNestedInput
     messages?: MessageUpdateManyWithoutUserNestedInput
+    LiveStream?: LiveStreamUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateWithoutProductsInput = {
@@ -13836,6 +15405,7 @@ export namespace Prisma {
     likes?: LikeUncheckedUpdateManyWithoutUserNestedInput
     chat_rooms?: ChatRoomUncheckedUpdateManyWithoutUsersNestedInput
     messages?: MessageUncheckedUpdateManyWithoutUserNestedInput
+    LiveStream?: LiveStreamUncheckedUpdateManyWithoutUserNestedInput
   }
 
   export type UserCreateWithoutPostsInput = {
@@ -13853,6 +15423,7 @@ export namespace Prisma {
     likes?: LikeCreateNestedManyWithoutUserInput
     chat_rooms?: ChatRoomCreateNestedManyWithoutUsersInput
     messages?: MessageCreateNestedManyWithoutUserInput
+    LiveStream?: LiveStreamCreateNestedManyWithoutUserInput
   }
 
   export type UserUncheckedCreateWithoutPostsInput = {
@@ -13871,6 +15442,7 @@ export namespace Prisma {
     likes?: LikeUncheckedCreateNestedManyWithoutUserInput
     chat_rooms?: ChatRoomUncheckedCreateNestedManyWithoutUsersInput
     messages?: MessageUncheckedCreateNestedManyWithoutUserInput
+    LiveStream?: LiveStreamUncheckedCreateNestedManyWithoutUserInput
   }
 
   export type UserCreateOrConnectWithoutPostsInput = {
@@ -13949,6 +15521,7 @@ export namespace Prisma {
     likes?: LikeUpdateManyWithoutUserNestedInput
     chat_rooms?: ChatRoomUpdateManyWithoutUsersNestedInput
     messages?: MessageUpdateManyWithoutUserNestedInput
+    LiveStream?: LiveStreamUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateWithoutPostsInput = {
@@ -13967,6 +15540,7 @@ export namespace Prisma {
     likes?: LikeUncheckedUpdateManyWithoutUserNestedInput
     chat_rooms?: ChatRoomUncheckedUpdateManyWithoutUsersNestedInput
     messages?: MessageUncheckedUpdateManyWithoutUserNestedInput
+    LiveStream?: LiveStreamUncheckedUpdateManyWithoutUserNestedInput
   }
 
   export type CommentUpsertWithWhereUniqueWithoutPostInput = {
@@ -14016,6 +15590,7 @@ export namespace Prisma {
     likes?: LikeCreateNestedManyWithoutUserInput
     chat_rooms?: ChatRoomCreateNestedManyWithoutUsersInput
     messages?: MessageCreateNestedManyWithoutUserInput
+    LiveStream?: LiveStreamCreateNestedManyWithoutUserInput
   }
 
   export type UserUncheckedCreateWithoutCommentsInput = {
@@ -14034,6 +15609,7 @@ export namespace Prisma {
     likes?: LikeUncheckedCreateNestedManyWithoutUserInput
     chat_rooms?: ChatRoomUncheckedCreateNestedManyWithoutUsersInput
     messages?: MessageUncheckedCreateNestedManyWithoutUserInput
+    LiveStream?: LiveStreamUncheckedCreateNestedManyWithoutUserInput
   }
 
   export type UserCreateOrConnectWithoutCommentsInput = {
@@ -14093,6 +15669,7 @@ export namespace Prisma {
     likes?: LikeUpdateManyWithoutUserNestedInput
     chat_rooms?: ChatRoomUpdateManyWithoutUsersNestedInput
     messages?: MessageUpdateManyWithoutUserNestedInput
+    LiveStream?: LiveStreamUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateWithoutCommentsInput = {
@@ -14111,6 +15688,7 @@ export namespace Prisma {
     likes?: LikeUncheckedUpdateManyWithoutUserNestedInput
     chat_rooms?: ChatRoomUncheckedUpdateManyWithoutUsersNestedInput
     messages?: MessageUncheckedUpdateManyWithoutUserNestedInput
+    LiveStream?: LiveStreamUncheckedUpdateManyWithoutUserNestedInput
   }
 
   export type PostUpsertWithoutCommentsInput = {
@@ -14160,6 +15738,7 @@ export namespace Prisma {
     comments?: CommentCreateNestedManyWithoutUserInput
     chat_rooms?: ChatRoomCreateNestedManyWithoutUsersInput
     messages?: MessageCreateNestedManyWithoutUserInput
+    LiveStream?: LiveStreamCreateNestedManyWithoutUserInput
   }
 
   export type UserUncheckedCreateWithoutLikesInput = {
@@ -14178,6 +15757,7 @@ export namespace Prisma {
     comments?: CommentUncheckedCreateNestedManyWithoutUserInput
     chat_rooms?: ChatRoomUncheckedCreateNestedManyWithoutUsersInput
     messages?: MessageUncheckedCreateNestedManyWithoutUserInput
+    LiveStream?: LiveStreamUncheckedCreateNestedManyWithoutUserInput
   }
 
   export type UserCreateOrConnectWithoutLikesInput = {
@@ -14237,6 +15817,7 @@ export namespace Prisma {
     comments?: CommentUpdateManyWithoutUserNestedInput
     chat_rooms?: ChatRoomUpdateManyWithoutUsersNestedInput
     messages?: MessageUpdateManyWithoutUserNestedInput
+    LiveStream?: LiveStreamUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateWithoutLikesInput = {
@@ -14255,6 +15836,7 @@ export namespace Prisma {
     comments?: CommentUncheckedUpdateManyWithoutUserNestedInput
     chat_rooms?: ChatRoomUncheckedUpdateManyWithoutUsersNestedInput
     messages?: MessageUncheckedUpdateManyWithoutUserNestedInput
+    LiveStream?: LiveStreamUncheckedUpdateManyWithoutUserNestedInput
   }
 
   export type PostUpsertWithoutLikesInput = {
@@ -14304,6 +15886,7 @@ export namespace Prisma {
     comments?: CommentCreateNestedManyWithoutUserInput
     likes?: LikeCreateNestedManyWithoutUserInput
     messages?: MessageCreateNestedManyWithoutUserInput
+    LiveStream?: LiveStreamCreateNestedManyWithoutUserInput
   }
 
   export type UserUncheckedCreateWithoutChat_roomsInput = {
@@ -14322,6 +15905,7 @@ export namespace Prisma {
     comments?: CommentUncheckedCreateNestedManyWithoutUserInput
     likes?: LikeUncheckedCreateNestedManyWithoutUserInput
     messages?: MessageUncheckedCreateNestedManyWithoutUserInput
+    LiveStream?: LiveStreamUncheckedCreateNestedManyWithoutUserInput
   }
 
   export type UserCreateOrConnectWithoutChat_roomsInput = {
@@ -14434,6 +16018,7 @@ export namespace Prisma {
     comments?: CommentCreateNestedManyWithoutUserInput
     likes?: LikeCreateNestedManyWithoutUserInput
     chat_rooms?: ChatRoomCreateNestedManyWithoutUsersInput
+    LiveStream?: LiveStreamCreateNestedManyWithoutUserInput
   }
 
   export type UserUncheckedCreateWithoutMessagesInput = {
@@ -14452,6 +16037,7 @@ export namespace Prisma {
     comments?: CommentUncheckedCreateNestedManyWithoutUserInput
     likes?: LikeUncheckedCreateNestedManyWithoutUserInput
     chat_rooms?: ChatRoomUncheckedCreateNestedManyWithoutUsersInput
+    LiveStream?: LiveStreamUncheckedCreateNestedManyWithoutUserInput
   }
 
   export type UserCreateOrConnectWithoutMessagesInput = {
@@ -14510,6 +16096,7 @@ export namespace Prisma {
     comments?: CommentUpdateManyWithoutUserNestedInput
     likes?: LikeUpdateManyWithoutUserNestedInput
     chat_rooms?: ChatRoomUpdateManyWithoutUsersNestedInput
+    LiveStream?: LiveStreamUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateWithoutMessagesInput = {
@@ -14528,6 +16115,97 @@ export namespace Prisma {
     comments?: CommentUncheckedUpdateManyWithoutUserNestedInput
     likes?: LikeUncheckedUpdateManyWithoutUserNestedInput
     chat_rooms?: ChatRoomUncheckedUpdateManyWithoutUsersNestedInput
+    LiveStream?: LiveStreamUncheckedUpdateManyWithoutUserNestedInput
+  }
+
+  export type UserCreateWithoutLiveStreamInput = {
+    username: string
+    email?: string | null
+    password?: string | null
+    phone?: string | null
+    github_id?: string | null
+    avater?: string | null
+    created_at?: Date | string
+    update_at?: Date | string
+    tokens?: SMSTokenCreateNestedManyWithoutUserInput
+    products?: ProductCreateNestedManyWithoutUserInput
+    posts?: PostCreateNestedManyWithoutUserInput
+    comments?: CommentCreateNestedManyWithoutUserInput
+    likes?: LikeCreateNestedManyWithoutUserInput
+    chat_rooms?: ChatRoomCreateNestedManyWithoutUsersInput
+    messages?: MessageCreateNestedManyWithoutUserInput
+  }
+
+  export type UserUncheckedCreateWithoutLiveStreamInput = {
+    id?: number
+    username: string
+    email?: string | null
+    password?: string | null
+    phone?: string | null
+    github_id?: string | null
+    avater?: string | null
+    created_at?: Date | string
+    update_at?: Date | string
+    tokens?: SMSTokenUncheckedCreateNestedManyWithoutUserInput
+    products?: ProductUncheckedCreateNestedManyWithoutUserInput
+    posts?: PostUncheckedCreateNestedManyWithoutUserInput
+    comments?: CommentUncheckedCreateNestedManyWithoutUserInput
+    likes?: LikeUncheckedCreateNestedManyWithoutUserInput
+    chat_rooms?: ChatRoomUncheckedCreateNestedManyWithoutUsersInput
+    messages?: MessageUncheckedCreateNestedManyWithoutUserInput
+  }
+
+  export type UserCreateOrConnectWithoutLiveStreamInput = {
+    where: UserWhereUniqueInput
+    create: XOR<UserCreateWithoutLiveStreamInput, UserUncheckedCreateWithoutLiveStreamInput>
+  }
+
+  export type UserUpsertWithoutLiveStreamInput = {
+    update: XOR<UserUpdateWithoutLiveStreamInput, UserUncheckedUpdateWithoutLiveStreamInput>
+    create: XOR<UserCreateWithoutLiveStreamInput, UserUncheckedCreateWithoutLiveStreamInput>
+    where?: UserWhereInput
+  }
+
+  export type UserUpdateToOneWithWhereWithoutLiveStreamInput = {
+    where?: UserWhereInput
+    data: XOR<UserUpdateWithoutLiveStreamInput, UserUncheckedUpdateWithoutLiveStreamInput>
+  }
+
+  export type UserUpdateWithoutLiveStreamInput = {
+    username?: StringFieldUpdateOperationsInput | string
+    email?: NullableStringFieldUpdateOperationsInput | string | null
+    password?: NullableStringFieldUpdateOperationsInput | string | null
+    phone?: NullableStringFieldUpdateOperationsInput | string | null
+    github_id?: NullableStringFieldUpdateOperationsInput | string | null
+    avater?: NullableStringFieldUpdateOperationsInput | string | null
+    created_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    update_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    tokens?: SMSTokenUpdateManyWithoutUserNestedInput
+    products?: ProductUpdateManyWithoutUserNestedInput
+    posts?: PostUpdateManyWithoutUserNestedInput
+    comments?: CommentUpdateManyWithoutUserNestedInput
+    likes?: LikeUpdateManyWithoutUserNestedInput
+    chat_rooms?: ChatRoomUpdateManyWithoutUsersNestedInput
+    messages?: MessageUpdateManyWithoutUserNestedInput
+  }
+
+  export type UserUncheckedUpdateWithoutLiveStreamInput = {
+    id?: IntFieldUpdateOperationsInput | number
+    username?: StringFieldUpdateOperationsInput | string
+    email?: NullableStringFieldUpdateOperationsInput | string | null
+    password?: NullableStringFieldUpdateOperationsInput | string | null
+    phone?: NullableStringFieldUpdateOperationsInput | string | null
+    github_id?: NullableStringFieldUpdateOperationsInput | string | null
+    avater?: NullableStringFieldUpdateOperationsInput | string | null
+    created_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    update_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    tokens?: SMSTokenUncheckedUpdateManyWithoutUserNestedInput
+    products?: ProductUncheckedUpdateManyWithoutUserNestedInput
+    posts?: PostUncheckedUpdateManyWithoutUserNestedInput
+    comments?: CommentUncheckedUpdateManyWithoutUserNestedInput
+    likes?: LikeUncheckedUpdateManyWithoutUserNestedInput
+    chat_rooms?: ChatRoomUncheckedUpdateManyWithoutUsersNestedInput
+    messages?: MessageUncheckedUpdateManyWithoutUserNestedInput
   }
 
   export type SMSTokenCreateManyUserInput = {
@@ -14576,6 +16254,15 @@ export namespace Prisma {
     created_at?: Date | string
     update_at?: Date | string
     chatRoomId: string
+  }
+
+  export type LiveStreamCreateManyUserInput = {
+    id?: number
+    title: string
+    stream_key: string
+    stream_id: string
+    created_at?: Date | string
+    updated_at?: Date | string
   }
 
   export type SMSTokenUpdateWithoutUserInput = {
@@ -14741,6 +16428,32 @@ export namespace Prisma {
     chatRoomId?: StringFieldUpdateOperationsInput | string
   }
 
+  export type LiveStreamUpdateWithoutUserInput = {
+    title?: StringFieldUpdateOperationsInput | string
+    stream_key?: StringFieldUpdateOperationsInput | string
+    stream_id?: StringFieldUpdateOperationsInput | string
+    created_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type LiveStreamUncheckedUpdateWithoutUserInput = {
+    id?: IntFieldUpdateOperationsInput | number
+    title?: StringFieldUpdateOperationsInput | string
+    stream_key?: StringFieldUpdateOperationsInput | string
+    stream_id?: StringFieldUpdateOperationsInput | string
+    created_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type LiveStreamUncheckedUpdateManyWithoutUserInput = {
+    id?: IntFieldUpdateOperationsInput | number
+    title?: StringFieldUpdateOperationsInput | string
+    stream_key?: StringFieldUpdateOperationsInput | string
+    stream_id?: StringFieldUpdateOperationsInput | string
+    created_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
   export type CommentCreateManyPostInput = {
     id?: number
     payload: string
@@ -14819,6 +16532,7 @@ export namespace Prisma {
     comments?: CommentUpdateManyWithoutUserNestedInput
     likes?: LikeUpdateManyWithoutUserNestedInput
     messages?: MessageUpdateManyWithoutUserNestedInput
+    LiveStream?: LiveStreamUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateWithoutChat_roomsInput = {
@@ -14837,6 +16551,7 @@ export namespace Prisma {
     comments?: CommentUncheckedUpdateManyWithoutUserNestedInput
     likes?: LikeUncheckedUpdateManyWithoutUserNestedInput
     messages?: MessageUncheckedUpdateManyWithoutUserNestedInput
+    LiveStream?: LiveStreamUncheckedUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateManyWithoutChat_roomsInput = {
