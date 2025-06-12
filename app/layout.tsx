@@ -1,8 +1,20 @@
 import type { Metadata } from "next";
-import { Inter } from "next/font/google";
+import { Jua, Gamja_Flower } from "next/font/google";
 import "./globals.css";
 
-const inter = Inter({ subsets: ["latin"] });
+const jua = Jua({
+  subsets: ["latin"],
+  weight: ["400"],
+  style: ["normal"],
+  variable: "--jua-text",
+});
+
+const gamja = Gamja_Flower({
+  subsets: ["latin"],
+  weight: ["400"],
+  style: ["normal"],
+  variable: "--gamja-text",
+});
 
 export const metadata: Metadata = {
   title: "당근당근!",
@@ -18,7 +30,9 @@ Readonly<{
 }>) {
   return (
     <html lang="en">
-      <body className={` bg-neutral-900 text-white max-w-screen-sm mx-auto`}>
+      <body
+        className={`s ${jua.className}  bg-neutral-900 text-white max-w-screen-sm mx-auto`}
+      >
         {children}
       </body>
     </html>
