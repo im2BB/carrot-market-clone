@@ -1,3 +1,4 @@
+import FloatingButton from "@/components/floating-button";
 import ProductList from "@/components/product-list";
 import db from "@/lib/db";
 import { Prisma } from "@/lib/generated/prisma";
@@ -49,15 +50,9 @@ export default async function Products() {
       {/* <form action={revalidate}>
         <button>검증</button>
       </form> */}
-      <Link
-        href="/add-products"
-        className="bg-orange-500 flex items-center
-      justify-center rounded-full size-12 fixed 
-      bottom-24 right-8 text-white transition-colors 
-      hover:bg-orange-400"
-      >
+      <FloatingButton href="/add-products">
         <PlusIcon className="size-8" />
-      </Link>
+      </FloatingButton>
     </div>
   );
 }
