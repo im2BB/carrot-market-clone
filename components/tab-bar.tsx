@@ -39,7 +39,7 @@ export default function TabBar() {
         ) : (
           <OutlineNewspaperIcon className="w-7 h-7" />
         )}
-        <span>생활</span>
+        <span>커뮤니티</span>
       </Link>
       <Link href="/chat" className="flex flex-col items-center gap-px">
         {pathname === "/chat" ? (
