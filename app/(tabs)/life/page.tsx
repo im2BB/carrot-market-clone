@@ -81,7 +81,7 @@ export default async function Life() {
           </div>
         )}
       </div>
-      <FloatingButton href="/add-life">
+      <FloatingButton href="/add-post">
         <PlusIcon className="size-8" />
       </FloatingButton>
     </div>

@@ -59,7 +59,7 @@ export default function ProductList({ initialProducts }: ProductListProps) {
         <div className="flex flex-col items-center justify-center pt-64 gap-4">
           <p className="text-neutral-400 text-lg">등록된 상품이 없습니다</p>
           <p className="text-neutral-500 text-sm">
-            첫번쨰로 상품을 등록해 보시겠어요?
+            첫번째로 상품을 등록해 보시겠어요?
           </p>
         </div>
       )}
