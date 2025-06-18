@@ -1,8 +1,12 @@
 import type { Metadata } from "next";
-import { Inter } from "next/font/google";
+import { Sunflower } from "next/font/google";
 import "./globals.css";
 
-const inter = Inter({ subsets: ["latin"] });
+const sunflower = Sunflower({
+  subsets: ["latin"],
+  weight: ["500"],
+  style: ["normal"],
+});
 
 export const metadata: Metadata = {
   title: "당근당근!",
@@ -17,8 +21,10 @@ Readonly<{
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en">
-      <body className={` bg-neutral-900 text-white max-w-screen-sm mx-auto`}>
+    <html lang="kr">
+      <body
+        className={`${sunflower.className} bg-neutral-900 text-white max-w-screen-sm mx-auto`}
+      >
         {children}
       </body>
     </html>

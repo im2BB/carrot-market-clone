@@ -1,12 +1,12 @@
-import { createPost } from "./action";
+import { GetcreatePost } from "./action";
 
 export default function AddPost() {
   return (
     <div className="p-5">
       <div className="flex items-center gap-2 mb-3">
-        <span className="font-semibold text-white">글쓰기</span>
+        <span className="font-bold">글쓰기</span>
       </div>
-      <form action={createPost} className="flex flex-col gap-2">
+      <form action={GetcreatePost} className="flex flex-col gap-2">
         <input
           name="title"
           type="text"

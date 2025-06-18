@@ -5,7 +5,7 @@ import getSession from "@/lib/seeeion";
 
 import { redirect } from "next/navigation";
 
-export async function createPost(formData: FormData) {
+export async function GetcreatePost(formData: FormData) {
   const session = await getSession();
   if (!session.id) {
     redirect("/create-account");
