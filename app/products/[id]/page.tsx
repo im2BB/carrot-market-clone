@@ -5,6 +5,7 @@ import { UserIcon } from "@heroicons/react/16/solid";
 import Image from "next/image";
 import { notFound, redirect } from "next/navigation";
 import { deleteProduct } from "./actions";
+import BackButton from "@/components/back-button";
 
 async function getIsOwner(userId: Number) {
   const session = await getSession();
@@ -136,6 +137,7 @@ export default async function ProductDetail({
             채팅하기
           </button>
         </form>
+        <BackButton />
       </div>
     </div>
   );

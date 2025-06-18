@@ -1,3 +1,4 @@
+import BackButton from "@/components/back-button";
 import LikeButton from "@/components/like-button";
 import db from "@/lib/db";
 import getSession from "@/lib/seeeion";
@@ -116,6 +117,7 @@ export default async function PostDetail({
         </div>
         <LikeButton isLiked={isLiked} likeCount={likeCount} postId={id} />
       </div>
+      <BackButton />
     </div>
   );
 }

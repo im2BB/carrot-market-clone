@@ -5,6 +5,7 @@ import Input from "@/components/Input";
 import { PhotoIcon } from "@heroicons/react/24/solid";
 import { useActionState, useState } from "react";
 import { getUploadUrl, uploadProduct } from "./actions";
+import BackButton from "@/components/back-button";
 
 export default function AddProduct() {
   const [priview, setPreview] = useState("");
@@ -112,6 +113,7 @@ export default function AddProduct() {
         />
         <Button text="완료" />
       </form>
+      <BackButton />
     </div>
   );
 }
