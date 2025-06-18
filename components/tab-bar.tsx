@@ -4,15 +4,15 @@ import {
   HomeIcon as SolidHomeIcon,
   NewspaperIcon as SolidNewspaperIcon,
   ChatBubbleOvalLeftEllipsisIcon as SolidChatIcon,
-  VideoCameraIcon as SolidVideoCameraIcon,
   UserIcon as SolidUserIcon,
+  ShoppingBagIcon as SolidShoppingBagIcon,
 } from "@heroicons/react/24/solid";
 import {
   HomeIcon as OutlineHomeIcon,
   NewspaperIcon as OutlineNewspaperIcon,
   ChatBubbleOvalLeftEllipsisIcon as OutlineChatIcon,
-  VideoCameraIcon as OutlineVideoCameraIcon,
   UserIcon as OutlineUserIcon,
+  ShoppingBagIcon as OutlineShoppingBagIcon,
 } from "@heroicons/react/24/outline";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
@@ -49,11 +49,11 @@ export default function TabBar() {
         )}
         <span>채팅</span>
       </Link>
-      <Link href="/live" className="flex flex-col items-center gap-px">
-        {pathname === "/live" ? (
-          <SolidVideoCameraIcon className="w-7 h-7" />
+      <Link href="/products" className="flex flex-col items-center gap-px">
+        {pathname === "/products" ? (
+          <SolidShoppingBagIcon className="w-7 h-7" />
         ) : (
-          <OutlineVideoCameraIcon className="w-7 h-7" />
+          <OutlineShoppingBagIcon className="w-7 h-7" />
         )}
         <span>쇼핑</span>
       </Link>
