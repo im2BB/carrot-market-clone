@@ -111,7 +111,7 @@ export default function AddProduct() {
           type="text"
           errors={state?.fieldErrors.description}
         />
-        <Button text="완료" />
+        <Button text="저장하기" />
       </form>
       <BackButton />
     </div>

@@ -1,5 +1,7 @@
 import BackButton from "@/components/back-button";
 import { GetcreatePost } from "./action";
+import Input from "@/components/Input";
+import Button from "@/components/button";
 
 export default function AddPost() {
   return (
@@ -9,29 +11,25 @@ export default function AddPost() {
       </div>
       <form
         action={GetcreatePost}
-        className="flex flex-col gap-2 focus:outline-none"
+        className="flex flex-col gap-5 p-5 focus:outline-none"
       >
-        <input
+        <Input
           name="title"
           type="text"
           required
           placeholder="제목을 입력하세요"
-          className="bg-neutral-800 border border-neutral-700 rounded px-3 py-2 text-white 
-          focus:outline-none focus:ring-0 focus:border-neutral-700 
-          focus-visible:outline-none focus-visible:ring-0"
         />
         <textarea
           name="description"
           required
-          rows={10}
           placeholder="내용을 입력하세요"
-          className="bg-neutral-800 border border-neutral-700 rounded px-3 py-2 text-white resize-none 
-          focus:outline-none focus:ring-0 focus:border-neutral-700 
-          focus-visible:outline-none focus-visible:ring-0"
+          className="bg-transparent rounded-md w-full
+            h-60 foucus:outline-none ring-2 focus:ring-4
+            transition
+            ring-neutral-200 focus:ring-orange-500 border-none
+            placeholder:text-neutral-400"
         />
-        <button className="bg-orange-500 hover:bg-orange-600 text-white px-4 py-2 rounded">
-          작성하기
-        </button>
+        <Button text="저장하기" />
       </form>
       <BackButton />
     </div>
