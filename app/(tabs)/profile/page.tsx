@@ -51,14 +51,13 @@ export default async function Profile() {
           </div>
         </div>
         <div className="p-3">
-          <button
-            className="
-          primary-btn h-8 w-24 
-    disabled:bg-neutral-400 disabled:text-neutral-300
-    disabled:cursor-not-allowed"
+          {" "}
+          <a
+            href="/profile/edit"
+            className="primary-btn h-8 w-24 flex items-center justify-center"
           >
             프로필 수정
-          </button>
+          </a>
         </div>
       </div>
       <div className="flex gap-4 text-center border-y border-neutral-800 py-4">
