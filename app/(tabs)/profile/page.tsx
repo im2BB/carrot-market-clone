@@ -1,3 +1,4 @@
+import Button from "@/components/button";
 import db from "@/lib/db";
 import getSession from "@/lib/seeeion";
 import { UserIcon } from "@heroicons/react/24/outline";
@@ -39,16 +40,27 @@ export default async function Profile() {
 
   return (
     <div className="p-5 gap-5">
-      <div className="flex items-center gap-4 mb-8">
-        <div className="w-16 h-16 rounded-full bg-neutral-800 flex items-center justify-center">
-          <UserIcon className="w-8 h-8 text-white" />
+      <div className="flex justify-between">
+        <div className="flex items-center gap-4 mb-8">
+          <div className="w-16 h-16 rounded-full bg-neutral-800 flex items-center justify-center">
+            <UserIcon className="w-8 h-8 text-white" />
+          </div>
+          <div>
+            <h3 className="text-white font-medium text-lg">{user.username}</h3>
+            <p className="text-gray-400">{user.email}</p>
+          </div>
         </div>
-        <div>
-          <h3 className="text-white font-medium text-lg">{user.username}</h3>
-          <p className="text-gray-400">{user.email}</p>
+        <div className="p-3">
+          <button
+            className="
+          primary-btn h-8 w-24 
+    disabled:bg-neutral-400 disabled:text-neutral-300
+    disabled:cursor-not-allowed"
+          >
+            프로필 수정
+          </button>
         </div>
       </div>
-
       <div className="flex gap-4 text-center border-y border-neutral-800 py-4">
         <div className="flex-1">
           <span className="text-white font-medium block">
