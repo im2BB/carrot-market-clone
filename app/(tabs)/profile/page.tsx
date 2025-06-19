@@ -15,11 +15,14 @@ export default async function Profile() {
     );
   }
 
-  const user = await db.user.findUnique({
-    where: {
+  const user = await db.user.findUnique({    where: {
       id: session.id,
     },
-    include: {
+    select: {
+      id: true,
+      username: true,
+      email: true,
+      avater: true,
       _count: {
         select: {
           products: true,
@@ -41,9 +44,17 @@ export default async function Profile() {
   return (
     <div className="p-5 gap-5">
       <div className="flex justify-between">
-        <div className="flex items-center gap-4 mb-8">
-          <div className="w-16 h-16 rounded-full bg-neutral-800 flex items-center justify-center">
-            <UserIcon className="w-8 h-8 text-white" />
+        <div className="flex items-center gap-4 mb-8">          <div className="w-16 h-16 rounded-full bg-neutral-800 flex items-center justify-center relative overflow-hidden">
+            {user.avater ? (
+              // eslint-disable-next-line @next/next/no-img-element
+              <img
+                src={user.avater}
+                alt={user.username}
+                className="w-full h-full object-cover"
+              />
+            ) : (
+              <UserIcon className="w-8 h-8 text-white" />
+            )}
           </div>
           <div>
             <h3 className="text-white font-medium text-lg">{user.username}</h3>
