@@ -11,7 +11,7 @@ const getCachedProducts = nextCache(getInitialProducts, ["home-products"], {
 });
 
 export const metadata = {
-  title: "Product",
+  title: "쇼핑",
 };
 
 // export const dynamic = "force-dynamic";  정직인 페이지를 동적인 페이지로 변경

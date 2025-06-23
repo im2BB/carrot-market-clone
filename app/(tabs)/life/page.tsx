@@ -30,7 +30,7 @@ async function getPosts() {
 }
 
 export const metadata = {
-  title: "생활",
+  title: "커뮤니티",
 };
 
 export default async function Life() {
