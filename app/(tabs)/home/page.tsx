@@ -1,3 +1,4 @@
+import Silder from "@/components/silder";
 import db from "@/lib/db";
 import Link from "next/link";
 
@@ -50,11 +51,14 @@ export default async function Home() {
           검색
         </button>
       </div>
-      <div className="p-10 flex text-lg justify-center items-center">
-        <p>이벤트 슬라이드</p>
+      <div>
+        <div className="p-5 flex text-lg justify-center items-center">
+          <p>이벤트 슬라이드</p>
+        </div>
+        <Silder />
       </div>
       <div>
-        <h2 className="flex mb-6 justify-center items-center text-lg font-medium">
+        <h2 className="flex p-5 justify-center items-center text-lg font-medium">
           최근 등록 상품
         </h2>
         <div className="grid grid-cols-3 gap-4 ">
