@@ -6,10 +6,10 @@ export const metadata = {
   title: "홈",
 };
 
-async function getRecentProducts() {
+export async function getRecentProducts() {
   try {
     return await db.product.findMany({
-      take: 8, // 최근 8개의 상품만 가져옴
+      take: 9, // 최근 8개의 상품만 가져옴
       orderBy: {
         created_at: "desc", // 최신순으로 정렬
       },
@@ -62,33 +62,63 @@ export default async function Home() {
           최근 등록 상품
         </h2>
         <div className="grid grid-cols-3 gap-4 ">
-          {products.map((product) => (
-            <Link
-              href={`/products/${product.id}`}
-              key={product.id}
-              className="block"
-            >
-              <div className="bg-neutral-800 rounded-lg overflow-hidden aspect-square">
-                {product.photo ? (
-                  <img
-                    src={product.photo}
-                    alt={product.title}
-                    className="w-full h-full object-cover"
-                  />
-                ) : (
-                  <div className="w-full h-full flex items-center justify-center text-neutral-400">
-                    No Image
-                  </div>
-                )}
-              </div>
-              <div className="flex items-center gap-7 mt-3">
-                <h3 className="text-white truncate text-lg">{product.title}</h3>
-                <p className="text-orange-500 font-medium text-sm">
-                  {product.price.toLocaleString()}원
-                </p>
-              </div>
-            </Link>
-          ))}
+          {products.map((product) => {
+            // 안전한 이미지 src 생성 함수
+            const DEFAULT_IMAGE = "/기본사용자.jpg";
+            function getSafeImageSrc(src?: string) {
+              if (!src || typeof src !== "string" || src.trim() === "")
+                return DEFAULT_IMAGE;
+              if (src.startsWith("data:image")) return src;
+              try {
+                const url = new URL(src);
+                if (
+                  url.hostname.includes("imagedelivery.net") ||
+                  url.hostname.includes("cloudflare")
+                ) {
+                  // Cloudflare Images URL에 width/height 파라미터 추가
+                  return `${src}/width=400,height=400`;
+                }
+                if (url.protocol === "http:" || url.protocol === "https:")
+                  return src;
+              } catch {
+                if (src.startsWith("/")) return src;
+                return DEFAULT_IMAGE;
+              }
+              return DEFAULT_IMAGE;
+            }
+            const imgSrc = getSafeImageSrc(product.photo);
+            return (
+              <Link
+                href={`/products/${product.id}`}
+                key={product.id}
+                className="block"
+              >
+                <div className="bg-neutral-800 rounded-lg overflow-hidden aspect-square">
+                  {imgSrc.startsWith("data:image") ||
+                  imgSrc.startsWith("/") ||
+                  imgSrc.startsWith("http") ? (
+                    <img
+                      src={imgSrc}
+                      alt={product.title}
+                      className="w-full h-full object-cover"
+                    />
+                  ) : (
+                    <div className="w-full h-full flex items-center justify-center text-neutral-400">
+                      No Image
+                    </div>
+                  )}
+                </div>
+                <div className="flex items-center gap-7 mt-3">
+                  <h3 className="text-white truncate text-lg">
+                    {product.title}
+                  </h3>
+                  <p className="text-orange-500 font-medium text-sm">
+                    {product.price.toLocaleString()}원
+                  </p>
+                </div>
+              </Link>
+            );
+          })}
         </div>
       </div>
     </div>

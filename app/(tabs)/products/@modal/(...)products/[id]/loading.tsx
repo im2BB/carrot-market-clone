@@ -8,7 +8,6 @@ export default function Loading() {
      bg-black bg-opacity-60 top-0 left-0"
     >
       <div className=" animate-pulse  gap-5 w-full h-full flex flex-col z-50 justify-center">
-        <CloseButton />
         <div className="max-w-screen-sm h-1/2 w-full flex justify-center">
           <div
             className="relative aspect-square bg-neutral-700 rounded-md text-neutral-200
