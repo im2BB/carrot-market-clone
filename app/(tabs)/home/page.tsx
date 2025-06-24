@@ -91,7 +91,8 @@ export default async function Home() {
               <Link
                 href={`/products/${product.id}`}
                 key={product.id}
-                className="block"
+                className="block hover:scale-110 transition-transform duration-100"
+                scroll={false}
               >
                 <div className="bg-neutral-800 rounded-lg overflow-hidden aspect-square">
                   {imgSrc.startsWith("data:image") ||
