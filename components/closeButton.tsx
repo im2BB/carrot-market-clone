@@ -1,19 +1,21 @@
 "use client";
 
 import { XMarkIcon } from "@heroicons/react/24/solid";
-import { useRouter } from "next/navigation";
-import { useEffect } from "react";
 
-export default function CloseButton() {
-  const router = useRouter();
-  const onCloseClick = () => {
-    router.push("/products"); // 항상 /products로 이동
+interface CloseButtonProps {
+  onCloseClick: () => void;
+}
+
+export default function CloseButton({ onCloseClick }: CloseButtonProps) {
+  const handleClick = (e: React.MouseEvent) => {
+    e.stopPropagation();
+    onCloseClick();
   };
 
   return (
     <button
-      onClick={onCloseClick}
-      className=" absolute right-5 top-5 text-neutral-200"
+      onClick={handleClick}
+      className="absolute z-50 bg-orange-500 rounded-full right-5 top-5 text-neutral-200"
     >
       <XMarkIcon className="size-10" />
     </button>
