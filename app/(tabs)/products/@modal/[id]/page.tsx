@@ -1,4 +1,4 @@
-import db from "@/lib/db";
+import { getProductById } from "@/app/(tabs)/products/action";
 
 interface ProductModalPageProps {
   params: {
@@ -9,18 +9,7 @@ interface ProductModalPageProps {
 export default async function ProductModalPage({
   params: { id },
 }: ProductModalPageProps) {
-  const product = await db.product.findUnique({
-    where: {
-      id: +id,
-    },
-    select: {
-      id: true,
-      title: true,
-      price: true,
-      created_at: true,
-      photo: true,
-    },
-  });
+  const product = await getProductById(+id);
 
   if (!product) return null;
 

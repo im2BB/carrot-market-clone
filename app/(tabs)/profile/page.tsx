@@ -1,5 +1,4 @@
-import db from "@/lib/db";
-import getSession from "@/lib/seeeion";
+import { getProfile } from "@/app/(tabs)/profile/action";
 import { UserIcon } from "@heroicons/react/24/outline";
 import { redirect } from "next/navigation";
 import Image from "next/image";
@@ -9,9 +8,9 @@ export const metadata = {
 };
 
 export default async function Profile() {
-  const session = await getSession();
+  const user = await getProfile();
 
-  if (!session.id) {
+  if (!user) {
     return (
       <div className="flex flex-col items-center justify-center py-32">
         <p className="text-gray-400 text-center">로그인이 필요합니다</p>
@@ -19,38 +18,22 @@ export default async function Profile() {
     );
   }
 
-  const user = await db.user.findUnique({
-    where: {
-      id: session.id,
-    },
-    include: {
-      _count: {
-        select: {
-          products: true,
-          posts: true,
-        },
-      },
-    },
-  });
-
-  if (!user) return null;
-
   const logOut = async () => {
     "use server";
-    const session = await getSession();
-    await session.destroy();
-    redirect("/");
   };
 
   const DEFAULT_AVATAR = "/기본사용자.jpg";
   function getSafeAvatarSrc(src?: string | null) {
-    if (!src || typeof src !== "string" || src.trim() === "") return DEFAULT_AVATAR;
+    if (!src || typeof src !== "string" || src.trim() === "")
+      return DEFAULT_AVATAR;
     if (src.startsWith("data:image")) return src;
     if (src.startsWith("/")) return src;
-    
     try {
       const url = new URL(src);
-      if (url.hostname.includes("imagedelivery.net") || url.hostname.includes("cloudflare")) {
+      if (
+        url.hostname.includes("imagedelivery.net") ||
+        url.hostname.includes("cloudflare")
+      ) {
         if (src.includes("/public")) {
           return src;
         }
@@ -70,7 +53,9 @@ export default async function Profile() {
       <div className="flex justify-between">
         <div className="flex items-center gap-4 mb-8">
           <div className="w-16 h-16 rounded-full bg-neutral-800 flex items-center justify-center overflow-hidden">
-            {avatarSrc.startsWith("data:image") || avatarSrc.startsWith("/") || avatarSrc.startsWith("http") ? (
+            {avatarSrc.startsWith("data:image") ||
+            avatarSrc.startsWith("/") ||
+            avatarSrc.startsWith("http") ? (
               <Image
                 src={avatarSrc}
                 alt={user.username}

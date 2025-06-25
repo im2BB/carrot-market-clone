@@ -59,7 +59,7 @@ export default function Slider({ events }: { events: Event[] }) {
       }}
       spaceBetween={50}
       slidesPerView={1}
-      className="rounded-lg overflow-hidden hover:cursor-pointer"
+      className="rounded-lg bg-white overflow-hidden hover:cursor-pointer"
     >
       {events.map((event) => {
         const imgSrc = getSafeImageSrc(event.image);

@@ -1,84 +1,34 @@
 import Silder from "@/components/silder";
-import db from "@/lib/db";
 import Link from "next/link";
+import SearchBar from "@/components/SearchBar";
+import { getRecentProducts, getEvents } from "./action";
 
 export const metadata = {
   title: "홈",
 };
 
-export async function getRecentProducts() {
-  try {
-    return await db.product.findMany({
-      take: 9, // 최근 8개의 상품만 가져옴
-      orderBy: {
-        created_at: "desc", // 최신순으로 정렬
-      },
-      include: {
-        user: {
-          select: {
-            username: true,
-          },
-        },
-      },
-    });
-  } catch (error) {
-    console.error("상품 조회 중 오류 발생:", error);
-    return [];
-  }
-}
-
-export async function getEvents() {
-  try {
-    return await db.event.findMany({
-      orderBy: {
-        created_at: "desc",
-      },
-    });
-  } catch (error) {
-    console.error("이벤트 조회 중 오류 발생:", error);
-    return [];
-  }
-}
-
 export default async function Home() {
   const products = await getRecentProducts();
   const events = await getEvents();
-  
+
   return (
     <div className="p-7">
       <div className="p-8 flex justify-center items-center">
         <p className="text-6xl">당근이려나</p>
       </div>
-      <div className="flex justify-center items-center gap-3">
-        <input
-          className="bg-transparent rounded-md w-full
-            h-10 foucus:outline-none ring-2 focus:ring-4
-            transition
-            ring-neutral-200 focus:ring-orange-500 border-none
-            "
-          placeholder="검색어를 입력하세요"
-        />
-        <button
-          className="primary-btn h-10 w-12
-    disabled:bg-neutral-400 disabled:text-neutral-300
-    disabled:cursor-not-allowed"
-        >
-          검색
-        </button>
-      </div>
+      <SearchBar />
       <div>
         <div className="p-5 flex text-lg justify-center items-center">
           <p>이벤트 슬라이드</p>
         </div>
         <Silder events={events} />
       </div>
-      <div>
-        <h2 className="flex p-5 justify-center items-center text-lg font-medium">
+      <div className="gap-2">
+        <h2 className="flex p-5 justify-center  items-center text-lg font-medium">
           최근 등록 상품
         </h2>
-        <div className="grid grid-cols-3 gap-4 ">
+        <div className="grid grid-cols-3 gap-4">
           {products.map((product) => {
-            // 안전한 이미지 src 생성 함수
             const DEFAULT_IMAGE = "/기본사용자.jpg";
             function getSafeImageSrc(src?: string) {
               if (!src || typeof src !== "string" || src.trim() === "")
@@ -90,7 +40,6 @@ export default async function Home() {
                   url.hostname.includes("imagedelivery.net") ||
                   url.hostname.includes("cloudflare")
                 ) {
-                  // Cloudflare Images URL에 width/height 파라미터 추가
                   return `${src}/width=400,height=400`;
                 }
                 if (url.protocol === "http:" || url.protocol === "https:")
@@ -109,7 +58,7 @@ export default async function Home() {
                 className="block hover:scale-110 transition-transform duration-100"
                 scroll={false}
               >
-                <div className="bg-neutral-800 rounded-lg overflow-hidden aspect-square">
+                <div className="bg-white rounded-lg overflow-hidden aspect-square">
                   {imgSrc.startsWith("data:image") ||
                   imgSrc.startsWith("/") ||
                   imgSrc.startsWith("http") ? (
@@ -120,7 +69,7 @@ export default async function Home() {
                     />
                   ) : (
                     <div className="w-full h-full flex items-center justify-center text-neutral-400">
-                      No Image
+                      이미지가 없습니다
                     </div>
                   )}
                 </div>
