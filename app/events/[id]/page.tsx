@@ -57,7 +57,7 @@ export default async function EventPage({ params }: EventPageProps) {
       </div>
 
       <div className="bg-neutral-800 rounded-lg overflow-hidden">
-        <div className="relative h-96 w-full">
+        <div className="relative h-96  w-full">
           {imgSrc.startsWith("data:image") ||
           imgSrc.startsWith("/") ||
           imgSrc.startsWith("http") ? (
@@ -65,7 +65,7 @@ export default async function EventPage({ params }: EventPageProps) {
               src={imgSrc}
               alt={event.title}
               fill
-              className="object-cover"
+              className="object-cover bg-white"
               unoptimized={imgSrc.includes("imagedelivery.net")}
             />
           ) : (

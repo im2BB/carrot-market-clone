@@ -18,13 +18,10 @@ export default async function Home() {
       </div>
       <SearchBar />
       <div>
-        <div className="p-5 flex text-lg justify-center items-center">
-          <p>이벤트 슬라이드</p>
-        </div>
         <Silder events={events} />
       </div>
       <div className="gap-2">
-        <h2 className="flex p-5 justify-center  items-center text-lg font-medium">
+        <h2 className="flex p-5 justify-center text-orange-400  items-center text-lg font-medium">
           최근 등록 상품
         </h2>
         <div className="grid grid-cols-3 gap-4">
