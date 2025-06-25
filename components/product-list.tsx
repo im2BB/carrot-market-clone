@@ -2,11 +2,13 @@
 
 import ListProduct from "./list-products";
 import { useEffect, useRef, useState } from "react";
-import { getMoreProducts } from "@/app/(tabs)/products/action";
-import { InitialProducts } from "@/app/(tabs)/products/page";
+import {
+  getMoreProducts,
+  getInitialProducts,
+} from "@/app/(tabs)/products/action";
 
 interface ProductListProps {
-  initialProducts: InitialProducts;
+  initialProducts: Awaited<ReturnType<typeof getInitialProducts>>;
 }
 
 export default function ProductList({ initialProducts }: ProductListProps) {

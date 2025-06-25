@@ -1,4 +1,4 @@
-import db from "@/lib/db";
+import { getEventById } from "@/app/events/action";
 import { notFound } from "next/navigation";
 import Image from "next/image";
 import BackButton from "@/components/back-button";
@@ -10,18 +10,7 @@ interface EventPageProps {
 }
 
 export default async function EventPage({ params }: EventPageProps) {
-  const event = await db.event.findUnique({
-    where: {
-      id: parseInt(params.id),
-    },
-    include: {
-      user: {
-        select: {
-          username: true,
-        },
-      },
-    },
-  });
+  const event = await getEventById(+params.id);
 
   if (!event) {
     notFound();
@@ -29,13 +18,17 @@ export default async function EventPage({ params }: EventPageProps) {
 
   const DEFAULT_IMAGE = "/기본사용자.jpg";
   function getSafeImageSrc(src?: string) {
-    if (!src || typeof src !== "string" || src.trim() === "") return DEFAULT_IMAGE;
+    if (!src || typeof src !== "string" || src.trim() === "")
+      return DEFAULT_IMAGE;
     if (src.startsWith("data:image")) return src;
     if (src.startsWith("/")) return src;
-    
+
     try {
       const url = new URL(src);
-      if (url.hostname.includes("imagedelivery.net") || url.hostname.includes("cloudflare")) {
+      if (
+        url.hostname.includes("imagedelivery.net") ||
+        url.hostname.includes("cloudflare")
+      ) {
         if (src.includes("/public")) {
           return src;
         }
@@ -62,10 +55,12 @@ export default async function EventPage({ params }: EventPageProps) {
         <BackButton />
         <h1 className="text-2xl font-bold">이벤트 상세</h1>
       </div>
-      
+
       <div className="bg-neutral-800 rounded-lg overflow-hidden">
         <div className="relative h-96 w-full">
-          {imgSrc.startsWith("data:image") || imgSrc.startsWith("/") || imgSrc.startsWith("http") ? (
+          {imgSrc.startsWith("data:image") ||
+          imgSrc.startsWith("/") ||
+          imgSrc.startsWith("http") ? (
             <Image
               src={imgSrc}
               alt={event.title}
@@ -79,46 +74,68 @@ export default async function EventPage({ params }: EventPageProps) {
             </div>
           )}
         </div>
-        
+
         <div className="p-6">
           <div className="flex items-center justify-between mb-4">
             <h1 className="text-2xl font-bold text-white">{event.title}</h1>
-            <div className={`px-3 py-1 rounded-full text-sm font-medium ${
-              isActive ? 'bg-green-500 text-white' : 
-              isUpcoming ? 'bg-blue-500 text-white' : 
-              'bg-red-500 text-white'
-            }`}>
-              {isActive ? '진행중' : isUpcoming ? '예정' : '종료'}
+            <div
+              className={`px-3 py-1 rounded-full text-sm font-medium ${
+                isActive
+                  ? "bg-orange-400 text-white"
+                  : isUpcoming
+                  ? "bg-yellow-500 text-white"
+                  : "bg-gray-600 text-white"
+              }`}
+            >
+              {isActive ? "진행중" : isUpcoming ? "예정" : "종료"}
             </div>
           </div>
-          
+
           <div className="space-y-4">
             <div>
-              <h3 className="text-lg font-semibold text-orange-500 mb-2">이벤트 설명</h3>
-              <p className="text-neutral-300 whitespace-pre-wrap">{event.description}</p>
+              <h3 className="text-lg font-semibold text-orange-500 mb-2">
+                이벤트 설명
+              </h3>
+              <p className="text-neutral-300 whitespace-pre-wrap">
+                {event.description}
+              </p>
             </div>
-            
+
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
               <div>
-                <h3 className="text-lg font-semibold text-orange-500 mb-2">시작일</h3>
+                <h3 className="text-lg font-semibold text-orange-500 mb-2">
+                  시작일
+                </h3>
                 <p className="text-neutral-300">
-                  {startDate.toLocaleDateString('ko-KR')} {startDate.toLocaleTimeString('ko-KR', { hour: '2-digit', minute: '2-digit' })}
+                  {startDate.toLocaleDateString("ko-KR")}{" "}
+                  {startDate.toLocaleTimeString("ko-KR", {
+                    hour: "2-digit",
+                    minute: "2-digit",
+                  })}
                 </p>
               </div>
               <div>
-                <h3 className="text-lg font-semibold text-orange-500 mb-2">종료일</h3>
+                <h3 className="text-lg font-semibold text-orange-500 mb-2">
+                  종료일
+                </h3>
                 <p className="text-neutral-300">
-                  {endDate.toLocaleDateString('ko-KR')} {endDate.toLocaleTimeString('ko-KR', { hour: '2-digit', minute: '2-digit' })}
+                  {endDate.toLocaleDateString("ko-KR")}{" "}
+                  {endDate.toLocaleTimeString("ko-KR", {
+                    hour: "2-digit",
+                    minute: "2-digit",
+                  })}
                 </p>
               </div>
             </div>
-            
+
             {event.link && (
               <div>
-                <h3 className="text-lg font-semibold text-orange-500 mb-2">관련 링크</h3>
-                <a 
-                  href={event.link} 
-                  target="_blank" 
+                <h3 className="text-lg font-semibold text-orange-500 mb-2">
+                  관련 링크
+                </h3>
+                <a
+                  href={event.link}
+                  target="_blank"
                   rel="noopener noreferrer"
                   className="text-blue-400 hover:text-blue-300 underline break-all"
                 >
@@ -126,16 +143,20 @@ export default async function EventPage({ params }: EventPageProps) {
                 </a>
               </div>
             )}
-            
+
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
               <div>
-                <h3 className="text-lg font-semibold text-orange-500 mb-2">등록자</h3>
+                <h3 className="text-lg font-semibold text-orange-500 mb-2">
+                  등록자
+                </h3>
                 <p className="text-neutral-300">{event.user.username}</p>
               </div>
               <div>
-                <h3 className="text-lg font-semibold text-orange-500 mb-2">등록일</h3>
+                <h3 className="text-lg font-semibold text-orange-500 mb-2">
+                  등록일
+                </h3>
                 <p className="text-neutral-300">
-                  {new Date(event.created_at).toLocaleDateString('ko-KR')}
+                  {new Date(event.created_at).toLocaleDateString("ko-KR")}
                 </p>
               </div>
             </div>
@@ -144,4 +165,4 @@ export default async function EventPage({ params }: EventPageProps) {
       </div>
     </div>
   );
-} 
+}
