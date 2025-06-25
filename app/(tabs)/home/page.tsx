@@ -27,8 +27,23 @@ export async function getRecentProducts() {
   }
 }
 
+export async function getEvents() {
+  try {
+    return await db.event.findMany({
+      orderBy: {
+        created_at: "desc",
+      },
+    });
+  } catch (error) {
+    console.error("이벤트 조회 중 오류 발생:", error);
+    return [];
+  }
+}
+
 export default async function Home() {
   const products = await getRecentProducts();
+  const events = await getEvents();
+  
   return (
     <div className="p-7">
       <div className="p-8 flex justify-center items-center">
@@ -55,7 +70,7 @@ export default async function Home() {
         <div className="p-5 flex text-lg justify-center items-center">
           <p>이벤트 슬라이드</p>
         </div>
-        <Silder />
+        <Silder events={events} />
       </div>
       <div>
         <h2 className="flex p-5 justify-center items-center text-lg font-medium">

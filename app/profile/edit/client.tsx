@@ -7,6 +7,7 @@ import { UserIcon } from "@heroicons/react/24/solid";
 import { useFormState } from "react-dom";
 import { updateProfile } from "./action";
 import { useEffect, useState } from "react";
+import Image from "next/image";
 
 interface EditProfileProps {
   user: {
@@ -27,6 +28,29 @@ export default function EditProfileClient({ user }: EditProfileProps) {
   );
   const [formError, setFormError] = useState<string | null>(null);
 
+  const DEFAULT_AVATAR = "/기본사용자.jpg";
+  function getSafeAvatarSrc(src?: string | null) {
+    if (!src || typeof src !== "string" || src.trim() === "") return DEFAULT_AVATAR;
+    if (src.startsWith("data:image")) return src;
+    if (src.startsWith("/")) return src;
+    
+    try {
+      const url = new URL(src);
+      if (url.hostname.includes("imagedelivery.net") || url.hostname.includes("cloudflare")) {
+        if (src.includes("/public")) {
+          return src;
+        }
+        return `${src}/width=200,height=200`;
+      }
+      if (url.protocol === "http:" || url.protocol === "https:") return src;
+    } catch {
+      return DEFAULT_AVATAR;
+    }
+    return DEFAULT_AVATAR;
+  }
+
+  const currentAvatarSrc = getSafeAvatarSrc(user.avatar);
+
   const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
     if (file) {
@@ -37,6 +61,7 @@ export default function EditProfileClient({ user }: EditProfileProps) {
       reader.readAsDataURL(file);
     }
   };
+
   const handleSubmit = async (formData: FormData) => {
     try {
       const result = (await updateProfile(formData)) as ProfileActionResult;
@@ -61,11 +86,22 @@ export default function EditProfileClient({ user }: EditProfileProps) {
           <label htmlFor="avatar" className="cursor-pointer">
             <div className="w-24 h-24 rounded-full bg-neutral-800 flex items-center justify-center relative overflow-hidden">
               {avatarPreview ? (
-                // eslint-disable-next-line @next/next/no-img-element
-                <img
+                <Image
                   src={avatarPreview}
                   alt="avatar"
+                  width={96}
+                  height={96}
                   className="w-full h-full object-cover"
+                  unoptimized={avatarPreview.startsWith("data:image")}
+                />
+              ) : currentAvatarSrc !== DEFAULT_AVATAR ? (
+                <Image
+                  src={currentAvatarSrc}
+                  alt="avatar"
+                  width={96}
+                  height={96}
+                  className="w-full h-full object-cover"
+                  unoptimized={currentAvatarSrc.includes("imagedelivery.net")}
                 />
               ) : (
                 <UserIcon className="w-12 h-12 text-white" />

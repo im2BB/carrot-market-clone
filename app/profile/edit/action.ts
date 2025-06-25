@@ -5,6 +5,26 @@ import getSession from "@/lib/seeeion";
 import { redirect } from "next/navigation";
 import bcrypt from "bcrypt";
 
+async function getUploadUrl() {
+  try {
+    const response = await fetch(
+      `https://api.cloudflare.com/client/v4/accounts/${process.env.CLOUDFLARE_ACCOUNT_ID}/images/v2/direct_upload`,
+      {
+        method: "POST",
+        headers: {
+          Authorization: `Bearer ${process.env.CLOUDFLARE_API_KEY}`,
+        },
+      }
+    );
+    const data = await response.json();
+    console.log("Cloudflare upload URL response:", data);
+    return data;
+  } catch (error) {
+    console.error("Cloudflare URL 가져오기 실패:", error);
+    return { success: false, error: "이미지 업로드 URL을 가져오는데 실패했습니다." };
+  }
+}
+
 export async function updateProfile(formData: FormData) {
   try {
     const session = await getSession();
@@ -35,15 +55,38 @@ export async function updateProfile(formData: FormData) {
     }
 
     if (avatarFile && avatarFile instanceof File && avatarFile.size > 0) {
-      const bytes = await avatarFile.arrayBuffer();
-      const buffer = Buffer.from(bytes);
-      const base64Image = `data:${avatarFile.type};base64,${buffer.toString(
-        "base64"
-      )}`;
-      updateData.avater = base64Image; // Prisma 스키마의 필드명은 'avater'입니다
+      try {
+        // Cloudflare Images API를 사용하여 이미지 업로드
+        const uploadResponse = await getUploadUrl();
+        
+        if (uploadResponse.success) {
+          const { id, uploadURL } = uploadResponse.result;
+          
+          const cloudflareForm = new FormData();
+          cloudflareForm.append("file", avatarFile);
+          
+          const uploadResult = await fetch(uploadURL, {
+            method: "POST",
+            body: cloudflareForm,
+          });
+
+          if (!uploadResult.ok) {
+            throw new Error("이미지 업로드에 실패했습니다.");
+          }
+
+          // Cloudflare Images URL 형식
+          const avatarUrl = `https://imagedelivery.net/yaj69MDVrIu8_HJDUNcGIg/${id}/public`;
+          updateData.avater = avatarUrl;
+        } else {
+          throw new Error("이미지 업로드 URL을 가져오는데 실패했습니다.");
+        }
+      } catch (error) {
+        console.error("아바타 업로드 오류:", error);
+        throw new Error("아바타 업로드에 실패했습니다.");
+      }
     }
 
-    console.log("Updating user with data:", updateData); // 디버깅용 로그
+    console.log("Updating user with data:", updateData);
 
     const updatedUser = await db.user.update({
       where: {
