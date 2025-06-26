@@ -1,7 +1,5 @@
-import db from "@/lib/db";
+import { getStreamById } from "@/lib/actions/database";
 
-export async function getStreamById(id: number) {
-  return db.liveStream.findUnique({
-    where: { id },
-  });
+export async function getStreamByIdAction(id: number) {
+  return await getStreamById(id);
 }

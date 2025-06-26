@@ -1,7 +1,7 @@
 "use client";
 
 import { TrashIcon } from "@heroicons/react/24/outline";
-import { deleteChatRoom } from "@/app/(tabs)/chat/actions";
+import { deleteChatRoomAction } from "@/app/(tabs)/chat/actions";
 import { useState } from "react";
 
 interface DeleteChatButtonProps {
@@ -22,7 +22,7 @@ export default function DeleteChatButton({
     ) {
       setIsDeleting(true);
       try {
-        const result = await deleteChatRoom(chatRoomId);
+        const result = await deleteChatRoomAction(chatRoomId);
         if (!result.success) {
           alert("채팅방 삭제에 실패했습니다.");
         }

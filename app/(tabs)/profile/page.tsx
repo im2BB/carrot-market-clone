@@ -2,6 +2,7 @@ import { getProfile } from "@/app/(tabs)/profile/action";
 import { UserIcon } from "@heroicons/react/24/outline";
 import { redirect } from "next/navigation";
 import Image from "next/image";
+import Link from "next/link";
 
 export const metadata = {
   title: "내 정보",
@@ -81,33 +82,41 @@ export default async function Profile() {
           >
             프로필 수정
           </a>
-          <a
-            href="/add-event"
-            className="primary-btn h-8 w-24 flex items-center justify-center mt-2"
-          >
-            이벤트 등록
-          </a>
-          <a
-            href="/events/manage"
-            className="primary-btn h-8 w-24 flex items-center justify-center mt-2"
-          >
-            이벤트 관리
-          </a>
         </div>
       </div>
       <div className="flex gap-4 text-center border-y border-neutral-800 py-4">
-        <div className="flex-1">
+        <Link
+          href="/profile/my-products"
+          className="flex-1 hover:bg-neutral-800 rounded-lg p-2 transition-colors"
+        >
           <span className="text-white font-medium block">
             {user._count.products}
           </span>
           <span className="text-sm text-gray-400">판매상품</span>
-        </div>
-        <div className="flex-1">
+        </Link>
+        <Link
+          href="/profile/my-posts"
+          className="flex-1 hover:bg-neutral-800 rounded-lg p-2 transition-colors"
+        >
           <span className="text-white font-medium block">
             {user._count.posts}
           </span>
           <span className="text-sm text-gray-400">게시글</span>
-        </div>
+        </Link>
+      </div>
+      <div className="flex p-5 gap-5 items-center justify-center border-y border-neutral-800">
+        <a
+          href="/add-event"
+          className="primary-btn h-8 w-24 flex items-center justify-center mt-2"
+        >
+          이벤트 등록
+        </a>
+        <a
+          href="/events/manage"
+          className="primary-btn h-8 w-24 flex items-center justify-center mt-2"
+        >
+          이벤트 관리
+        </a>
       </div>
       <form
         className="gap-2 p-8 flex justify-center items-center"
@@ -116,8 +125,8 @@ export default async function Profile() {
         <button
           className="
           primary-btn h-8 w-1/2 
-    disabled:bg-neutral-400 disabled:text-neutral-300
-    disabled:cursor-not-allowed"
+          disabled:bg-neutral-400 disabled:text-neutral-300
+          disabled:cursor-not-allowed"
         >
           로그 아웃
         </button>

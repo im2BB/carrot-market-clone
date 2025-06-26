@@ -1,20 +1,20 @@
 import Silder from "@/components/silder";
 import Link from "next/link";
 import SearchBar from "@/components/SearchBar";
-import { getRecentProducts, getEvents } from "./action";
+import { getRecentProductsAction, getEventsAction } from "./action";
 
 export const metadata = {
   title: "홈",
 };
 
 export default async function Home() {
-  const products = await getRecentProducts();
-  const events = await getEvents();
+  const products = await getRecentProductsAction();
+  const events = await getEventsAction();
 
   return (
     <div className="p-7">
-      <div className="p-8 flex justify-center items-center">
-        <p className="text-6xl">당근이려나</p>
+      <div className="p-10 gap-10 flex justify-center items-center">
+        <p className="text-6xl text-orange-600">🥕당근이려나</p>
       </div>
       <SearchBar />
       <div>

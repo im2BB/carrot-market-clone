@@ -1,10 +1,6 @@
 "use server";
-import db from "@/lib/db";
-import { redirect } from "next/navigation";
+import { deleteProduct } from "@/lib/actions/delete";
 
-export async function deleteProduct(productId: number) {
-  await db.product.delete({
-    where: { id: productId },
-  });
-  redirect("/products");
+export async function deleteProductAction(productId: number) {
+  return await deleteProduct(productId);
 }

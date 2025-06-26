@@ -1,4 +1,4 @@
-import { getEvents } from "@/app/events/action";
+import { getEventsAction } from "@/app/events/action";
 import Link from "next/link";
 import { format } from "date-fns";
 import { ko } from "date-fns/locale";
@@ -9,7 +9,7 @@ export const metadata = {
 };
 
 export default async function EventManagePage() {
-  const events = await getEvents();
+  const events = await getEventsAction();
 
   const getEventStatus = (startDate: Date, endDate: Date) => {
     const now = new Date();

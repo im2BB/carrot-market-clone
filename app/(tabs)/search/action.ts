@@ -1,15 +1,5 @@
-import db from "@/lib/db";
+import { searchProducts } from "@/lib/actions/database";
 
 export async function getSearchedProducts(query: string) {
-  if (!query) return [];
-  return db.product.findMany({
-    where: {
-      OR: [
-        { title: { contains: query } },
-        { description: { contains: query } },
-      ],
-    },
-    orderBy: { created_at: "desc" },
-    take: 30,
-  });
-} 
+  return await searchProducts(query, 30);
+}

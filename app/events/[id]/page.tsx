@@ -1,4 +1,4 @@
-import { getEventById } from "@/app/events/action";
+import { getEventByIdAction } from "@/app/events/action";
 import { notFound } from "next/navigation";
 import Image from "next/image";
 import BackButton from "@/components/back-button";
@@ -10,7 +10,7 @@ interface EventPageProps {
 }
 
 export default async function EventPage({ params }: EventPageProps) {
-  const event = await getEventById(+params.id);
+  const event = await getEventByIdAction(+params.id);
 
   if (!event) {
     notFound();
@@ -50,13 +50,13 @@ export default async function EventPage({ params }: EventPageProps) {
   const isEnded = now > endDate;
 
   return (
-    <div className="p-7 max-w-4xl mx-auto">
+    <div className="p-7 flex flex-col gap-4">
       <div className="flex items-center gap-3 mb-5">
         <BackButton />
         <h1 className="text-2xl font-bold">이벤트 상세</h1>
       </div>
 
-      <div className="bg-neutral-800 rounded-lg overflow-hidden">
+      <div className="bg-neutral-800 rounded-lg  overflow-hidden">
         <div className="relative h-96  w-full">
           {imgSrc.startsWith("data:image") ||
           imgSrc.startsWith("/") ||
@@ -101,8 +101,8 @@ export default async function EventPage({ params }: EventPageProps) {
               </p>
             </div>
 
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-              <div>
+            <div className="flex gap-5  ">
+              <div className="flex gap-5 ">
                 <h3 className="text-lg font-semibold text-orange-500 mb-2">
                   시작일
                 </h3>
@@ -114,7 +114,8 @@ export default async function EventPage({ params }: EventPageProps) {
                   })}
                 </p>
               </div>
-              <div>
+              <p>~</p>
+              <div className="flex gap-4">
                 <h3 className="text-lg font-semibold text-orange-500 mb-2">
                   종료일
                 </h3>
@@ -127,38 +128,33 @@ export default async function EventPage({ params }: EventPageProps) {
                 </p>
               </div>
             </div>
-
-            {event.link && (
-              <div>
-                <h3 className="text-lg font-semibold text-orange-500 mb-2">
-                  관련 링크
-                </h3>
-                <a
-                  href={event.link}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="text-blue-400 hover:text-blue-300 underline break-all"
-                >
-                  {event.link}
-                </a>
-              </div>
-            )}
-
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-              <div>
-                <h3 className="text-lg font-semibold text-orange-500 mb-2">
-                  등록자
-                </h3>
+            <hr className="border-neutral-700" />
+            <div className="flex gap-4  *:text-xs ">
+              <div className="flex gap-5">
+                <h3 className=" text-neutral-500">등록자</h3>
                 <p className="text-neutral-300">{event.user.username}</p>
               </div>
-              <div>
-                <h3 className="text-lg font-semibold text-orange-500 mb-2">
-                  등록일
-                </h3>
+              <div className="flex gap-5">
+                <h3 className="text-neutral-500">등록일</h3>
                 <p className="text-neutral-300">
                   {new Date(event.created_at).toLocaleDateString("ko-KR")}
                 </p>
               </div>
+              {event.link && (
+                <div>
+                  <h3 className="text-lg font-semibold text-orange-500 mb-2">
+                    관련 링크
+                  </h3>
+                  <a
+                    href={event.link}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="text-xs text-neutral-500 hover:text-neutral-600 underline break-all"
+                  >
+                    {event.link}
+                  </a>
+                </div>
+              )}
             </div>
           </div>
         </div>

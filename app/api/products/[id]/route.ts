@@ -1,24 +1,12 @@
-import db from "@/lib/db";
+import { getProductById } from "@/lib/actions/database";
 import { NextRequest, NextResponse } from "next/server";
-
 
 export async function GET(
   req: NextRequest,
   { params }: { params: { id: string } }
 ) {
   try {
-    const product = await db.product.findUnique({
-      where: {
-        id: +params.id,
-      },
-      select: {
-        id: true,
-        title: true,
-        price: true,
-        created_at: true,
-        photo: true,
-      },
-    });
+    const product = await getProductById(+params.id);
 
     if (!product) {
       return new NextResponse("Product not found", { status: 404 });

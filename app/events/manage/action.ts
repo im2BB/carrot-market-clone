@@ -1,7 +1,5 @@
-import db from "@/lib/db";
+import { getEventById } from "@/lib/actions/database";
 
-export async function getEventById(id: number) {
-  return db.event.findUnique({
-    where: { id },
-  });
+export async function getEventByIdAction(id: number) {
+  return await getEventById(id);
 }

@@ -3,30 +3,36 @@
 import { z } from "zod";
 import db from "@/lib/db";
 import getSession from "@/lib/seeeion";
+import { getCloudflareUploadUrl } from "@/lib/actions/image-upload";
 
-const eventSchema = z.object({
-  image: z.string({
-    required_error: "이미지를 업로드해주세요.",
-  }),
-  title: z.string({
-    required_error: "제목을 입력해주세요.",
-  }),
-  description: z.string().optional(),
-  link: z.string().url().optional().or(z.literal("")),
-  start_date: z.string({
-    required_error: "시작일을 입력해주세요.",
-  }),
-  end_date: z.string({
-    required_error: "종료일을 입력해주세요.",
-  }),
-}).refine((data) => {
-  const startDate = new Date(data.start_date);
-  const endDate = new Date(data.end_date);
-  return endDate > startDate;
-}, {
-  message: "종료일은 시작일보다 늦어야 합니다.",
-  path: ["end_date"],
-});
+const eventSchema = z
+  .object({
+    image: z.string({
+      required_error: "이미지를 업로드해주세요.",
+    }),
+    title: z.string({
+      required_error: "제목을 입력해주세요.",
+    }),
+    description: z.string().optional(),
+    link: z.string().url().optional().or(z.literal("")),
+    start_date: z.string({
+      required_error: "시작일을 입력해주세요.",
+    }),
+    end_date: z.string({
+      required_error: "종료일을 입력해주세요.",
+    }),
+  })
+  .refine(
+    (data) => {
+      const startDate = new Date(data.start_date);
+      const endDate = new Date(data.end_date);
+      return endDate > startDate;
+    },
+    {
+      message: "종료일은 시작일보다 늦어야 합니다.",
+      path: ["end_date"],
+    }
+  );
 
 export async function createEvent(_: any, formData: FormData) {
   try {
@@ -79,25 +85,5 @@ export async function createEvent(_: any, formData: FormData) {
 }
 
 export async function getUploadUrl() {
-  try {
-    const response = await fetch(
-      `https://api.cloudflare.com/client/v4/accounts/${process.env.CLOUDFLARE_ACCOUNT_ID}/images/v2/direct_upload`,
-      {
-        method: "POST",
-        headers: {
-          Authorization: `Bearer ${process.env.CLOUDFLARE_API_KEY}`,
-        },
-      }
-    );
-    const data = await response.json();
-    console.log("Cloudflare upload URL response:", data);
-    return data;
-  } catch (error) {
-    console.error("Cloudflare URL 가져오기 실패:", error);
-    if (error instanceof Error) {
-      console.error("Error details:", error.message);
-      console.error("Stack trace:", error.stack);
-    }
-    return { success: false, error: "이미지 업로드 URL을 가져오는데 실패했습니다." };
-  }
-} 
+  return await getCloudflareUploadUrl();
+}

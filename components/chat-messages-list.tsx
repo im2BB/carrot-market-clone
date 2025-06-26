@@ -6,7 +6,7 @@ import { useEffect, useRef, useState } from "react";
 import Image from "next/image";
 import { ArrowUpCircleIcon } from "@heroicons/react/24/solid";
 import { RealtimeChannel, createClient } from "@supabase/supabase-js";
-import { saveMessage } from "@/app/chats/actions";
+import { saveMessageAction } from "@/app/chats/actions";
 import BackButton from "./back-button";
 import { ArrowLeftIcon } from "@heroicons/react/16/solid";
 
@@ -66,7 +66,7 @@ export default function ChatMessagesList({
         },
       },
     });
-    await saveMessage(message, chatRoomId);
+    await saveMessageAction(message, chatRoomId);
     setMessage("");
   };
   useEffect(() => {

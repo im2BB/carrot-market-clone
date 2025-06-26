@@ -1,36 +1,11 @@
 "use server";
 
-import db from "@/lib/db";
+import { getProductsWithPagination } from "@/lib/actions/database";
 
 export async function getInitialProducts() {
-  return db.product.findMany({
-    select: {
-      title: true,
-      price: true,
-      created_at: true,
-      photo: true,
-      id: true,
-    },
-    orderBy: {
-      created_at: "desc",
-    },
-  });
+  return await getProductsWithPagination(0, 1);
 }
 
 export async function getMoreProducts(page: number) {
-  const products = await db.product.findMany({
-    select: {
-      title: true,
-      price: true,
-      created_at: true,
-      photo: true,
-      id: true,
-    },
-    skip: page * 1,
-    take: 1,
-    orderBy: {
-      created_at: "desc",
-    },
-  });
-  return products;
+  return await getProductsWithPagination(page, 1);
 }

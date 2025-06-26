@@ -1,4 +1,4 @@
-import { getEventById } from "@/app/events/action";
+import { getEventByIdAction } from "@/app/events/action";
 import { notFound } from "next/navigation";
 import EditEventForm from "./EditEventForm";
 
@@ -7,7 +7,7 @@ export const metadata = {
 };
 
 export default async function EditEventPage({ params: { id } }) {
-  const event = await getEventById(+id);
+  const event = await getEventByIdAction(+id);
   if (!event) {
     notFound();
   }

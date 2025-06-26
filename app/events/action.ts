@@ -1,20 +1,9 @@
-import db from "@/lib/db";
+import { getEvents, getEventById } from "@/lib/actions/database";
 
-export async function getEvents() {
-  return db.event.findMany({
-    orderBy: { created_at: "desc" },
-  });
+export async function getEventsAction() {
+  return await getEvents();
 }
 
-export async function getEventById(id: number) {
-  return db.event.findUnique({
-    where: { id },
-    include: {
-      user: {
-        select: {
-          username: true,
-        },
-      },
-    },
-  });
+export async function getEventByIdAction(id: number) {
+  return await getEventById(id);
 }

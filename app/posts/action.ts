@@ -1,16 +1,5 @@
-import db from "@/lib/db";
+import { getPostById } from "@/lib/actions/database";
 
-export async function getPostById(id: number) {
-  return db.post.findUnique({
-    where: { id },
-    include: {
-      user: true,
-      _count: {
-        select: {
-          comments: true,
-          likes: true,
-        },
-      },
-    },
-  });
+export async function getPostByIdAction(id: number) {
+  return await getPostById(id);
 }

@@ -4,7 +4,7 @@ import { formatToWon } from "@/lib/utils";
 import { UserIcon } from "@heroicons/react/16/solid";
 import Image from "next/image";
 import { notFound, redirect } from "next/navigation";
-import { deleteProduct } from "./actions";
+import { deleteProductAction } from "./actions";
 import BackButton from "@/components/back-button";
 
 async function getIsOwner(userId: Number) {
@@ -118,7 +118,7 @@ export default async function ProductDetail({
           <form
             action={async () => {
               "use server";
-              await deleteProduct(product.id);
+              await deleteProductAction(product.id);
             }}
           >
             <button
