@@ -1,17 +1,13 @@
 import db from "@/lib/db";
 
-interface ProductModalPageProps {
-  params: {
-    id: string;
-  };
-}
-
 export default async function ProductModalPage({
-  params: { id },
-}: ProductModalPageProps) {
+  params,
+}: {
+  params: { id: string };
+}) {
   const product = await db.product.findUnique({
     where: {
-      id: +id,
+      id: +params.id,
     },
     select: {
       id: true,
@@ -27,7 +23,7 @@ export default async function ProductModalPage({
   return (
     <div className="fixed inset-0 bg-black/60 z-10">
       <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 bg-neutral-800 p-6 rounded-lg max-w-lg w-full">
-        <a href={`/products/${id}`} className="block">
+        <a href={`/products/${params.id}`} className="block">
           <div className="relative aspect-square w-full rounded-md overflow-hidden mb-4">
             <img
               src={`${product.photo}/width=400,height=400`}
