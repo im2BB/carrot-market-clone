@@ -9,18 +9,6 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-generator client {
-  provider = "prisma-client-js"
-  output   = "/app/generated/prisma-client"
-}
-
-model User {
-  id        Int      @id @default(autoincrement())
-  createdAt DateTime @default(now())
-  email     String   @unique
-  name      String?
-}
-
 model User {
   id         Int          @id @default(autoincrement()) //자동으로 생성되는 id 순차적으로 생성 1 2 순으로
   username   String       @unique
