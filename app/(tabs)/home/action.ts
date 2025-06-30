@@ -1,21 +1,11 @@
-"use server";
+import { getRecentProducts, getEvents } from "@/lib/actions/database";
 
-import db from "@/lib/db";
+// 최근 등록 상품 불러오기
+export async function getRecentProductsAction() {
+  return await getRecentProducts(9);
+}
 
-export async function getMoreProducts(page: number) {
-  const products = await db.product.findMany({
-    select: {
-      title: true,
-      price: true,
-      created_at: true,
-      photo: true,
-      id: true,
-    },
-    skip: page * 1,
-    take: 1,
-    orderBy: {
-      created_at: "desc",
-    },
-  });
-  return products;
+// 이벤트 목록 불러오기
+export async function getEventsAction() {
+  return await getEvents();
 }

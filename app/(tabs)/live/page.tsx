@@ -4,7 +4,7 @@ import Link from "next/link";
 export default function Live() {
   return (
     <div>
-      <h1 className="text-white text-4xl">Live!</h1>
+      <h1 className="text-white text-4xl">LIVE</h1>
       <Link
         href="/streams/add"
         className="bg-orange-500 flex items-center

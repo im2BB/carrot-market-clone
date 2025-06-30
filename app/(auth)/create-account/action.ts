@@ -23,8 +23,12 @@ const formSchema = z
         invalid_type_error: "문자로만 가능해요!",
         required_error: "닉네임을 입력해주세요",
       })
-      .toLowerCase()
-      .trim()
+
+      .toLowerCase() //소문자로 변환
+      .trim() //공백제거
+      // .transform((username) => {
+      //   return '* {username} *'
+      // })   이런식으로 변경해서 값을 보낼수 있음
       .refine(checkUesrname, "potato는 안되요~"),
 
     email: z
@@ -36,16 +40,9 @@ const formSchema = z
       .email(),
 
     password: z.string().min(4, "비밀번호가 너무 짧아요"),
-    confirm_password: z.string().min(4, "비밀번호가 너무 짧아요"),
-  })
-  .superRefine(({ password, confirm_password }, ctx) => {
-    if (password !== confirm_password) {
-      ctx.addIssue({
-        code: "custom",
-        message: "비밀번호가 일치하지 않습니다",
-        path: ["confirm_password"],
-      });
-    }
+
+    //   .regex(PASSWORD_REGEX, PASSWORD_REGEX_ERROR),
+    // comfirm_Password: z.string().min(10, "비밀번호가 너무 짧아요"),
   })
   .superRefine(async ({ username }, ctx) => {
     const user = await db.user.findUnique({
@@ -78,6 +75,10 @@ const formSchema = z
       });
       return z.NEVER;
     }
+  })
+  .refine(checkPasswords, {
+    message: "비밀번호가 다릅니다!",
+    path: ["confirm_password"],
   });
 
 export async function createAccount(prevState: any, formData: FormData) {

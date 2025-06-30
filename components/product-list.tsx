@@ -1,12 +1,14 @@
 "use client";
 
-import Products, { InitialProducts } from "@/app/(tabs)/home/page";
 import ListProduct from "./list-products";
 import { useEffect, useRef, useState } from "react";
-import { getMoreProducts } from "@/app/(tabs)/home/action";
+import {
+  getMoreProducts,
+  getInitialProducts,
+} from "@/app/(tabs)/products/action";
 
 interface ProductListProps {
-  initialProducts: InitialProducts;
+  initialProducts: Awaited<ReturnType<typeof getInitialProducts>>;
 }
 
 export default function ProductList({ initialProducts }: ProductListProps) {
@@ -49,9 +51,20 @@ export default function ProductList({ initialProducts }: ProductListProps) {
   }, [page]);
   return (
     <div className="p-5 flex flex-col gap-5">
-      {products.map((product) => (
-        <ListProduct key={product.id} {...product} />
-      ))}
+      {products && products.length > 0 ? (
+        <>
+          {products.map((product) => (
+            <ListProduct key={product.id} {...product} />
+          ))}
+        </>
+      ) : (
+        <div className="flex flex-col items-center justify-center pt-64 gap-4">
+          <p className="text-neutral-400 text-lg">등록된 상품이 없습니다</p>
+          <p className="text-neutral-500 text-sm">
+            첫번째로 상품을 등록해 보시겠어요?
+          </p>
+        </div>
+      )}
       {/* {!isLastPage ? (
         <span
           ref={trigger}

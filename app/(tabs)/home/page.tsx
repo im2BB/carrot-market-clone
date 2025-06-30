@@ -1,63 +1,88 @@
-import ProductList from "@/components/product-list";
-import db from "@/lib/db";
-import { Prisma } from "@/lib/generated/prisma";
-import { PlusIcon } from "@heroicons/react/24/solid";
-import { unstable_cache as nextCache, revalidatePath } from "next/cache";
+import Silder from "@/components/silder";
 import Link from "next/link";
-
-const getCachedProducts = nextCache(getInitialProducts, ["home-products"], {
-  //revalidate: 60, 60초 마다가 아닌 유저가 들어온후 60초 후 새로고침을 하게되면 새로운 캐쉬를 받음
-});
+import SearchBar from "@/components/SearchBar";
+import { getRecentProductsAction, getEventsAction } from "./action";
 
 export const metadata = {
-  title: "Home",
+  title: "홈",
 };
 
-// export const dynamic = "force-dynamic";  정직인 페이지를 동적인 페이지로 변경
-export const revalidate = 60; //정적인 페이지 이지만 60초후 페이지 정보 다시 받아오게 변경
+export default async function Home() {
+  const products = await getRecentProductsAction();
+  const events = await getEventsAction();
 
-async function getInitialProducts() {
-  const products = await db.product.findMany({
-    select: {
-      title: true,
-      price: true,
-      created_at: true,
-      photo: true,
-      id: true,
-    },
-
-    orderBy: {
-      created_at: "desc",
-    },
-  });
-  return products;
-}
-
-export type InitialProducts = Prisma.PromiseReturnType<
-  typeof getInitialProducts
->;
-
-export default async function Products() {
-  const initialProducts = await getInitialProducts();
-  const revalidate = async () => {
-    "use server";
-    revalidatePath("/home");
-  };
   return (
-    <div>
-      <ProductList initialProducts={initialProducts} />
-      {/* <form action={revalidate}>
-        <button>검증</button>
-      </form> */}
-      <Link
-        href="/add-products"
-        className="bg-orange-500 flex items-center
-      justify-center rounded-full size-12 fixed 
-      bottom-24 right-8 text-white transition-colors 
-      hover:bg-orange-400"
-      >
-        <PlusIcon className="size-8" />
-      </Link>
+    <div className="p-7">
+      <div className="p-10 gap-10 flex justify-center items-center">
+        <p className="text-6xl text-orange-600">🥕당근이려나</p>
+      </div>
+      <SearchBar />
+      <div>
+        <Silder events={events} />
+      </div>
+      <div className="gap-2">
+        <h2 className="flex p-5 justify-center text-orange-400  items-center text-lg font-medium">
+          최근 등록 상품
+        </h2>
+        <div className="grid grid-cols-3 gap-4">
+          {products.map((product) => {
+            const DEFAULT_IMAGE = "/기본사용자.jpg";
+            function getSafeImageSrc(src?: string) {
+              if (!src || typeof src !== "string" || src.trim() === "")
+                return DEFAULT_IMAGE;
+              if (src.startsWith("data:image")) return src;
+              try {
+                const url = new URL(src);
+                if (
+                  url.hostname.includes("imagedelivery.net") ||
+                  url.hostname.includes("cloudflare")
+                ) {
+                  return `${src}/width=400,height=400`;
+                }
+                if (url.protocol === "http:" || url.protocol === "https:")
+                  return src;
+              } catch {
+                if (src.startsWith("/")) return src;
+                return DEFAULT_IMAGE;
+              }
+              return DEFAULT_IMAGE;
+            }
+            const imgSrc = getSafeImageSrc(product.photo);
+            return (
+              <Link
+                href={`/products/${product.id}`}
+                key={product.id}
+                className="block hover:scale-110 transition-transform duration-100"
+                scroll={false}
+              >
+                <div className="bg-white rounded-lg overflow-hidden aspect-square">
+                  {imgSrc.startsWith("data:image") ||
+                  imgSrc.startsWith("/") ||
+                  imgSrc.startsWith("http") ? (
+                    <img
+                      src={imgSrc}
+                      alt={product.title}
+                      className="w-full h-full object-cover"
+                    />
+                  ) : (
+                    <div className="w-full h-full flex items-center justify-center text-neutral-400">
+                      이미지가 없습니다
+                    </div>
+                  )}
+                </div>
+                <div className="flex items-center gap-7 mt-3">
+                  <h3 className="text-white truncate text-lg">
+                    {product.title}
+                  </h3>
+                  <p className="text-orange-500 font-medium text-sm">
+                    {product.price.toLocaleString()}원
+                  </p>
+                </div>
+              </Link>
+            );
+          })}
+        </div>
+      </div>
     </div>
   );
 }

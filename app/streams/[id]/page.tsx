@@ -64,7 +64,7 @@ export default async function StreamDetail({
       </div>
       {stream.userId === session.id! ? (
         <div className="bg-yellow-200 p-5 text-black rounded-md">
-          <div className="flex gap-2 flex-wrap">
+          <div className="flex gap-2">
             <span className="font-semibold">방송용 URL : </span>
             <span>rtmps://live.cloudflare.com:443/live/</span>
           </div>

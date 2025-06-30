@@ -1,19 +1,11 @@
 import type { Metadata } from "next";
-import { Jua, Gamja_Flower } from "next/font/google";
+import { Sunflower } from "next/font/google";
 import "./globals.css";
 
-const jua = Jua({
+const sunflower = Sunflower({
   subsets: ["latin"],
-  weight: ["400"],
+  weight: ["500"],
   style: ["normal"],
-  variable: "--jua-text",
-});
-
-const gamja = Gamja_Flower({
-  subsets: ["latin"],
-  weight: ["400"],
-  style: ["normal"],
-  variable: "--gamja-text",
 });
 
 export const metadata: Metadata = {
@@ -29,9 +21,9 @@ Readonly<{
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en">
+    <html lang="kr">
       <body
-        className={`s ${jua.className}  bg-neutral-900 text-white max-w-screen-sm mx-auto`}
+        className={`${sunflower.className} bg-neutral-900 text-white max-w-screen-sm mx-auto`}
       >
         {children}
       </body>

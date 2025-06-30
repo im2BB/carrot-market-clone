@@ -8,10 +8,6 @@ const config: Config = {
   ],
   theme: {
     extend: {
-      fontFamily: {
-        jua: "var(--jua-text)",
-        gamja: "var(--gamja-text)",
-      },
       margin: {
         "top-a-lot": "120px",
       },

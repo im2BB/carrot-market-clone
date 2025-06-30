@@ -31,10 +31,7 @@ export default function ModalBackdrop({
   }, []);
 
   const onBackdropClick = (e: React.MouseEvent<HTMLDivElement>) => {
-    // 어디를 클릭해도 닫히게 하려면 아래 조건문을 제거하세요.
-    // if (e.target === backdropRef.current) {
-    router.back();
-    // }
+    window.location.reload();
   };
 
   return (
