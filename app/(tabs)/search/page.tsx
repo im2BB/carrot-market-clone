@@ -2,6 +2,7 @@ import BackButton from "@/components/back-button";
 import SearchBar from "@/components/SearchBar";
 import { getSearchedProducts } from "@/app/(tabs)/search/action";
 import Link from "next/link";
+import Image from "next/image";
 
 function getSafeImageSrc(src?: string) {
   const DEFAULT_IMAGE = "/기본사용자.jpg";
@@ -73,14 +74,17 @@ export default async function SearchPage({
                     {imgSrc.startsWith("data:image") ||
                     imgSrc.startsWith("/") ||
                     imgSrc.startsWith("http") ? (
-                      <img
+                      <Image
                         src={imgSrc}
                         alt={product.title}
+                        width={400}
+                        height={400}
                         className="w-full h-full object-cover"
+                        unoptimized={imgSrc.includes("imagedelivery.net")}
                       />
                     ) : (
                       <div className="w-full h-full flex items-center justify-center text-neutral-400">
-                        No Image
+                        이미지가 없습니다
                       </div>
                     )}
                   </div>
