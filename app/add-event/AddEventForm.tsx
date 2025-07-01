@@ -73,7 +73,7 @@ export default function AddEventForm() {
     }
   };
 
-  const interceptAction = async (_: any, formData: FormData) => {
+  const interceptAction = async (_: unknown, formData: FormData) => {
     try {
       if (!imageSelected) {
         return { fieldErrors: { image: ["이미지를 선택해주세요."] } };

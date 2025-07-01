@@ -1,6 +1,5 @@
 import { getProfile } from "@/app/(tabs)/profile/action";
 import { UserIcon } from "@heroicons/react/24/outline";
-import { redirect } from "next/navigation";
 import Image from "next/image";
 import Link from "next/link";
 

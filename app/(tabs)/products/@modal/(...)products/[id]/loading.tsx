@@ -1,4 +1,3 @@
-import CloseButton from "@/components/closeButton";
 import { PhotoIcon, UserIcon } from "@heroicons/react/16/solid";
 
 export default function Loading() {

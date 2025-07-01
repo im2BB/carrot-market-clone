@@ -29,11 +29,13 @@ export const metadata = {
   title: "검색 결과",
 };
 
-export default async function SearchPage({
-  searchParams,
-}: {
-  searchParams: any;
-}) {
+interface SearchPageProps {
+  searchParams: {
+    query?: string;
+  };
+}
+
+export default async function SearchPage({ searchParams }: SearchPageProps) {
   const query = searchParams.query?.trim() || "";
   if (!query) {
     return (
@@ -59,7 +61,10 @@ export default async function SearchPage({
           {products.map((product) => {
             const imgSrc = getSafeImageSrc(product.photo);
             return (
-              <div className="flex flex-col items-center justify-center">
+              <div
+                key={product.id}
+                className="flex flex-col items-center justify-center"
+              >
                 {/* <div className="flex justify-center items-center">
                   <h1 className="text-sm mb-6 text-center">
                     검색 결과: "{query}"
