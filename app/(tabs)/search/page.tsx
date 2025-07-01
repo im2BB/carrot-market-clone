@@ -35,7 +35,11 @@ interface SearchPageProps {
   };
 }
 
-export default async function SearchPage({ searchParams }) {
+export default async function SearchPage({
+  searchParams,
+}: {
+  searchParams: { query?: string };
+}) {
   const query = searchParams.query?.trim() || "";
   if (!query) {
     return (
