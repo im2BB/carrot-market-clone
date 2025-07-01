@@ -8,13 +8,7 @@ import getSession from "@/lib/seeeion";
 const usernameSchema = z.string().min(5).max(10);
 
 const checkUesrname = (uesrname: string) => !uesrname.includes("potato");
-const checkPasswords = ({
-  password,
-  confirm_password,
-}: {
-  password: string;
-  confirm_password: string;
-}) => password === confirm_password;
+const checkPasswords = (data: any) => data.password === data.confirm_password;
 
 const formSchema = z
   .object({
@@ -84,7 +78,7 @@ const formSchema = z
 export async function createAccount(
   prevState: unknown,
   formData: FormData
-): Promise<ActionResult> {
+): Promise<any> {
   const data = {
     username: formData.get("username") ?? "",
     email: formData.get("email") ?? "",

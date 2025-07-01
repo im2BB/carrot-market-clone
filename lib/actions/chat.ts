@@ -44,7 +44,7 @@ export async function getChatRooms() {
       },
     },
     orderBy: {
-      updated_at: "desc",
+      update_at: "desc",
     },
   });
 }

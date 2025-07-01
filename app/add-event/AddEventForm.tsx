@@ -20,7 +20,7 @@ export default function AddEventForm() {
   // 오늘 날짜를 YYYY-MM-DDTHH:mm 형식으로 설정
   const today = new Date();
   const todayString = today.toISOString().slice(0, 16);
-  
+
   // 내일 날짜를 기본 종료일로 설정
   const tomorrow = new Date(today);
   tomorrow.setDate(tomorrow.getDate() + 1);
@@ -31,7 +31,7 @@ export default function AddEventForm() {
       target: { files },
     } = event;
     if (!files) return;
-    
+
     const file = files[0];
     setImageSelected(true);
 
@@ -57,7 +57,7 @@ export default function AddEventForm() {
     try {
       const response = await getUploadUrl();
       console.log("Upload URL response:", response);
-      
+
       if (response.success) {
         const { id, uploadURL } = response.result;
         setUploadUrl(uploadURL);
@@ -85,12 +85,14 @@ export default function AddEventForm() {
       }
 
       if (!uploadUrl || !photoId) {
-        return { fieldErrors: { image: ["이미지 업로드 URL이 준비되지 않았습니다."] } };
+        return {
+          fieldErrors: { image: ["이미지 업로드 URL이 준비되지 않았습니다."] },
+        };
       }
 
       const cloudflareForm = new FormData();
       cloudflareForm.append("file", file);
-      
+
       console.log("Uploading to Cloudflare...");
       const uploadResponse = await fetch(uploadUrl, {
         method: "POST",
@@ -105,14 +107,16 @@ export default function AddEventForm() {
       // Cloudflare Images URL 형식 수정
       const imageUrl = `https://imagedelivery.net/yaj69MDVrIu8_HJDUNcGIg/${photoId}/public`;
       formData.set("image", imageUrl);
-      
+
       console.log("Submitting form with image URL:", imageUrl);
       const result = await createEvent(_, formData);
       console.log("Create event result:", result);
       return result;
     } catch (error) {
       console.error("Form submission error:", error);
-      return { fieldErrors: { _form: ["이벤트 등록 중 오류가 발생했습니다."] } };
+      return {
+        fieldErrors: { _form: ["이벤트 등록 중 오류가 발생했습니다."] },
+      };
     }
   };
 
@@ -120,7 +124,13 @@ export default function AddEventForm() {
 
   // 성공 시 리다이렉트 처리
   useEffect(() => {
-    if (state && !state.fieldErrors && !state.formErrors) {
+    if (
+      state &&
+      "fieldErrors" in state &&
+      !state.fieldErrors &&
+      "formErrors" in state &&
+      !state.formErrors
+    ) {
       // 성공적으로 등록되었을 때 프로필 페이지로 이동
       router.push("/profile");
     }
@@ -144,13 +154,17 @@ export default function AddEventForm() {
         <div>
           <label
             htmlFor="image"
-            className={`border-2 aspect-video w-full flex items-center justify-center flex-col text-neutral-300 border-neutral-300 rounded-md border-dashed cursor-pointer bg-center bg-cover ${!imageSelected && uploadError ? 'border-red-500' : ''}`}
+            className={`border-2 aspect-video w-full flex items-center justify-center flex-col text-neutral-300 border-neutral-300 rounded-md border-dashed cursor-pointer bg-center bg-cover ${
+              !imageSelected && uploadError ? "border-red-500" : ""
+            }`}
             style={{ backgroundImage: `url(${preview})` }}
           >
             {!preview && (
               <>
                 <PhotoIcon className="w-20" />
-                <div className="text-neutral-400 text-sm">이벤트 이미지 추가</div>
+                <div className="text-neutral-400 text-sm">
+                  이벤트 이미지 추가
+                </div>
               </>
             )}
           </label>
@@ -165,20 +179,27 @@ export default function AddEventForm() {
           {uploadError && (
             <div className="text-red-500 text-sm mt-1">{uploadError}</div>
           )}
-          {state?.fieldErrors?.image && (
+          {state && "fieldErrors" in state && state.fieldErrors?.image && (
             <div className="text-red-500 text-sm mt-1">
               {state.fieldErrors.image.join(", ")}
             </div>
           )}
         </div>
-        
+
         <Input
           name="title"
           required
           placeholder="이벤트 제목을 입력해주세요"
-          errors={state?.fieldErrors?.title}
+          errors={
+            state &&
+            "fieldErrors" in state &&
+            state.fieldErrors &&
+            "title" in state.fieldErrors
+              ? state.fieldErrors.title
+              : undefined
+          }
         />
-        
+
         <div>
           <textarea
             name="description"
@@ -186,11 +207,14 @@ export default function AddEventForm() {
             className="w-full rounded-md bg-neutral-800 border-neutral-700 text-white px-4 py-2 focus:outline-none ring-2 focus:ring-4 transition ring-neutral-700 focus:ring-orange-500 border-none placeholder:text-neutral-400"
             placeholder="이벤트 설명을 입력해주세요"
           />
-          {state?.fieldErrors?.description && (
-            <div className="text-red-500 text-sm mt-1">
-              {state.fieldErrors.description}
-            </div>
-          )}
+          {state &&
+            "fieldErrors" in state &&
+            state.fieldErrors &&
+            "description" in state.fieldErrors && (
+              <div className="text-red-500 text-sm mt-1">
+                {state.fieldErrors.description}
+              </div>
+            )}
         </div>
 
         <div className="grid grid-cols-2 gap-4">
@@ -200,7 +224,14 @@ export default function AddEventForm() {
             required
             labelText="시작일"
             defaultValue={todayString}
-            errors={state?.fieldErrors?.start_date}
+            errors={
+              state &&
+              "fieldErrors" in state &&
+              state.fieldErrors &&
+              "start_date" in state.fieldErrors
+                ? state.fieldErrors.start_date
+                : undefined
+            }
           />
           <Input
             name="end_date"
@@ -208,25 +239,48 @@ export default function AddEventForm() {
             required
             labelText="종료일"
             defaultValue={tomorrowString}
-            errors={state?.fieldErrors?.end_date}
+            errors={
+              state &&
+              "fieldErrors" in state &&
+              state.fieldErrors &&
+              "end_date" in state.fieldErrors
+                ? state.fieldErrors.end_date
+                : undefined
+            }
           />
         </div>
-        
+
         <Input
           name="link"
           type="url"
           placeholder="이벤트 링크를 입력해주세요 (선택사항)"
-          errors={state?.fieldErrors?.link}
+          errors={
+            state &&
+            "fieldErrors" in state &&
+            state.fieldErrors &&
+            "link" in state.fieldErrors
+              ? state.fieldErrors.link
+              : undefined
+          }
         />
-        
-        {state?.fieldErrors?._form && (
-          <div className="text-red-500 text-sm">
-            {state.fieldErrors._form.join(", ")}
-          </div>
-        )}
-        
-        <Button text={state?.pending ? "등록 중..." : "등록하기"} />
+
+        {state &&
+          "fieldErrors" in state &&
+          state.fieldErrors &&
+          "_form" in state.fieldErrors && (
+            <div className="text-red-500 text-sm mt-1">
+              {state.fieldErrors._form}
+            </div>
+          )}
+
+        <Button
+          text={
+            state && "pending" in state && state.pending
+              ? "등록 중..."
+              : "등록하기"
+          }
+        />
       </form>
     </div>
   );
-} 
+}

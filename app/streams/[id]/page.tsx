@@ -25,11 +25,7 @@ async function getStream(id: number) {
   return stream;
 }
 
-export default async function StreamDetail({
-  params,
-}: {
-  params: { id: string };
-}) {
+export default async function StreamDetail({ params }: { params: any }) {
   const id = Number(params.id);
   if (isNaN(id)) {
     return notFound();

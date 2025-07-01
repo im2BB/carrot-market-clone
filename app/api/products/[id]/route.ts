@@ -1,10 +1,7 @@
 import { getProductById } from "@/lib/actions/database";
 import { NextRequest, NextResponse } from "next/server";
 
-export async function GET(
-  req: NextRequest,
-  { params }: { params: { id: string } }
-) {
+export async function GET(req: NextRequest, { params }: { params: any }) {
   try {
     const product = await getProductById(+params.id);
 

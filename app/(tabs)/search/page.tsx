@@ -32,7 +32,7 @@ export const metadata = {
 export default async function SearchPage({
   searchParams,
 }: {
-  searchParams: { query?: string };
+  searchParams: any;
 }) {
   const query = searchParams.query?.trim() || "";
   if (!query) {

@@ -62,7 +62,7 @@ async function getUserProfile() {
 
 export type InitialChatMessages = Prisma.PromiseReturnType<typeof getMessages>;
 
-export default async function ChatRoom({ params }: { params: { id: string } }) {
+export default async function ChatRoom({ params }: { params: any }) {
   const room = await getRoom(params.id);
   if (!room) {
     return notFound();

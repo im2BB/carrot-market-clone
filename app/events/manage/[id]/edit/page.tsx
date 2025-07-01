@@ -6,8 +6,8 @@ export const metadata = {
   title: "이벤트 수정",
 };
 
-export default async function EditEventPage({ params: { id } }) {
-  const event = await getEventByIdAction(+id);
+export default async function EditEventPage({ params }: { params: any }) {
+  const event = await getEventByIdAction(+params.id);
   if (!event) {
     notFound();
   }

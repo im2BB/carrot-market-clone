@@ -3,11 +3,7 @@ import { notFound } from "next/navigation";
 import Image from "next/image";
 import BackButton from "@/components/back-button";
 
-export default async function EventPage({
-  params,
-}: {
-  params: { id: string };
-}) {
+export default async function EventPage({ params }: { params: any }) {
   const event = await getEventByIdAction(+params.id);
 
   if (!event) {

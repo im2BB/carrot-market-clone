@@ -7,7 +7,7 @@ import { deleteEvent } from "./action";
 interface Event {
   id: number;
   title: string;
-  description: string;
+  description: string | null;
   image: string;
   link?: string | null;
 }
@@ -27,7 +27,7 @@ export default function DeleteEventForm({ event }: DeleteEventFormProps) {
 
     try {
       const result = await deleteEvent(event.id);
-      
+
       if (result.success) {
         router.push("/events/manage");
         router.refresh();
@@ -83,7 +83,8 @@ export default function DeleteEventForm({ event }: DeleteEventFormProps) {
 
       <div className="bg-red-500/10 border border-red-500/20 rounded-lg p-4 mb-6">
         <p className="text-red-400 text-sm">
-          ⚠️ 이 작업은 되돌릴 수 없습니다. 이벤트를 삭제하면 모든 데이터가 영구적으로 제거됩니다.
+          ⚠️ 이 작업은 되돌릴 수 없습니다. 이벤트를 삭제하면 모든 데이터가
+          영구적으로 제거됩니다.
         </p>
       </div>
 
@@ -104,4 +105,4 @@ export default function DeleteEventForm({ event }: DeleteEventFormProps) {
       </div>
     </div>
   );
-} 
+}

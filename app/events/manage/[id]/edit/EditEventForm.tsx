@@ -5,12 +5,11 @@ import { useRouter } from "next/navigation";
 import { updateEvent } from "./action";
 import Input from "@/components/Input";
 import Image from "next/image";
-import { useForm } from "react-hook-form";
 
 interface Event {
   id: number;
   title: string;
-  description: string;
+  description: string | null;
   image: string;
   link?: string | null;
   start_date: Date;
@@ -24,24 +23,17 @@ interface EditEventFormProps {
 export default function EditEventForm({ event }: EditEventFormProps) {
   const router = useRouter();
   const [isLoading, setIsLoading] = useState(false);
-  const { register, handleSubmit, watch } = useForm<FormValues>({
-    defaultValues: {
-      title: event.title,
-      description: event.description,
-      link: event.link || "",
-      start_date: new Date(event.start_date).toISOString().slice(0, 16),
-      end_date: new Date(event.end_date).toISOString().slice(0, 16),
-    },
-  });
+  const [title, setTitle] = useState(event.title);
+  const [description, setDescription] = useState(event.description || "");
+  const [link, setLink] = useState(event.link || "");
+  const [startDate, setStartDate] = useState(
+    new Date(event.start_date).toISOString().slice(0, 16)
+  );
+  const [endDate, setEndDate] = useState(
+    new Date(event.end_date).toISOString().slice(0, 16)
+  );
   const [imageFile, setImageFile] = useState<File | null>(null);
   const [previewImage, setPreviewImage] = useState(event.image);
-
-  const handleInputChange = (
-    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
-  ) => {
-    const { name, value } = e.target;
-    register(name)({ value });
-  };
 
   const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
@@ -55,24 +47,22 @@ export default function EditEventForm({ event }: EditEventFormProps) {
     }
   };
 
-  const handleSubmitForm = async (data: FormValues) => {
+  const handleSubmitForm = async (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
     setIsLoading(true);
-
     try {
       const formDataToSend = new FormData();
-      formDataToSend.append("title", data.title);
-      formDataToSend.append("description", data.description);
-      formDataToSend.append("start_date", data.start_date);
-      formDataToSend.append("end_date", data.end_date);
-      if (data.link) {
-        formDataToSend.append("link", data.link);
+      formDataToSend.append("title", title);
+      formDataToSend.append("description", description);
+      formDataToSend.append("start_date", startDate);
+      formDataToSend.append("end_date", endDate);
+      if (link) {
+        formDataToSend.append("link", link);
       }
       if (imageFile) {
         formDataToSend.append("image", imageFile);
       }
-
       const result = await updateEvent(event.id, formDataToSend);
-
       if (result.success) {
         router.push("/events/manage");
         router.refresh();
@@ -86,20 +76,17 @@ export default function EditEventForm({ event }: EditEventFormProps) {
     }
   };
 
-  const imgSrc = watch("image");
-
   return (
-    <form onSubmit={handleSubmit(handleSubmitForm)} className="space-y-6">
+    <form onSubmit={handleSubmitForm} className="space-y-6">
       <Input
         name="title"
         type="text"
         required
         labelText="이벤트 제목 *"
-        value={watch("title")}
-        onChange={handleInputChange}
+        value={title}
+        onChange={(e) => setTitle(e.target.value)}
         placeholder="이벤트 제목을 입력하세요"
       />
-
       <div>
         <label htmlFor="description" className="block text-sm font-medium mb-2">
           이벤트 설명 *
@@ -107,57 +94,54 @@ export default function EditEventForm({ event }: EditEventFormProps) {
         <textarea
           id="description"
           name="description"
-          value={watch("description")}
-          onChange={handleInputChange}
+          value={description}
+          onChange={(e) => setDescription(e.target.value)}
           required
           rows={4}
           className="w-full px-4 py-3 bg-neutral-800 border border-neutral-600 rounded-lg focus:outline-none focus:ring-2 focus:ring-orange-500 resize-none"
           placeholder="이벤트 설명을 입력하세요"
         />
       </div>
-
       <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
         <Input
           name="start_date"
           type="datetime-local"
           required
           labelText="시작일 *"
-          value={watch("start_date")}
-          onChange={handleInputChange}
+          value={startDate}
+          onChange={(e) => setStartDate(e.target.value)}
         />
         <Input
           name="end_date"
           type="datetime-local"
           required
           labelText="종료일 *"
-          value={watch("end_date")}
-          onChange={handleInputChange}
+          value={endDate}
+          onChange={(e) => setEndDate(e.target.value)}
         />
       </div>
-
       <Input
         name="link"
         type="url"
         labelText="링크 (선택사항)"
-        value={watch("link")}
-        onChange={handleInputChange}
+        value={link}
+        onChange={(e) => setLink(e.target.value)}
         placeholder="https://example.com"
       />
-
       <div>
         <label htmlFor="image" className="block text-sm font-medium mb-2">
           이벤트 이미지
         </label>
         <div className="space-y-4">
           <div className="relative w-64 h-48 border-2 border-dashed border-neutral-600 rounded-lg overflow-hidden">
-            {imgSrc && (
+            {previewImage && (
               <Image
-                src={imgSrc}
+                src={previewImage}
                 alt="Event preview"
                 width={400}
                 height={400}
                 className="w-full h-full object-cover"
-                unoptimized={imgSrc.includes("imagedelivery.net")}
+                unoptimized={previewImage.includes("imagedelivery.net")}
               />
             )}
           </div>
@@ -173,7 +157,6 @@ export default function EditEventForm({ event }: EditEventFormProps) {
           </p>
         </div>
       </div>
-
       <div className="flex gap-4 pt-6">
         <button
           type="submit"
