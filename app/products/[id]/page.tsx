@@ -15,7 +15,7 @@ async function getIsOwner(userId: Number) {
   return false;
 }
 
-export async function generateMetadata({ params }: { params: any }) {
+export async function generateMetadata({ params }) {
   const product = await getProduct(Number(params.id));
   return {
     title: product?.title,
@@ -39,7 +39,7 @@ async function getProduct(id: number) {
   return product;
 }
 
-export default async function ProductDetail({ params }: { params: any }) {
+export default async function ProductDetail({ params }) {
   const id = Number(params.id);
   if (isNaN(id)) {
     return notFound();

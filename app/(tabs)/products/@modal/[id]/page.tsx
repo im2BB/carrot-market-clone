@@ -1,10 +1,6 @@
 import db from "@/lib/db";
 
-export default async function ProductModalPage({
-  params,
-}: {
-  params: { id: string };
-}) {
+export default async function ProductModalPage({ params }) {
   const product = await db.product.findUnique({
     where: {
       id: +params.id,
