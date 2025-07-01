@@ -4,6 +4,8 @@ import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { updateEvent } from "./action";
 import Input from "@/components/Input";
+import Image from "next/image";
+import { useForm } from "react-hook-form";
 
 interface Event {
   id: number;
@@ -22,23 +24,23 @@ interface EditEventFormProps {
 export default function EditEventForm({ event }: EditEventFormProps) {
   const router = useRouter();
   const [isLoading, setIsLoading] = useState(false);
-  const [error, setError] = useState("");
-  const [formData, setFormData] = useState({
-    title: event.title,
-    description: event.description,
-    link: event.link || "",
-    start_date: new Date(event.start_date).toISOString().slice(0, 16),
-    end_date: new Date(event.end_date).toISOString().slice(0, 16),
+  const { register, handleSubmit, watch } = useForm<FormValues>({
+    defaultValues: {
+      title: event.title,
+      description: event.description,
+      link: event.link || "",
+      start_date: new Date(event.start_date).toISOString().slice(0, 16),
+      end_date: new Date(event.end_date).toISOString().slice(0, 16),
+    },
   });
   const [imageFile, setImageFile] = useState<File | null>(null);
   const [previewImage, setPreviewImage] = useState(event.image);
 
-  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+  const handleInputChange = (
+    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
+  ) => {
     const { name, value } = e.target;
-    setFormData(prev => ({
-      ...prev,
-      [name]: value
-    }));
+    register(name)({ value });
   };
 
   const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -53,53 +55,47 @@ export default function EditEventForm({ event }: EditEventFormProps) {
     }
   };
 
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
+  const handleSubmitForm = async (data: FormValues) => {
     setIsLoading(true);
-    setError("");
 
     try {
       const formDataToSend = new FormData();
-      formDataToSend.append("title", formData.title);
-      formDataToSend.append("description", formData.description);
-      formDataToSend.append("start_date", formData.start_date);
-      formDataToSend.append("end_date", formData.end_date);
-      if (formData.link) {
-        formDataToSend.append("link", formData.link);
+      formDataToSend.append("title", data.title);
+      formDataToSend.append("description", data.description);
+      formDataToSend.append("start_date", data.start_date);
+      formDataToSend.append("end_date", data.end_date);
+      if (data.link) {
+        formDataToSend.append("link", data.link);
       }
       if (imageFile) {
         formDataToSend.append("image", imageFile);
       }
 
       const result = await updateEvent(event.id, formDataToSend);
-      
+
       if (result.success) {
         router.push("/events/manage");
         router.refresh();
       } else {
-        setError(result.error || "이벤트 수정에 실패했습니다.");
+        console.error(result.error || "이벤트 수정에 실패했습니다.");
       }
     } catch (error) {
-      setError("이벤트 수정 중 오류가 발생했습니다.");
+      console.error("이벤트 수정 중 오류가 발생했습니다.");
     } finally {
       setIsLoading(false);
     }
   };
 
-  return (
-    <form onSubmit={handleSubmit} className="space-y-6">
-      {error && (
-        <div className="bg-red-500/10 border border-red-500/20 rounded-lg p-4">
-          <p className="text-red-400">{error}</p>
-        </div>
-      )}
+  const imgSrc = watch("image");
 
+  return (
+    <form onSubmit={handleSubmit(handleSubmitForm)} className="space-y-6">
       <Input
         name="title"
         type="text"
         required
         labelText="이벤트 제목 *"
-        value={formData.title}
+        value={watch("title")}
         onChange={handleInputChange}
         placeholder="이벤트 제목을 입력하세요"
       />
@@ -111,7 +107,7 @@ export default function EditEventForm({ event }: EditEventFormProps) {
         <textarea
           id="description"
           name="description"
-          value={formData.description}
+          value={watch("description")}
           onChange={handleInputChange}
           required
           rows={4}
@@ -126,7 +122,7 @@ export default function EditEventForm({ event }: EditEventFormProps) {
           type="datetime-local"
           required
           labelText="시작일 *"
-          value={formData.start_date}
+          value={watch("start_date")}
           onChange={handleInputChange}
         />
         <Input
@@ -134,7 +130,7 @@ export default function EditEventForm({ event }: EditEventFormProps) {
           type="datetime-local"
           required
           labelText="종료일 *"
-          value={formData.end_date}
+          value={watch("end_date")}
           onChange={handleInputChange}
         />
       </div>
@@ -143,7 +139,7 @@ export default function EditEventForm({ event }: EditEventFormProps) {
         name="link"
         type="url"
         labelText="링크 (선택사항)"
-        value={formData.link}
+        value={watch("link")}
         onChange={handleInputChange}
         placeholder="https://example.com"
       />
@@ -154,11 +150,16 @@ export default function EditEventForm({ event }: EditEventFormProps) {
         </label>
         <div className="space-y-4">
           <div className="relative w-64 h-48 border-2 border-dashed border-neutral-600 rounded-lg overflow-hidden">
-            <img
-              src={previewImage}
-              alt="이벤트 이미지 미리보기"
-              className="w-full h-full object-cover"
-            />
+            {imgSrc && (
+              <Image
+                src={imgSrc}
+                alt="Event preview"
+                width={400}
+                height={400}
+                className="w-full h-full object-cover"
+                unoptimized={imgSrc.includes("imagedelivery.net")}
+              />
+            )}
           </div>
           <input
             type="file"
@@ -191,4 +192,4 @@ export default function EditEventForm({ event }: EditEventFormProps) {
       </div>
     </form>
   );
-} 
+}

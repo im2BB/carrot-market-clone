@@ -1,7 +1,5 @@
 import db from "@/lib/db";
 import loginUser from "@/lib/login";
-import getSession from "@/lib/seeeion";
-import { notFound, redirect } from "next/navigation";
 import { NextRequest } from "next/server";
 
 export async function GET(request: NextRequest) {

@@ -230,6 +230,7 @@
       "static/chunks/app/(tabs)/chat/page-b24fddd2f1bc77c5.js"
     ],
     "/(tabs)/home/page": [
+<<<<<<< HEAD
       "static/chunks/webpack-a689e049097cd6ce.js",
       "static/chunks/4bd1b696-905ac83f518a6055.js",
       "static/chunks/1684-9ef770168fc49f60.js",
@@ -323,6 +324,57 @@
       "static/chunks/1684-9ef770168fc49f60.js",
       "static/chunks/main-app-e09f882dd74bc4f8.js",
       "static/chunks/app/(tabs)/products/@modal/default-9270c1ea009dedc2.js"
+=======
+      "static/chunks/webpack.js",
+      "static/chunks/main-app.js",
+      "static/css/app/(tabs)/home/page.css",
+      "static/chunks/app/(tabs)/home/page.js"
+    ],
+    "/(tabs)/profile/page": [
+      "static/chunks/webpack.js",
+      "static/chunks/main-app.js",
+      "static/chunks/app/(tabs)/profile/page.js"
+    ],
+    "/(tabs)/life/loading": [
+      "static/chunks/webpack.js",
+      "static/chunks/main-app.js",
+      "static/chunks/app/(tabs)/life/loading.js"
+    ],
+    "/(tabs)/life/page": [
+      "static/chunks/webpack.js",
+      "static/chunks/main-app.js",
+      "static/chunks/app/(tabs)/life/page.js"
+    ],
+    "/add-post/page": [
+      "static/chunks/webpack.js",
+      "static/chunks/main-app.js",
+      "static/chunks/app/add-post/page.js"
+    ],
+    "/(tabs)/products/layout": [
+      "static/chunks/webpack.js",
+      "static/chunks/main-app.js",
+      "static/chunks/app/(tabs)/products/layout.js"
+    ],
+    "/(tabs)/products/loading": [
+      "static/chunks/webpack.js",
+      "static/chunks/main-app.js",
+      "static/chunks/app/(tabs)/products/loading.js"
+    ],
+    "/(tabs)/products/page": [
+      "static/chunks/webpack.js",
+      "static/chunks/main-app.js",
+      "static/chunks/app/(tabs)/products/page.js"
+    ],
+    "/(tabs)/products/@modal/default": [
+      "static/chunks/webpack.js",
+      "static/chunks/main-app.js",
+      "static/chunks/app/(tabs)/products/@modal/default.js"
+    ],
+    "/posts/[id]/page": [
+      "static/chunks/webpack.js",
+      "static/chunks/main-app.js",
+      "static/chunks/app/posts/[id]/page.js"
+>>>>>>> 5254402529d12aab2a97fdf29e2295873562f507
     ]
   }
 }

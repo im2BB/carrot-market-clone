@@ -2,6 +2,7 @@ import Silder from "@/components/silder";
 import Link from "next/link";
 import SearchBar from "@/components/SearchBar";
 import { getRecentProductsAction, getEventsAction } from "./action";
+import Image from "next/image";
 
 export const metadata = {
   title: "홈",
@@ -59,10 +60,13 @@ export default async function Home() {
                   {imgSrc.startsWith("data:image") ||
                   imgSrc.startsWith("/") ||
                   imgSrc.startsWith("http") ? (
-                    <img
+                    <Image
                       src={imgSrc}
                       alt={product.title}
+                      width={400}
+                      height={400}
                       className="w-full h-full object-cover"
+                      unoptimized={imgSrc.includes("imagedelivery.net")}
                     />
                   ) : (
                     <div className="w-full h-full flex items-center justify-center text-neutral-400">
