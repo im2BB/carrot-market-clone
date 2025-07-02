@@ -7,7 +7,7 @@ import { notFound, redirect } from "next/navigation";
 import { deleteProductAction } from "./actions";
 import BackButton from "@/components/back-button";
 
-async function getIsOwner(userId: Number) {
+async function getIsOwner(userId: number) {
   const session = await getSession();
   if (session.id) {
     return session.id === userId;
