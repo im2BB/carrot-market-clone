@@ -3,15 +3,20 @@ import { notFound } from "next/navigation";
 import Image from "next/image";
 import BackButton from "@/components/back-button";
 
-export default async function EventPage({ params }) {
-  const event = await getEventByIdAction(+params.id);
+export default async function EventPage({
+  params,
+}: {
+  params: Promise<{ id: string }>;
+}) {
+  const resolvedParams = await params;
+  const event = await getEventByIdAction(+resolvedParams.id);
 
   if (!event) {
     notFound();
   }
 
   const DEFAULT_IMAGE = "/기본사용자.jpg";
-  function getSafeImageSrc(src) {
+  function getSafeImageSrc(src: string | undefined) {
     if (!src || typeof src !== "string" || src.trim() === "")
       return DEFAULT_IMAGE;
     if (src.startsWith("data:image")) return src;

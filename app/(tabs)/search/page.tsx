@@ -30,17 +30,18 @@ export const metadata = {
 };
 
 interface SearchPageProps {
-  searchParams: {
+  searchParams: Promise<{
     query?: string;
-  };
+  }>;
 }
 
 export default async function SearchPage({
   searchParams,
 }: {
-  searchParams: { query?: string };
+  searchParams: Promise<{ query?: string }>;
 }) {
-  const query = searchParams.query?.trim() || "";
+  const resolvedSearchParams = await searchParams;
+  const query = resolvedSearchParams.query?.trim() || "";
   if (!query) {
     return (
       <div className="p-10 text-center text-neutral-400">

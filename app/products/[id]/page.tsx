@@ -15,8 +15,13 @@ async function getIsOwner(userId: Number) {
   return false;
 }
 
-export async function generateMetadata({ params }) {
-  const product = await getProduct(Number(params.id));
+export async function generateMetadata({
+  params,
+}: {
+  params: Promise<{ id: string }>;
+}) {
+  const resolvedParams = await params;
+  const product = await getProduct(Number(resolvedParams.id));
   return {
     title: product?.title,
   };
@@ -39,8 +44,13 @@ async function getProduct(id: number) {
   return product;
 }
 
-export default async function ProductDetail({ params }) {
-  const id = Number(params.id);
+export default async function ProductDetail({
+  params,
+}: {
+  params: Promise<{ id: string }>;
+}) {
+  const resolvedParams = await params;
+  const id = Number(resolvedParams.id);
   if (isNaN(id)) {
     return notFound();
   }

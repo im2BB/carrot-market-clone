@@ -74,9 +74,14 @@ async function getCachedLikeStatus(postId: number) {
   return cachedOperation(postId, userId!);
 }
 
-export default async function PostDetail({ params }) {
+export default async function PostDetail({
+  params,
+}: {
+  params: Promise<{ id: string }>;
+}) {
   const session = await getSession(); // 여기서 세션 가져오기
-  const id = Number(params.id);
+  const resolvedParams = await params;
+  const id = Number(resolvedParams.id);
   if (isNaN(id)) {
     return notFound();
   }
