@@ -1,6 +1,6 @@
 import ChatMessagesList from "@/components/chat-messages-list";
 import db from "@/lib/db";
-import { Prisma } from "@/lib/generated/prisma";
+import { Prisma } from "@prisma/client";
 import getSession from "@/lib/seeeion";
 import { notFound } from "next/navigation";
 
