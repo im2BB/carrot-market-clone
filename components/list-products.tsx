@@ -1,6 +1,5 @@
 import { formatToTimeAgo, formatToWon } from "@/lib/utils";
 import Image from "next/image";
-import Link from "next/link";
 
 interface ListProductProps {
   title: string;
@@ -8,6 +7,7 @@ interface ListProductProps {
   created_at: Date;
   photo: string;
   id: number;
+  onProductClick: (id: number) => void;
 }
 
 export default function ListProduct({
@@ -16,9 +16,15 @@ export default function ListProduct({
   created_at,
   photo,
   id,
+  onProductClick,
 }: ListProductProps) {
+  const handleClick = (e: React.MouseEvent) => {
+    e.preventDefault();
+    onProductClick(id);
+  };
+
   return (
-    <Link href={`/products/${id}`} className="flex gap-5">
+    <div className="flex gap-5 cursor-pointer" onClick={handleClick}>
       <div className="relative size-28 rounded-md overflow-hidden">
         <Image
           fill
@@ -34,6 +40,6 @@ export default function ListProduct({
         </span>
         <span className="text-lg font-semibold">{formatToWon(price)}원</span>
       </div>
-    </Link>
+    </div>
   );
 }
