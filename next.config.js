@@ -4,7 +4,11 @@ const nextConfig = {
     ignoreDuringBuilds: true,
   },
   images: {
-    domains: ["imagedelivery.net", "cloudflare.com"],
+    domains: [
+      "imagedelivery.net",
+      "cloudflare.com",
+      "avatars.githubusercontent.com",
+    ],
     remotePatterns: [
       {
         protocol: "https",
