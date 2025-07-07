@@ -38,11 +38,11 @@ async function getProduct(id: number) {
   return product;
 }
 
-export default async function ProductDetail({
-  params,
-}: {
+interface ProductDetailProps {
   params: { id: string };
-}) {
+}
+
+export default async function ProductDetail({ params }: ProductDetailProps) {
   const id = Number(params.id);
   if (isNaN(id)) {
     return notFound();
