@@ -22,7 +22,8 @@ export default async function Profile() {
 
   const logOut = async () => {
     "use server";
-    cookies().set("delicious-karrot", "", { maxAge: 0, path: "/" });
+    const cookieStore = await cookies();
+    cookieStore.set("delicious-karrot", "", { maxAge: 0, path: "/" });
     redirect("/login");
   };
 
