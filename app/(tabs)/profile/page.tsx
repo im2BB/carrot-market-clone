@@ -2,6 +2,8 @@ import { getProfile } from "@/app/(tabs)/profile/action";
 import { UserIcon } from "@heroicons/react/24/outline";
 import Image from "next/image";
 import Link from "next/link";
+import { cookies } from "next/headers";
+import { redirect } from "next/navigation";
 
 export const metadata = {
   title: "내 정보",
@@ -20,6 +22,8 @@ export default async function Profile() {
 
   const logOut = async () => {
     "use server";
+    cookies().set("delicious-karrot", "", { maxAge: 0, path: "/" });
+    redirect("/login");
   };
 
   const DEFAULT_AVATAR = "/기본사용자.jpg";
