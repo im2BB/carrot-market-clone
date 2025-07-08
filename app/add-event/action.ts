@@ -2,7 +2,7 @@
 
 import { z } from "zod";
 import db from "@/lib/db";
-import getSession from "@/lib/seeeion";
+import getSession from "@/lib/session";
 import { getCloudflareUploadUrl } from "@/lib/actions/image-upload";
 
 const eventSchema = z

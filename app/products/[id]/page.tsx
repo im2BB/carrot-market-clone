@@ -1,5 +1,5 @@
 import db from "@/lib/db";
-import getSession from "@/lib/seeeion";
+import getSession from "@/lib/session";
 import { formatToWon } from "@/lib/utils";
 import { UserIcon } from "@heroicons/react/16/solid";
 import Image from "next/image";
@@ -14,8 +14,13 @@ async function getIsOwner(userId: Number) {
   return false;
 }
 
-export async function generateMetadata({ params }: { params: { id: string } }) {
-  const product = await getProduct(Number(params.id));
+export async function generateMetadata({
+  params,
+}: {
+  params: Promise<{ id: string }>;
+}) {
+  const resolvedParams = await params;
+  const product = await getProduct(Number(resolvedParams.id));
   return {
     title: product?.title,
   };
@@ -38,12 +43,13 @@ async function getProduct(id: number) {
   return product;
 }
 
-interface ProductDetailProps {
-  params: { id: string };
-}
-
-export default async function ProductDetail({ params }: ProductDetailProps) {
-  const id = Number(params.id);
+const ProductDetail = async ({
+  params,
+}: {
+  params: Promise<{ id: string }>;
+}) => {
+  const resolvedParams = await params;
+  const id = Number(resolvedParams.id);
   if (isNaN(id)) {
     return notFound();
   }
@@ -125,4 +131,6 @@ export default async function ProductDetail({ params }: ProductDetailProps) {
       </div>
     </div>
   );
-}
+};
+
+export default ProductDetail;

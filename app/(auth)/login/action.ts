@@ -8,7 +8,7 @@ import {
 import db from "@/lib/db";
 import { z } from "zod";
 import { redirect } from "next/navigation";
-import getSession from "@/lib/seeeion";
+import getSession from "@/lib/session";
 import loginUser from "@/lib/login";
 
 const checkEmailExists = async (email: string) => {

@@ -1,7 +1,7 @@
 "use server";
 
 import db from "@/lib/db";
-import getSession from "@/lib/seeeion";
+import getSession from "@/lib/session";
 
 // 메시지 저장
 export async function saveMessage(payload: string, chatRoomId: string) {

@@ -66,7 +66,7 @@ export default async function Profile() {
                 alt={user.username}
                 width={64}
                 height={64}
-                className="w-full h-full object-cover"
+                className="w-full h-full object-cover bg-neutral-800"
                 unoptimized={avatarSrc.includes("imagedelivery.net")}
               />
             ) : (

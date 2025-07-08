@@ -3,7 +3,7 @@ import bcrypt from "bcrypt";
 import db from "@/lib/db";
 import { z } from "zod";
 import { redirect } from "next/navigation";
-import getSession from "@/lib/seeeion";
+import getSession from "@/lib/session";
 
 const usernameSchema = z.string().min(5).max(10);
 

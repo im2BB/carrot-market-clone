@@ -1,7 +1,7 @@
 import ChatMessagesList from "@/components/chat-messages-list";
 import db from "@/lib/db";
 import { Prisma } from "@prisma/client";
-import getSession from "@/lib/seeeion";
+import getSession from "@/lib/session";
 import { notFound } from "next/navigation";
 
 async function getRoom(id: string) {
