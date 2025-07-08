@@ -4,6 +4,8 @@ import { format } from "date-fns";
 import { ko } from "date-fns/locale";
 import BackButton from "@/components/back-button";
 
+export const dynamic = 'force-dynamic';
+
 export const metadata = {
   title: "이벤트 관리",
 };
