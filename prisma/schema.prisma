@@ -3,12 +3,10 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-
 generator client {
   provider      = "prisma-client-js"
   binaryTargets = ["native", "rhel-openssl-3.0.x"]
 }
-
 
 model User {
   id         Int          @id @default(autoincrement()) //자동으로 생성되는 id 순차적으로 생성 1 2 순으로
@@ -41,25 +39,25 @@ model SMSToken {
 }
 
 model Product {
-  id          Int    @id @default(autoincrement())
+  id          Int      @id @default(autoincrement())
   title       String
   price       Float
   description String
   photo       String
-  created_at DateTime @default(now())
-  update_at  DateTime @updatedAt
-  user       User     @relation(fields: [userId], references: [id], onDelete: Cascade)
-  userId     Int
-}
-
-model Post {
-  id          Int      @id @default(autoincrement())
-  title       String
-  description String?
-  views       Int      @default(0)
   created_at  DateTime @default(now())
   update_at   DateTime @updatedAt
   user        User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  userId      Int
+}
+
+model Post {
+  id          Int       @id @default(autoincrement())
+  title       String
+  description String?
+  views       Int       @default(0)
+  created_at  DateTime  @default(now())
+  update_at   DateTime  @updatedAt
+  user        User      @relation(fields: [userId], references: [id], onDelete: Cascade)
   userId      Int
   comments    Comment[]
   likes       Like[]
@@ -83,6 +81,7 @@ model Like {
   post       Post     @relation(fields: [postId], references: [id], onDelete: Cascade)
   userId     Int
   postId     Int
+
   @@id(name: "id", [userId, postId])
 }
 

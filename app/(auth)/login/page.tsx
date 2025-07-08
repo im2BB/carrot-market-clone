@@ -21,6 +21,7 @@ export default function LogIn() {
           type="email"
           placeholder="e-mail"
           required
+          autoComplete="email"
           errors={state?.fieldErrors.email}
         />
         <FormInput
@@ -29,6 +30,7 @@ export default function LogIn() {
           placeholder="비밀번호"
           required
           minLength={PASSWORD_MIN_LENGTH}
+          autoComplete="current-password"
           errors={state?.fieldErrors.password}
         />
         <FormBtn text={"로그인"} />
