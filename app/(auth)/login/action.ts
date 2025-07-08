@@ -44,7 +44,7 @@ export async function login(prevState: any, formData: FormData) {
     email: formData.get("email"),
     password: formData.get("password"),
   };
-  const result = await formSchema.spa(data);
+  const result = await formSchema.safeParseAsync(data);
   if (!result.success) {
     return result.error.flatten();
   } else {
@@ -63,6 +63,7 @@ export async function login(prevState: any, formData: FormData) {
     );
     if (ok) {
       await loginUser(user);
+      redirect("/profile");
     } else {
       return {
         fieldErrors: {
