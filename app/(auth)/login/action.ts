@@ -41,14 +41,31 @@ const formSchema = z.object({
 
 export async function login(prevState: any, formData: FormData) {
   try {
+    console.log("Login attempt started");
+    
     const data = {
       email: formData.get("email"),
       password: formData.get("password"),
     };
+    
+    console.log("Form data extracted:", { email: data.email });
+    
     const result = await formSchema.safeParseAsync(data);
     if (!result.success) {
+      console.log("Validation failed:", result.error);
       return result.error.flatten();
     } else {
+      console.log("Validation passed, querying database");
+      
+      // 데이터베이스 연결 테스트
+      try {
+        await db.$connect();
+        console.log("Database connected successfully");
+      } catch (dbError) {
+        console.error("Database connection failed:", dbError);
+        throw new Error("데이터베이스 연결에 실패했습니다.");
+      }
+      
       const user = await db.user.findUnique({
         where: {
           email: result.data.email,
@@ -58,6 +75,8 @@ export async function login(prevState: any, formData: FormData) {
           password: true,
         },
       });
+      
+      console.log("User query result:", user ? "User found" : "User not found");
       
       if (!user) {
         return {
@@ -72,6 +91,9 @@ export async function login(prevState: any, formData: FormData) {
         result.data.password,
         user.password ?? "xxxx"
       );
+      
+      console.log("Password comparison result:", ok);
+      
       if (ok) {
         await loginUser(user);
         redirect("/profile");
@@ -85,11 +107,12 @@ export async function login(prevState: any, formData: FormData) {
       }
     }
   } catch (error) {
-    console.error("Login error:", error);
+    console.error("Login error details:", error);
+    console.error("Error stack:", error instanceof Error ? error.stack : "No stack trace");
     return {
       fieldErrors: {
         email: [],
-        password: ["로그인 중 오류가 발생했습니다. 다시 시도해주세요."],
+        password: [`로그인 중 오류가 발생했습니다: ${error instanceof Error ? error.message : '알 수 없는 오류'}`],
       },
     };
   }
