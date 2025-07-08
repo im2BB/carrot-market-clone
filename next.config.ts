@@ -11,6 +11,11 @@ const nextConfig: NextConfig = {
       },
     ],
   },
+  experimental: {
+    serverComponentsExternalPackages: [],
+  },
+  output: "standalone",
+  distDir: ".next",
 };
 
 export default nextConfig;
