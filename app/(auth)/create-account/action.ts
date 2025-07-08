@@ -71,37 +71,53 @@ export async function createAccount(
   prevState: unknown,
   formData: FormData
 ): Promise<any> {
-  const data = {
-    username: formData.get("username") ?? "",
-    email: formData.get("email") ?? "",
-    password: formData.get("password"),
-    confirm_password: formData.get("confirm_password"),
-  };
-  const result = await formSchema.spa(data);
-  if (!result.success) {
+  try {
+    const data = {
+      username: formData.get("username") ?? "",
+      email: formData.get("email") ?? "",
+      password: formData.get("password"),
+      confirm_password: formData.get("confirm_password"),
+    };
+    const result = await formSchema.safeParseAsync(data);
+    if (!result.success) {
+      return {
+        ...result.error.flatten(),
+        values: {
+          username: data.username,
+          email: data.email,
+        },
+      };
+    } else {
+      const hashedPassword = await bcrypt.hash(result.data.password, 12);
+      const user = await db.user.create({
+        data: {
+          username: result.data.username,
+          email: result.data.email,
+          password: hashedPassword,
+        },
+        select: {
+          id: true,
+        },
+      });
+      const session = await getSession();
+      session.id = user.id;
+      await session.save();
+
+      redirect("/profile");
+    }
+  } catch (error) {
+    console.error("Create account error:", error);
     return {
-      ...result.error.flatten(),
+      fieldErrors: {
+        username: [],
+        email: [],
+        password: ["계정 생성 중 오류가 발생했습니다. 다시 시도해주세요."],
+        confirm_password: [],
+      },
       values: {
-        username: data.username,
-        email: data.email,
+        username: formData.get("username"),
+        email: formData.get("email"),
       },
     };
-  } else {
-    const hashedPassword = await bcrypt.hash(result.data.password, 12);
-    const user = await db.user.create({
-      data: {
-        username: result.data.username,
-        email: result.data.email,
-        password: hashedPassword,
-      },
-      select: {
-        id: true,
-      },
-    });
-    const session = await getSession();
-    session.id = user.id;
-    await session.save();
-
-    redirect("/profile");
   }
 }

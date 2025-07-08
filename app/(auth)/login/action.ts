@@ -40,39 +40,57 @@ const formSchema = z.object({
 });
 
 export async function login(prevState: any, formData: FormData) {
-  const data = {
-    email: formData.get("email"),
-    password: formData.get("password"),
-  };
-  const result = await formSchema.safeParseAsync(data);
-  if (!result.success) {
-    return result.error.flatten();
-  } else {
-    const user = await db.user.findUnique({
-      where: {
-        email: result.data.email,
-      },
-      select: {
-        id: true,
-        password: true,
-      },
-    });
-    const ok = await bcrypt.compare(
-      result.data.password,
-      user!.password ?? "xxxx"
-    );
-    if (ok) {
-      await loginUser(user);
-      redirect("/profile");
+  try {
+    const data = {
+      email: formData.get("email"),
+      password: formData.get("password"),
+    };
+    const result = await formSchema.safeParseAsync(data);
+    if (!result.success) {
+      return result.error.flatten();
     } else {
-      return {
-        fieldErrors: {
-          password: ["잘못된 비밀번호 입니다."],
-          email: [],
+      const user = await db.user.findUnique({
+        where: {
+          email: result.data.email,
         },
-      };
+        select: {
+          id: true,
+          password: true,
+        },
+      });
+      
+      if (!user) {
+        return {
+          fieldErrors: {
+            email: ["존재하지 않는 이메일입니다."],
+            password: [],
+          },
+        };
+      }
+      
+      const ok = await bcrypt.compare(
+        result.data.password,
+        user.password ?? "xxxx"
+      );
+      if (ok) {
+        await loginUser(user);
+        redirect("/profile");
+      } else {
+        return {
+          fieldErrors: {
+            password: ["잘못된 비밀번호 입니다."],
+            email: [],
+          },
+        };
+      }
     }
-    //유저에 이메일을 찾으면 해쉬처리된 비번을 찾고 로그인 하게 한후
-    //프로필 페이지로 이동
+  } catch (error) {
+    console.error("Login error:", error);
+    return {
+      fieldErrors: {
+        email: [],
+        password: ["로그인 중 오류가 발생했습니다. 다시 시도해주세요."],
+      },
+    };
   }
 }
