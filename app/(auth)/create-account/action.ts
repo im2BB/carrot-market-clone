@@ -8,13 +8,12 @@ import getSession from "@/lib/seeeion";
 const usernameSchema = z.string().min(5).max(10);
 
 const checkUesrname = (uesrname: string) => !uesrname.includes("potato");
-const checkPasswords = ({
-  password,
-  confirm_password,
-}: {
+const checkPasswords = (data: {
+  username: string;
+  email: string;
   password: string;
   confirm_password: string;
-}) => password === confirm_password;
+}) => data.password === data.confirm_password;
 
 const formSchema = z
   .object({
@@ -40,6 +39,7 @@ const formSchema = z
       .email(),
 
     password: z.string().min(4, "비밀번호가 너무 짧아요"),
+    confirm_password: z.string(),
 
     //   .regex(PASSWORD_REGEX, PASSWORD_REGEX_ERROR),
     // comfirm_Password: z.string().min(10, "비밀번호가 너무 짧아요"),
@@ -76,15 +76,15 @@ const formSchema = z
       return z.NEVER;
     }
   })
-  .refine(checkPasswords, {
+  .refine((data) => data.password === data.confirm_password, {
     message: "비밀번호가 다릅니다!",
     path: ["confirm_password"],
   });
 
 export async function createAccount(
-  prevState: unknown,
+  prevState: any,
   formData: FormData
-): Promise<ActionResult> {
+) {
   const data = {
     username: formData.get("username") ?? "",
     email: formData.get("email") ?? "",

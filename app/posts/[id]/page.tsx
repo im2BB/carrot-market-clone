@@ -77,20 +77,21 @@ async function getCachedLikeStatus(postId: number) {
 export default async function PostDetail({
   params,
 }: {
-  params: { id: string };
+  params: Promise<{ id: string }>;
 }) {
   const session = await getSession(); // 여기서 세션 가져오기
-  const id = Number(params.id);
-  if (isNaN(id)) {
+  const { id } = await params;
+  const postId = Number(id);
+  if (isNaN(postId)) {
     return notFound();
   }
-  const post = await GetcachedPost(id);
+  const post = await GetcachedPost(postId);
   if (!post) {
     return notFound();
   }
 
   // session.id를 인자로 전달
-  const { likeCount, isLiked } = await getCachedLikeStatus(id);
+  const { likeCount, isLiked } = await getCachedLikeStatus(postId);
   return (
     <div className="p-5 text-white">
       <div className="flex items-center gap-2 mb-2">
@@ -115,7 +116,7 @@ export default async function PostDetail({
           <EyeIcon className="size-5" />
           <span>조회 {post.views}</span>
         </div>
-        <LikeButton isLiked={isLiked} likeCount={likeCount} postId={id} />
+        <LikeButton isLiked={isLiked} likeCount={likeCount} postId={postId} />
       </div>
       <BackButton />
     </div>

@@ -6,9 +6,10 @@ import BackButton from "@/components/back-button";
 export default async function EventPage({
   params,
 }: {
-  params: { id: string };
+  params: Promise<{ id: string }>;
 }) {
-  const event = await getEventByIdAction(+params.id);
+  const { id } = await params;
+  const event = await getEventByIdAction(+id);
 
   if (!event) {
     notFound();

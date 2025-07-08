@@ -3,10 +3,11 @@ import { NextRequest, NextResponse } from "next/server";
 
 export async function GET(
   req: NextRequest,
-  { params }: { params: { id: string } }
+  { params }: { params: Promise<{ id: string }> }
 ) {
   try {
-    const product = await getProductById(+params.id);
+    const { id } = await params;
+    const product = await getProductById(+id);
 
     if (!product) {
       return new NextResponse("Product not found", { status: 404 });

@@ -28,13 +28,14 @@ async function getStream(id: number) {
 export default async function StreamDetail({
   params,
 }: {
-  params: { id: string };
+  params: Promise<{ id: string }>;
 }) {
-  const id = Number(params.id);
-  if (isNaN(id)) {
+  const { id } = await params;
+  const streamId = Number(id);
+  if (isNaN(streamId)) {
     return notFound();
   }
-  const stream = await getStream(id);
+  const stream = await getStream(streamId);
   if (!stream) {
     return notFound;
   }

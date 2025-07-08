@@ -32,9 +32,10 @@ export const metadata = {
 export default async function SearchPage({
   searchParams,
 }: {
-  searchParams: { query?: string };
+  searchParams: Promise<{ query?: string }>;
 }) {
-  const query = searchParams.query?.trim() || "";
+  const { query: searchQuery } = await searchParams;
+  const query = searchQuery?.trim() || "";
   if (!query) {
     return (
       <div className="p-10 text-center text-neutral-400">
