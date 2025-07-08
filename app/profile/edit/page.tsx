@@ -1,5 +1,5 @@
 import db from "@/lib/db";
-import getSession from "@/lib/seeeion";
+import getSession from "@/lib/session";
 import { redirect } from "next/navigation";
 import EditProfileClient from "./client";
 

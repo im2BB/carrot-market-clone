@@ -29,9 +29,16 @@ export const metadata = {
   title: "검색 결과",
 };
 
+interface SearchPageProps {
+  searchParams: Promise<{
+    query?: string;
+  }>;
+}
+
 export default async function SearchPage({
   searchParams,
 }: {
+  searchParams: Promise<{ query?: string }>;
   searchParams: Promise<{ query?: string }>;
 }) {
   const { query: searchQuery } = await searchParams;
@@ -60,7 +67,10 @@ export default async function SearchPage({
           {products.map((product) => {
             const imgSrc = getSafeImageSrc(product.photo);
             return (
-              <div className="flex flex-col items-center justify-center">
+              <div
+                key={product.id}
+                className="flex flex-col items-center justify-center"
+              >
                 {/* <div className="flex justify-center items-center">
                   <h1 className="text-sm mb-6 text-center">
                     검색 결과: "{query}"

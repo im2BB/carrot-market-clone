@@ -2,7 +2,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { formatToTimeAgo } from "@/lib/utils";
 import db from "@/lib/db";
-import getSession from "@/lib/seeeion";
+import getSession from "@/lib/session";
 import DeleteChatButton from "./delete-chat-button";
 
 async function getChatList() {

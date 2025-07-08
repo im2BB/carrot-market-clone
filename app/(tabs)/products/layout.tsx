@@ -1,14 +1,5 @@
-export default function HomeLayout({
-  children,
-  modal,
-}: {
-  children: React.ReactNode;
-  modal: React.ReactNode;
-}) {
-  return (
-    <>
-      {children}
-      {modal}
-    </>
-  );
+import { ReactNode } from "react";
+
+export default function ProductsLayout({ children }: { children: ReactNode }) {
+  return children;
 }

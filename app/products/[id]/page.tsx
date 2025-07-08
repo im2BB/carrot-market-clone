@@ -1,10 +1,9 @@
 import db from "@/lib/db";
-import getSession from "@/lib/seeeion";
+import getSession from "@/lib/session";
 import { formatToWon } from "@/lib/utils";
 import { UserIcon } from "@heroicons/react/16/solid";
 import Image from "next/image";
 import { notFound, redirect } from "next/navigation";
-import { deleteProductAction } from "./actions";
 import BackButton from "@/components/back-button";
 
 async function getIsOwner(userId: Number) {
@@ -83,7 +82,7 @@ export default async function ProductDetail({
   };
   return (
     <div>
-      <div className=" relative aspect-square">
+      <div className="relative aspect-square">
         <Image
           fill
           className="object-cover"
@@ -120,21 +119,6 @@ export default async function ProductDetail({
         <span className="font-semibold test-lg">
           {formatToWon(product.price)}원
         </span>
-        {isOwner ? (
-          <form
-            action={async () => {
-              "use server";
-              await deleteProductAction(product.id);
-            }}
-          >
-            <button
-              className="bg-red-500 px-5 py-2.5 rounded-md text-white font-semibold"
-              type="submit"
-            >
-              삭제하기
-            </button>
-          </form>
-        ) : null}
         <form action={createChatRoom}>
           <button
             className="bg-orange-500 px-5 py-2.5 rounded-md
@@ -148,3 +132,5 @@ export default async function ProductDetail({
     </div>
   );
 }
+
+export default ProductDetail;

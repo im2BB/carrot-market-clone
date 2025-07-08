@@ -6,7 +6,7 @@ import { useState, useEffect } from "react";
 import { PhotoIcon } from "@heroicons/react/24/solid";
 import Input from "@/components/Input";
 import Button from "@/components/button";
-import { useActionState } from "react";
+import { useFormState } from "react-dom";
 import { useRouter } from "next/navigation";
 
 export default function AddEventForm() {
@@ -21,6 +21,7 @@ export default function AddEventForm() {
   const today = new Date();
   const todayString = today.toISOString().slice(0, 16);
 
+
   // 내일 날짜를 기본 종료일로 설정
   const tomorrow = new Date(today);
   tomorrow.setDate(tomorrow.getDate() + 1);
@@ -31,6 +32,7 @@ export default function AddEventForm() {
       target: { files },
     } = event;
     if (!files) return;
+
 
     const file = files[0];
     setImageSelected(true);
@@ -58,6 +60,7 @@ export default function AddEventForm() {
       const response = await getUploadUrl();
       console.log("Upload URL response:", response);
 
+
       if (response.success) {
         const { id, uploadURL } = response.result;
         setUploadUrl(uploadURL);
@@ -73,7 +76,7 @@ export default function AddEventForm() {
     }
   };
 
-  const interceptAction = async (_: any, formData: FormData) => {
+  const interceptAction = async (_: unknown, formData: FormData) => {
     try {
       if (!imageSelected) {
         return {
@@ -100,6 +103,7 @@ export default function AddEventForm() {
       const cloudflareForm = new FormData();
       cloudflareForm.append("file", file);
 
+
       console.log("Uploading to Cloudflare...");
       const uploadResponse = await fetch(uploadUrl, {
         method: "POST",
@@ -118,6 +122,7 @@ export default function AddEventForm() {
       const imageUrl = `https://imagedelivery.net/yaj69MDVrIu8_HJDUNcGIg/${photoId}/public`;
       formData.set("image", imageUrl);
 
+
       console.log("Submitting form with image URL:", imageUrl);
       const result = await createEvent(_, formData);
       console.log("Create event result:", result);
@@ -131,7 +136,7 @@ export default function AddEventForm() {
     }
   };
 
-  const [state, action] = useActionState(interceptAction, null);
+  const [state, action] = useFormState(interceptAction, null);
 
   // 성공 시 리다이렉트 처리
   useEffect(() => {
@@ -162,11 +167,17 @@ export default function AddEventForm() {
             className={`border-2 aspect-video w-full flex items-center justify-center flex-col text-neutral-300 border-neutral-300 rounded-md border-dashed cursor-pointer bg-center bg-cover ${
               !imageSelected && uploadError ? "border-red-500" : ""
             }`}
+            className={`border-2 aspect-video w-full flex items-center justify-center flex-col text-neutral-300 border-neutral-300 rounded-md border-dashed cursor-pointer bg-center bg-cover ${
+              !imageSelected && uploadError ? "border-red-500" : ""
+            }`}
             style={{ backgroundImage: `url(${preview})` }}
           >
             {!preview && (
               <>
                 <PhotoIcon className="w-20" />
+                <div className="text-neutral-400 text-sm">
+                  이벤트 이미지 추가
+                </div>
                 <div className="text-neutral-400 text-sm">
                   이벤트 이미지 추가
                 </div>
@@ -193,6 +204,7 @@ export default function AddEventForm() {
             )}
         </div>
 
+
         <Input
           name="title"
           required
@@ -203,6 +215,7 @@ export default function AddEventForm() {
               : undefined
           }
         />
+
 
         <div>
           <textarea
@@ -247,6 +260,7 @@ export default function AddEventForm() {
           />
         </div>
 
+
         <Input
           name="link"
           type="url"
@@ -270,4 +284,6 @@ export default function AddEventForm() {
       </form>
     </div>
   );
+}
+
 }

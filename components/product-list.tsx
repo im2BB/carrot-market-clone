@@ -8,15 +8,32 @@ import {
 } from "@/app/(tabs)/products/action";
 
 interface ProductListProps {
-  initialProducts: Awaited<ReturnType<typeof getInitialProducts>>;
+  onProductClick: (id: number) => void;
 }
 
-export default function ProductList({ initialProducts }: ProductListProps) {
-  const [products, setProducts] = useState(initialProducts);
+export default function ProductList({ onProductClick }: ProductListProps) {
+  const [products, setProducts] = useState<any[]>([]);
   const [isLoading, setIsLoading] = useState(false);
   const [isLastPage, setIsLastPage] = useState(false);
   const [page, setpage] = useState(0);
+  const [isInitialLoading, setIsInitialLoading] = useState(true);
   const trigger = useRef<HTMLSpanElement>(null);
+
+  useEffect(() => {
+    const loadInitialProducts = async () => {
+      try {
+        const initialProducts = await getInitialProducts();
+        setProducts(initialProducts);
+      } catch (error) {
+        console.error("Failed to load initial products:", error);
+      } finally {
+        setIsInitialLoading(false);
+      }
+    };
+
+    loadInitialProducts();
+  }, []);
+
   useEffect(() => {
     const observer = new IntersectionObserver(
       async (
@@ -44,17 +61,31 @@ export default function ProductList({ initialProducts }: ProductListProps) {
     if (trigger.current) {
       observer.observe(trigger.current);
     }
-    const onLoadMoreClick = async () => {};
     return () => {
       observer.disconnect();
     };
   }, [page]);
+
+  if (isInitialLoading) {
+    return (
+      <div className="p-5 flex flex-col gap-5">
+        <div className="flex flex-col items-center justify-center pt-64 gap-4">
+          <p className="text-neutral-400 text-lg">로딩 중...</p>
+        </div>
+      </div>
+    );
+  }
+
   return (
     <div className="p-5 flex flex-col gap-5">
       {products && products.length > 0 ? (
         <>
           {products.map((product) => (
-            <ListProduct key={product.id} {...product} />
+            <ListProduct
+              key={product.id}
+              {...product}
+              onProductClick={onProductClick}
+            />
           ))}
         </>
       ) : (

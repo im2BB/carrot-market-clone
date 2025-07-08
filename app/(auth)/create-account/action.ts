@@ -3,7 +3,7 @@ import bcrypt from "bcrypt";
 import db from "@/lib/db";
 import { z } from "zod";
 import { redirect } from "next/navigation";
-import getSession from "@/lib/seeeion";
+import getSession from "@/lib/session";
 
 const usernameSchema = z.string().min(5).max(10);
 
@@ -22,14 +22,9 @@ const formSchema = z
         invalid_type_error: "문자로만 가능해요!",
         required_error: "닉네임을 입력해주세요",
       })
-
-      .toLowerCase() //소문자로 변환
-      .trim() //공백제거
-      // .transform((username) => {
-      //   return '* {username} *'
-      // })   이런식으로 변경해서 값을 보낼수 있음
+      .toLowerCase()
+      .trim()
       .refine(checkUesrname, "potato는 안되요~"),
-
     email: z
       .string({
         invalid_type_error: "이메일을 입력해주세요",
@@ -37,7 +32,6 @@ const formSchema = z
       })
       .toLowerCase()
       .email(),
-
     password: z.string().min(4, "비밀번호가 너무 짧아요"),
     confirm_password: z.string(),
 
@@ -76,6 +70,7 @@ const formSchema = z
       return z.NEVER;
     }
   })
+  .refine((data) => data.password === data.confirm_password, {
   .refine((data) => data.password === data.confirm_password, {
     message: "비밀번호가 다릅니다!",
     path: ["confirm_password"],
@@ -116,6 +111,21 @@ export async function createAccount(
     session.id = user.id;
     await session.save();
 
-    redirect("/profile");
+      redirect("/profile");
+    }
+  } catch (error) {
+    console.error("Create account error:", error);
+    return {
+      fieldErrors: {
+        username: [],
+        email: [],
+        password: ["계정 생성 중 오류가 발생했습니다. 다시 시도해주세요."],
+        confirm_password: [],
+      },
+      values: {
+        username: formData.get("username"),
+        email: formData.get("email"),
+      },
+    };
   }
 }

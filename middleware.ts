@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from "next/server";
-import getSession from "./lib/seeeion";
+import getSession from "./lib/session";
 
 //middleware는 모든 페이지에서 전부 실행됨
 //middleware는 다른 이름으로  설정할수없음 config등도 마찬가지

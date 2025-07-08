@@ -7,6 +7,7 @@ export default async function EventPage({
   params,
 }: {
   params: Promise<{ id: string }>;
+  params: Promise<{ id: string }>;
 }) {
   const { id } = await params;
   const event = await getEventByIdAction(+id);
@@ -16,7 +17,7 @@ export default async function EventPage({
   }
 
   const DEFAULT_IMAGE = "/기본사용자.jpg";
-  function getSafeImageSrc(src?: string) {
+  function getSafeImageSrc(src: string | undefined) {
     if (!src || typeof src !== "string" || src.trim() === "")
       return DEFAULT_IMAGE;
     if (src.startsWith("data:image")) return src;

@@ -1,7 +1,7 @@
 "use server";
 
 import db from "@/lib/db";
-import getSession from "@/lib/seeeion";
+import getSession from "@/lib/session";
 
 // 사용자 프로필 조회
 export async function getUserProfile() {

@@ -10,6 +10,7 @@ interface Event {
   id: number;
   title: string;
   description: string | null;
+  description: string | null;
   image: string;
   link?: string | null;
   start_date: Date;
@@ -61,7 +62,6 @@ export default function EditEventForm({ event }: EditEventFormProps) {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setIsLoading(true);
-
     try {
       const formDataToSend = new FormData();
       formDataToSend.append("title", formData.title);
@@ -74,9 +74,7 @@ export default function EditEventForm({ event }: EditEventFormProps) {
       if (imageFile) {
         formDataToSend.append("image", imageFile);
       }
-
       const result = await updateEvent(event.id, formDataToSend);
-
       if (result.success) {
         router.push("/events/manage");
         router.refresh();
@@ -101,7 +99,6 @@ export default function EditEventForm({ event }: EditEventFormProps) {
         onChange={handleInputChange}
         placeholder="이벤트 제목을 입력하세요"
       />
-
       <div>
         <label htmlFor="description" className="block text-sm font-medium mb-2">
           이벤트 설명 *
@@ -117,7 +114,6 @@ export default function EditEventForm({ event }: EditEventFormProps) {
           placeholder="이벤트 설명을 입력하세요"
         />
       </div>
-
       <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
         <Input
           name="start_date"
@@ -136,7 +132,6 @@ export default function EditEventForm({ event }: EditEventFormProps) {
           onChange={handleInputChange}
         />
       </div>
-
       <Input
         name="link"
         type="url"
@@ -145,7 +140,6 @@ export default function EditEventForm({ event }: EditEventFormProps) {
         onChange={handleInputChange}
         placeholder="https://example.com"
       />
-
       <div>
         <label htmlFor="image" className="block text-sm font-medium mb-2">
           이벤트 이미지
@@ -153,12 +147,15 @@ export default function EditEventForm({ event }: EditEventFormProps) {
         <div className="space-y-4">
           <div className="relative w-64 h-48 border-2 border-dashed border-neutral-600 rounded-lg overflow-hidden">
             {previewImage && (
+            {previewImage && (
               <Image
+                src={previewImage}
                 src={previewImage}
                 alt="Event preview"
                 width={400}
                 height={400}
                 className="w-full h-full object-cover"
+                unoptimized={previewImage.includes("imagedelivery.net")}
                 unoptimized={previewImage.includes("imagedelivery.net")}
               />
             )}
@@ -175,7 +172,6 @@ export default function EditEventForm({ event }: EditEventFormProps) {
           </p>
         </div>
       </div>
-
       <div className="flex gap-4 pt-6">
         <button
           type="submit"

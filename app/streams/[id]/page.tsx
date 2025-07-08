@@ -1,5 +1,5 @@
 import db from "@/lib/db";
-import getSession from "@/lib/seeeion";
+import getSession from "@/lib/session";
 import { UserIcon } from "@heroicons/react/16/solid";
 import Image from "next/image";
 import { notFound } from "next/navigation";

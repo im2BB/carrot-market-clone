@@ -1,21 +1,18 @@
-import { PrismaClient } from "./generated/prisma";
+import { PrismaClient } from "@prisma/client";
 
-const db = new PrismaClient();
-
-async function test() {
-  const token = await db.sMSToken.create({
-    data: {
-      token: "121212",
-      user: {
-        connect: {
-          id: 1,
-        },
-      },
-    },
-  });
-  console.log(token);
+declare global {
+  var __db: PrismaClient | undefined;
 }
 
-test();
+let db: PrismaClient;
+
+if (process.env.NODE_ENV === "production") {
+  db = new PrismaClient();
+} else {
+  if (!global.__db) {
+    global.__db = new PrismaClient();
+  }
+  db = global.__db;
+}
 
 export default db;

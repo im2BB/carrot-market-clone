@@ -1,8 +1,9 @@
 import { getProfile } from "@/app/(tabs)/profile/action";
 import { UserIcon } from "@heroicons/react/24/outline";
-import { redirect } from "next/navigation";
 import Image from "next/image";
 import Link from "next/link";
+import { cookies } from "next/headers";
+import { redirect } from "next/navigation";
 
 export const metadata = {
   title: "내 정보",
@@ -21,6 +22,9 @@ export default async function Profile() {
 
   const logOut = async () => {
     "use server";
+    const cookieStore = await cookies();
+    cookieStore.set("delicious-karrot", "", { maxAge: 0, path: "/" });
+    redirect("/login");
   };
 
   const DEFAULT_AVATAR = "/기본사용자.jpg";
@@ -62,7 +66,7 @@ export default async function Profile() {
                 alt={user.username}
                 width={64}
                 height={64}
-                className="w-full h-full object-cover"
+                className="w-full h-full object-cover bg-neutral-800"
                 unoptimized={avatarSrc.includes("imagedelivery.net")}
               />
             ) : (

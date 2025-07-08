@@ -1,7 +1,7 @@
 import BackButton from "@/components/back-button";
 import LikeButton from "@/components/like-button";
 import db from "@/lib/db";
-import getSession from "@/lib/seeeion";
+import getSession from "@/lib/session";
 import { formatToTimeAgo } from "@/lib/utils";
 import { EyeIcon } from "@heroicons/react/24/outline";
 import { unstable_cache as nextCache, revalidateTag } from "next/cache";

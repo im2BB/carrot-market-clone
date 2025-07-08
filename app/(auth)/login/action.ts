@@ -8,7 +8,7 @@ import {
 import db from "@/lib/db";
 import { z } from "zod";
 import { redirect } from "next/navigation";
-import getSession from "@/lib/seeeion";
+import getSession from "@/lib/session";
 import loginUser from "@/lib/login";
 
 const checkEmailExists = async (email: string) => {
@@ -40,38 +40,80 @@ const formSchema = z.object({
 });
 
 export async function login(prevState: any, formData: FormData) {
-  const data = {
-    email: formData.get("email"),
-    password: formData.get("password"),
-  };
-  const result = await formSchema.spa(data);
-  if (!result.success) {
-    return result.error.flatten();
-  } else {
-    const user = await db.user.findUnique({
-      where: {
-        email: result.data.email,
-      },
-      select: {
-        id: true,
-        password: true,
-      },
-    });
-    const ok = await bcrypt.compare(
-      result.data.password,
-      user!.password ?? "xxxx"
-    );
-    if (ok) {
-      await loginUser(user);
+  try {
+    console.log("Login attempt started");
+    
+    const data = {
+      email: formData.get("email"),
+      password: formData.get("password"),
+    };
+    
+    console.log("Form data extracted:", { email: data.email });
+    
+    const result = await formSchema.safeParseAsync(data);
+    if (!result.success) {
+      console.log("Validation failed:", result.error);
+      return result.error.flatten();
     } else {
-      return {
-        fieldErrors: {
-          password: ["잘못된 비밀번호 입니다."],
-          email: [],
+      console.log("Validation passed, querying database");
+      
+      // 데이터베이스 연결 테스트
+      try {
+        await db.$connect();
+        console.log("Database connected successfully");
+      } catch (dbError) {
+        console.error("Database connection failed:", dbError);
+        throw new Error("데이터베이스 연결에 실패했습니다.");
+      }
+      
+      const user = await db.user.findUnique({
+        where: {
+          email: result.data.email,
         },
-      };
+        select: {
+          id: true,
+          password: true,
+        },
+      });
+      
+      console.log("User query result:", user ? "User found" : "User not found");
+      
+      if (!user) {
+        return {
+          fieldErrors: {
+            email: ["존재하지 않는 이메일입니다."],
+            password: [],
+          },
+        };
+      }
+      
+      const ok = await bcrypt.compare(
+        result.data.password,
+        user.password ?? "xxxx"
+      );
+      
+      console.log("Password comparison result:", ok);
+      
+      if (ok) {
+        await loginUser(user);
+        redirect("/profile");
+      } else {
+        return {
+          fieldErrors: {
+            password: ["잘못된 비밀번호 입니다."],
+            email: [],
+          },
+        };
+      }
     }
-    //유저에 이메일을 찾으면 해쉬처리된 비번을 찾고 로그인 하게 한후
-    //프로필 페이지로 이동
+  } catch (error) {
+    console.error("Login error details:", error);
+    console.error("Error stack:", error instanceof Error ? error.stack : "No stack trace");
+    return {
+      fieldErrors: {
+        email: [],
+        password: [`로그인 중 오류가 발생했습니다: ${error instanceof Error ? error.message : '알 수 없는 오류'}`],
+      },
+    };
   }
 }

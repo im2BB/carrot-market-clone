@@ -1,7 +1,7 @@
 "use server";
 
 import db from "@/lib/db";
-import getSession from "@/lib/seeeion";
+import getSession from "@/lib/session";
 import { revalidatePath } from "next/cache";
 
 // 내 판매상품 조회

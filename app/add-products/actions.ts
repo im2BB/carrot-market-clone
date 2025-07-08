@@ -3,7 +3,7 @@
 import { z } from "zod";
 import db from "@/lib/db";
 import { redirect } from "next/navigation";
-import getSession from "@/lib/seeeion";
+import getSession from "@/lib/session";
 
 const productSchema = z.object({
   photo: z.string({
