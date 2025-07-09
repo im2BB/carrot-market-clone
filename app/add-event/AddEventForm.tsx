@@ -6,7 +6,7 @@ import { useState, useEffect } from "react";
 import { PhotoIcon } from "@heroicons/react/24/solid";
 import Input from "@/components/Input";
 import Button from "@/components/button";
-import { useFormState } from "react-dom";
+import { useActionState } from "react";
 import { useRouter } from "next/navigation";
 
 export default function AddEventForm() {
@@ -131,7 +131,7 @@ export default function AddEventForm() {
     }
   };
 
-  const [state, action] = useFormState(interceptAction, null);
+  const [state, action] = useActionState(interceptAction, null);
 
   // 성공 시 리다이렉트 처리
   useEffect(() => {

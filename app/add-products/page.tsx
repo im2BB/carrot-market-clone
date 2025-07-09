@@ -4,7 +4,7 @@ import Button from "@/components/button";
 import Input from "@/components/Input";
 import { PhotoIcon } from "@heroicons/react/24/solid";
 import { useState } from "react";
-import { useFormState } from "react-dom";
+import { useActionState } from "react";
 import { getUploadUrl, uploadProduct } from "./actions";
 import BackButton from "@/components/back-button";
 
@@ -63,7 +63,7 @@ export default function AddProduct() {
     formData.set("photo", photoUrl);
     return uploadProduct(_, formData);
   };
-  const [state, action] = useFormState(interceptAction, null);
+  const [state, action] = useActionState(interceptAction, null);
   return (
     <div>
       <form action={action} className="flex flex-col gap-5 p-5">
