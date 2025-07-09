@@ -29,7 +29,6 @@ export async function getUserProfile() {
 // 최근 상품 조회
 export async function getRecentProducts(limit: number = 9) {
   try {
-    console.log("상품 데이터 가져오기 시작...");
     const products = await db.product.findMany({
       take: limit,
       orderBy: { created_at: "desc" },
@@ -41,11 +40,9 @@ export async function getRecentProducts(limit: number = 9) {
         },
       },
     });
-    console.log("데이터베이스에서 가져온 상품:", products.length, "개");
     return products;
   } catch (error) {
     console.error("Database error in getRecentProducts:", error);
-    console.error("Error details:", JSON.stringify(error, null, 2));
     return [];
   }
 }
@@ -100,16 +97,12 @@ export async function searchProducts(query: string, limit: number = 30) {
 // 이벤트 목록 조회
 export async function getEvents() {
   try {
-    console.log("이벤트 데이터 가져오기 시작...");
     const events = await db.event.findMany({
       orderBy: { created_at: "desc" },
     });
-    console.log("데이터베이스에서 가져온 이벤트:", events.length, "개");
-    console.log("이벤트 데이터:", JSON.stringify(events, null, 2));
     return events;
   } catch (error) {
     console.error("Database error in getEvents:", error);
-    console.error("Error details:", JSON.stringify(error, null, 2));
     return [];
   }
 }

@@ -12,10 +12,6 @@ export default async function Home() {
   const products = await getRecentProductsAction();
   const events = await getEventsAction();
 
-  console.log("홈 페이지 - 상품 수:", products?.length || 0);
-  console.log("홈 페이지 - 이벤트 수:", events?.length || 0);
-  console.log("이벤트 데이터:", events);
-
   return (
     <div className="p-7">
       <div className="p-10 gap-10 flex justify-center items-center">
