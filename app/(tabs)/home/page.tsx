@@ -8,6 +8,9 @@ export const metadata = {
   title: "홈",
 };
 
+// 동적 렌더링 강제 - 데이터베이스 데이터를 실시간으로 가져오기 위해
+export const dynamic = "force-dynamic";
+
 export default async function Home() {
   const products = await getRecentProductsAction();
   const events = await getEventsAction();
