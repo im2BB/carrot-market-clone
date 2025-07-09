@@ -21,6 +21,13 @@ const nextConfig: NextConfig = {
   compress: true,
   // 프로덕션 빌드 최적화
   productionBrowserSourceMaps: false,
+  // 모든 페이지를 동적으로 렌더링
+  experimental: {
+    serverActions: {
+      bodySizeLimit: "2mb",
+    },
+    forceSwcTransforms: true,
+  },
   async headers() {
     return [
       {
