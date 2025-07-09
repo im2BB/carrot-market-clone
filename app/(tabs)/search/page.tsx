@@ -29,16 +29,9 @@ export const metadata = {
   title: "검색 결과",
 };
 
-interface SearchPageProps {
-  searchParams: Promise<{
-    query?: string;
-  }>;
-}
-
 export default async function SearchPage({
   searchParams,
 }: {
-  searchParams: Promise<{ query?: string }>;
   searchParams: Promise<{ query?: string }>;
 }) {
   const { query: searchQuery } = await searchParams;

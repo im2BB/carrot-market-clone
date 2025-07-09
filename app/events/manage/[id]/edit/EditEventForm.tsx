@@ -10,7 +10,6 @@ interface Event {
   id: number;
   title: string;
   description: string | null;
-  description: string | null;
   image: string;
   link?: string | null;
   start_date: Date;
@@ -147,15 +146,12 @@ export default function EditEventForm({ event }: EditEventFormProps) {
         <div className="space-y-4">
           <div className="relative w-64 h-48 border-2 border-dashed border-neutral-600 rounded-lg overflow-hidden">
             {previewImage && (
-            {previewImage && (
               <Image
-                src={previewImage}
                 src={previewImage}
                 alt="Event preview"
                 width={400}
                 height={400}
                 className="w-full h-full object-cover"
-                unoptimized={previewImage.includes("imagedelivery.net")}
                 unoptimized={previewImage.includes("imagedelivery.net")}
               />
             )}

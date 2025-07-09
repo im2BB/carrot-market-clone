@@ -71,45 +71,42 @@ const formSchema = z
     }
   })
   .refine((data) => data.password === data.confirm_password, {
-  .refine((data) => data.password === data.confirm_password, {
     message: "비밀번호가 다릅니다!",
     path: ["confirm_password"],
   });
 
-export async function createAccount(
-  prevState: any,
-  formData: FormData
-) {
-  const data = {
-    username: formData.get("username") ?? "",
-    email: formData.get("email") ?? "",
-    password: formData.get("password"),
-    comfirm_Password: formData.get("comfirm_Password"),
-  };
-  const result = await formSchema.spa(data);
-  if (!result.success) {
-    return {
-      ...result.error.flatten(),
-      values: {
-        username: data.username,
-        email: data.email,
-      },
+export async function createAccount(prevState: any, formData: FormData) {
+  try {
+    const data = {
+      username: formData.get("username") ?? "",
+      email: formData.get("email") ?? "",
+      password: formData.get("password"),
+      confirm_password: formData.get("confirm_password"),
     };
-  } else {
-    const hashedPassword = await bcrypt.hash(result.data.password, 12);
-    const user = await db.user.create({
-      data: {
-        username: result.data.username,
-        email: result.data.email,
-        password: hashedPassword,
-      },
-      select: {
-        id: true,
-      },
-    });
-    const session = await getSession();
-    session.id = user.id;
-    await session.save();
+    const result = await formSchema.spa(data);
+    if (!result.success) {
+      return {
+        ...result.error.flatten(),
+        values: {
+          username: data.username,
+          email: data.email,
+        },
+      };
+    } else {
+      const hashedPassword = await bcrypt.hash(result.data.password, 12);
+      const user = await db.user.create({
+        data: {
+          username: result.data.username,
+          email: result.data.email,
+          password: hashedPassword,
+        },
+        select: {
+          id: true,
+        },
+      });
+      const session = await getSession();
+      session.id = user.id;
+      await session.save();
 
       redirect("/profile");
     }

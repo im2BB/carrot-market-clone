@@ -6,7 +6,6 @@ export const metadata = {
   title: "이벤트 삭제",
 };
 
-<<<<<<< HEAD
 export default async function DeleteEventPage({
   params,
 }: {
@@ -14,10 +13,6 @@ export default async function DeleteEventPage({
 }) {
   const { id } = await params;
   const event = await getEventByIdAction(+id);
-=======
-export default async function DeleteEventPage({ params }: { params: any }) {
-  const event = await getEventByIdAction(+params.id);
->>>>>>> 0962e3e95f3bb7baf2113dfc6b88adf2c668d0d1
   if (!event) {
     notFound();
   }
