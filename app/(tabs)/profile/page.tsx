@@ -10,6 +10,9 @@ export const metadata = {
   title: "내 정보",
 };
 
+// 동적 렌더링 강제
+export const dynamic = "force-dynamic";
+
 export default async function Profile() {
   const user = await getProfile();
 

@@ -15,6 +15,19 @@ const nextConfig: NextConfig = {
     ],
   },
   output: "standalone",
+  // Windows 환경에서 빌드 최적화
+  swcMinify: true,
+  // 정적 자산 최적화
+  compress: true,
+  // 프로덕션 빌드 최적화
+  productionBrowserSourceMaps: false,
+  // 모든 페이지를 동적으로 렌더링
+  experimental: {
+    serverActions: {
+      bodySizeLimit: "2mb",
+    },
+    forceSwcTransforms: true,
+  },
   async headers() {
     return [
       {

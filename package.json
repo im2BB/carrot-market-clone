@@ -7,7 +7,10 @@
     "build": "next build",
     "start": "next start",
     "lint": "next lint",
-    "postinstall": "prisma generate"
+    "postinstall": "prisma generate",
+    "clean": "rmdir /s /q .next 2>nul || echo No .next folder",
+    "clean:build": "npm run clean && npm run build",
+    "vercel:deploy": "npm run clean && vercel --prod --force"
   },
   "dependencies": {
     "@heroicons/react": "^2.2.0",
