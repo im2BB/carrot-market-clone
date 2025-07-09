@@ -6,6 +6,9 @@ import ProductModal from "@/components/ProductModal";
 import { PlusIcon } from "@heroicons/react/24/solid";
 import { useState } from "react";
 
+// 동적 렌더링 강제
+export const dynamic = "force-dynamic";
+
 export default function Products() {
   const [selectedProductId, setSelectedProductId] = useState<number | null>(
     null

@@ -1,17 +1,5 @@
-// 동적 렌더링 강제
-export const dynamic = "force-dynamic";
+import { ReactNode } from "react";
 
-export default function ProductsLayout({
-  children,
-  modal,
-}: {
-  children: React.ReactNode;
-  modal: React.ReactNode;
-}) {
-  return (
-    <>
-      {children}
-      {modal}
-    </>
-  );
+export default function ProductsLayout({ children }: { children: ReactNode }) {
+  return children;
 }
