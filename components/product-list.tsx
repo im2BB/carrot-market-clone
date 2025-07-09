@@ -6,6 +6,7 @@ import {
   getMoreProducts,
   getInitialProducts,
 } from "@/app/(tabs)/products/action";
+import Loading from "@/app/(tabs)/products/loading";
 
 interface ProductListProps {
   onProductClick: (id: number) => void;
@@ -67,13 +68,7 @@ export default function ProductList({ onProductClick }: ProductListProps) {
   }, [page]);
 
   if (isInitialLoading) {
-    return (
-      <div className="p-5 flex flex-col gap-5">
-        <div className="flex flex-col items-center justify-center pt-64 gap-4">
-          <p className="text-neutral-400 text-lg">로딩 중...</p>
-        </div>
-      </div>
-    );
+    return <Loading />;
   }
 
   return (

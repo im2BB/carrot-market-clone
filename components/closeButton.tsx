@@ -17,7 +17,7 @@ export default function CloseButton({ onCloseClick }: CloseButtonProps) {
       onClick={handleClick}
       className="absolute z-50 bg-orange-500 rounded-full right-5 top-5 text-neutral-200"
     >
-      <XMarkIcon className="size-10" />
+      <XMarkIcon className="size-6" />
     </button>
   );
 }

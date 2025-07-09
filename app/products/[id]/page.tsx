@@ -128,7 +128,7 @@ export default async function ProductDetail({
             채팅하기
           </button>
         </form>
-        <BackButton />
+        <BackButton fallbackUrl="/products" />
       </div>
     </div>
   );

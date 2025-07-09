@@ -3,12 +3,24 @@
 import { ArrowLeftIcon } from "@heroicons/react/24/outline";
 import { useRouter } from "next/navigation";
 
-export default function BackButton() {
+interface BackButtonProps {
+  fallbackUrl?: string;
+}
+
+export default function BackButton({ fallbackUrl }: BackButtonProps) {
   const router = useRouter();
+
+  const handleBack = () => {
+    if (fallbackUrl) {
+      router.push(fallbackUrl);
+    } else {
+      router.back();
+    }
+  };
 
   return (
     <button
-      onClick={() => router.back()}
+      onClick={handleBack}
       className="bg-orange-500 flex items-center
       justify-center rounded-full size-12 fixed 
       bottom-24 right-8 text-white transition-colors 
