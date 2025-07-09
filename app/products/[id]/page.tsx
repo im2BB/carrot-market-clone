@@ -91,16 +91,17 @@ export default async function ProductDetail({
         />
       </div>
       <div className="p-5 flex flex-col gap-3 border-b border-neutral-700">
-        <div className="size-10 overflow-hidden rounded-full">
-          {product.user.avater !== null ? (
+        <div className="size-10 overflow-hidden rounded-full bg-white flex items-center justify-center">
+          {product.user.avater ? (
             <Image
               src={product.user.avater}
               width={40}
               height={40}
               alt={product.user.username}
+              className="w-full h-full object-cover"
             />
           ) : (
-            <UserIcon />
+            <UserIcon className="w-6 h-6 text-gray-600" />
           )}
         </div>
         <div>

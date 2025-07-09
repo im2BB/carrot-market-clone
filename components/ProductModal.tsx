@@ -97,16 +97,17 @@ export default function ProductModal({
         </div>
         <div className="text-white">
           <div className="flex gap-3 border-b border-neutral-700 items-center mb-4 pb-3">
-            <div className="size-10 overflow-hidden rounded-full">
+            <div className="size-10 overflow-hidden rounded-full bg-white flex items-center justify-center">
               {product.user.avater ? (
                 <Image
                   src={product.user.avater}
                   width={40}
                   height={40}
                   alt={product.user.username}
+                  className="w-full h-full object-cover"
                 />
               ) : (
-                <UserIcon className="w-10 h-10 text-neutral-400" />
+                <UserIcon className="w-6 h-6 text-gray-600" />
               )}
             </div>
             <h3 className="font-semibold">{product.user.username}</h3>

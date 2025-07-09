@@ -83,7 +83,7 @@ export async function createAccount(prevState: any, formData: FormData) {
       password: formData.get("password"),
       confirm_password: formData.get("confirm_password"),
     };
-    const result = await formSchema.spa(data);
+    const result = await formSchema.safeParseAsync(data);
     if (!result.success) {
       return {
         ...result.error.flatten(),
@@ -111,6 +111,11 @@ export async function createAccount(prevState: any, formData: FormData) {
       redirect("/profile");
     }
   } catch (error) {
+    // Next.js redirect 오류는 다시 던져야 함
+    if (error instanceof Error && error.message === "NEXT_REDIRECT") {
+      throw error;
+    }
+    
     console.error("Create account error:", error);
     return {
       fieldErrors: {

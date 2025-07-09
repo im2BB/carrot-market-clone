@@ -50,16 +50,17 @@ export default async function StreamDetail({
         ></iframe>
       </div>
       <div className="p-5 flex items-center gap-3 border-b border-neutral-700">
-        <div className="size-10 overflow-hidden rounded-full">
-          {stream.user.avater !== null ? (
+        <div className="size-10 overflow-hidden rounded-full bg-white flex items-center justify-center">
+          {stream.user.avater ? (
             <Image
               src={stream.user.avater}
               width={40}
               height={40}
               alt={stream.user.username}
+              className="w-full h-full object-cover"
             />
           ) : (
-            <UserIcon />
+            <UserIcon className="w-6 h-6 text-gray-600" />
           )}
         </div>
       </div>

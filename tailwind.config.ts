@@ -8,6 +8,9 @@ const config: Config = {
   ],
   theme: {
     extend: {
+      fontFamily: {
+        sunflower: ["Sunflower", "sans-serif"],
+      },
       margin: {
         "top-a-lot": "120px",
       },

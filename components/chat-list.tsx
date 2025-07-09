@@ -1,6 +1,6 @@
 import Image from "next/image";
 import Link from "next/link";
-import { formatToTimeAgo } from "@/lib/utils";
+import { formatToTimeAgo, getSafeAvatarSrc } from "@/lib/utils";
 import db from "@/lib/db";
 import getSession from "@/lib/session";
 import DeleteChatButton from "./delete-chat-button";
@@ -59,12 +59,12 @@ export default async function ChatList() {
               key={chat.id}
               className="flex items-center gap-4 p-4 bg-neutral-900 rounded-md hover:bg-neutral-800 group"
             >
-              <div className="relative size-12">
+              <div className="relative size-12 bg-white rounded-full overflow-hidden flex items-center justify-center">
                 <Image
                   fill
-                  src={otherUser?.avater || "/user-default.png"}
+                  src={getSafeAvatarSrc(otherUser?.avater)}
                   alt={otherUser?.username || "사용자"}
-                  className="object-cover rounded-full"
+                  className="object-cover"
                 />
               </div>
               <div className="flex-1">

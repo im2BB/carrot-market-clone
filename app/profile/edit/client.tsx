@@ -8,6 +8,7 @@ import { useFormState } from "react-dom";
 import { updateProfile } from "./action";
 import { useEffect, useState } from "react";
 import Image from "next/image";
+import { getSafeAvatarSrc, DEFAULT_AVATAR } from "@/lib/utils";
 
 interface EditProfileProps {
   user: {
@@ -27,27 +28,6 @@ export default function EditProfileClient({ user }: EditProfileProps) {
     user.avatar
   );
   const [formError, setFormError] = useState<string | null>(null);
-
-  const DEFAULT_AVATAR = "/기본사용자.jpg";
-  function getSafeAvatarSrc(src?: string | null) {
-    if (!src || typeof src !== "string" || src.trim() === "") return DEFAULT_AVATAR;
-    if (src.startsWith("data:image")) return src;
-    if (src.startsWith("/")) return src;
-    
-    try {
-      const url = new URL(src);
-      if (url.hostname.includes("imagedelivery.net") || url.hostname.includes("cloudflare")) {
-        if (src.includes("/public")) {
-          return src;
-        }
-        return `${src}/width=200,height=200`;
-      }
-      if (url.protocol === "http:" || url.protocol === "https:") return src;
-    } catch {
-      return DEFAULT_AVATAR;
-    }
-    return DEFAULT_AVATAR;
-  }
 
   const currentAvatarSrc = getSafeAvatarSrc(user.avatar);
 
@@ -84,7 +64,7 @@ export default function EditProfileClient({ user }: EditProfileProps) {
       <form action={handleSubmit} className="flex flex-col gap-5">
         <div className="flex flex-col items-center gap-3">
           <label htmlFor="avatar" className="cursor-pointer">
-            <div className="w-24 h-24 rounded-full bg-neutral-800 flex items-center justify-center relative overflow-hidden">
+            <div className="w-24 h-24 rounded-full bg-white flex items-center justify-center relative overflow-hidden">
               {avatarPreview ? (
                 <Image
                   src={avatarPreview}
@@ -104,7 +84,7 @@ export default function EditProfileClient({ user }: EditProfileProps) {
                   unoptimized={currentAvatarSrc.includes("imagedelivery.net")}
                 />
               ) : (
-                <UserIcon className="w-12 h-12 text-white" />
+                <UserIcon className="w-12 h-12 text-gray-600" />
               )}
             </div>
             <input

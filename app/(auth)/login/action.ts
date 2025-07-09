@@ -107,6 +107,11 @@ export async function login(prevState: any, formData: FormData) {
       }
     }
   } catch (error) {
+    // Next.js redirect 오류는 다시 던져야 함
+    if (error instanceof Error && error.message === "NEXT_REDIRECT") {
+      throw error;
+    }
+    
     console.error("Login error details:", error);
     console.error("Error stack:", error instanceof Error ? error.stack : "No stack trace");
     return {

@@ -25,7 +25,6 @@ const nextConfig = {
     ],
   },
   serverExternalPackages: ["@prisma/client"],
-  // ...기타 설정
 };
 
 module.exports = nextConfig;

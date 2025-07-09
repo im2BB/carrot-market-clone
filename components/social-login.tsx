@@ -1,4 +1,3 @@
-import { ChatBubbleOvalLeftEllipsisIcon } from "@heroicons/react/16/solid";
 import Link from "next/link";
 
 interface SocialLoginProps {
@@ -27,13 +26,6 @@ export default function SocialLogin({ text }: SocialLoginProps) {
             ></path>
           </svg>
           <span>Github 로 {text}</span>
-        </Link>
-        <Link
-          className="primary-btn flex h-10 items-center justify-center gap-2"
-          href="/sms"
-        >
-          <ChatBubbleOvalLeftEllipsisIcon className="size-6" />
-          <span>SMS (으)로 {text}</span>
         </Link>
       </div>
     </>

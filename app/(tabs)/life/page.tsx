@@ -5,11 +5,10 @@ import {
   HandThumbUpIcon,
 } from "@heroicons/react/24/outline";
 
-import Link from "next/link";
 import { PlusIcon } from "@heroicons/react/24/outline";
 import FloatingButton from "@/components/floating-button";
 
-export const dynamic = 'force-dynamic';
+export const dynamic = "force-dynamic";
 
 export const metadata = {
   title: "커뮤니티",
@@ -82,7 +81,7 @@ export default async function Life() {
         )}
       </div>
       <FloatingButton href="/add-post">
-        <HandThumbUpIcon className="size-8" />
+        <PlusIcon className="size-8" />
       </FloatingButton>
     </div>
   );
