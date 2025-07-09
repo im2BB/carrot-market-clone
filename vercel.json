@@ -1,6 +1,7 @@
 {
   "env": {
     "DATABASE_URL": "postgres://0b72e52803f0099e3e9ff1b80ed3bc122c2b6015fc8648c3d1da8148128487f5:sk_7hKQEsy9TPaebtVlIFqHk@db.prisma.io:5432/?sslmode=require",
-    "GITHUB_CLIENT_ID": "Ov23lit0bwlP4JCN6JXG"
+    "GITHUB_CLIENT_ID": "Ov23lit0bwlP4JCN6JXG",
+    "GITHUB_CLIENT_SECRET": "6e8d4b82bdcaa15e5cc613f726a2dc8a77aafd34"
   }
 }
