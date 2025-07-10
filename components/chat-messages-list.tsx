@@ -31,6 +31,7 @@ export default function ChatMessagesList({
   const [messages, setMessages] = useState(initialMessages);
   const [message, setMessage] = useState("");
   const channel = useRef<RealtimeChannel | null>(null);
+  const messagesEndRef = useRef<HTMLDivElement>(null);
   const onChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const {
       target: { value },
@@ -69,6 +70,11 @@ export default function ChatMessagesList({
     await saveMessageAction(message, chatRoomId);
     setMessage("");
   };
+  // 메시지 스크롤을 맨 아래로 이동
+  useEffect(() => {
+    messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
+  }, [messages]);
+
   useEffect(() => {
     const client = createClient(SUPABASE_URL, SUPABASE_PUBLIC_KEY);
     channel.current = client.channel(`room-${chatRoomId}`);
@@ -84,8 +90,8 @@ export default function ChatMessagesList({
   return (
     <div className="flex flex-col h-screen">
       {/* 메시지 영역 */}
-      <div className="flex-1 overflow-y-auto p-5 pb-20">
-        <div className="flex flex-col gap-5 min-h-full justify-end">
+      <div className="flex-1 overflow-y-auto p-5 pb-24 scrollbar-hide">
+        <div className="flex flex-col gap-5">
           {messages.map((message) => (
             <div
               key={message.id}
@@ -122,6 +128,7 @@ export default function ChatMessagesList({
               </div>
             </div>
           ))}
+          <div ref={messagesEndRef} />
         </div>
       </div>
 

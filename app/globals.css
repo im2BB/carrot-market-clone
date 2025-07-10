@@ -6,6 +6,23 @@
   a {
     @apply text-orange-500;
   }
+
+  /* 전체 페이지 스크롤바 숨김 */
+  html {
+    -ms-overflow-style: none; /* Internet Explorer 10+ */
+    scrollbar-width: none; /* Firefox */
+  }
+  html::-webkit-scrollbar {
+    display: none; /* Safari and Chrome */
+  }
+
+  body {
+    -ms-overflow-style: none; /* Internet Explorer 10+ */
+    scrollbar-width: none; /* Firefox */
+  }
+  body::-webkit-scrollbar {
+    display: none; /* Safari and Chrome */
+  }
 }
 
 @layer utilities {
@@ -37,5 +54,14 @@
 @layer components {
   .primary-btn {
     @apply w-full bg-orange-500 text-white  font-medium  rounded-md text-center hover:bg-orange-400 transition-colors;
+  }
+
+  /* 스크롤바 숨김 */
+  .scrollbar-hide {
+    -ms-overflow-style: none; /* Internet Explorer 10+ */
+    scrollbar-width: none; /* Firefox */
+  }
+  .scrollbar-hide::-webkit-scrollbar {
+    display: none; /* Safari and Chrome */
   }
 }
