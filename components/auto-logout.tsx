@@ -5,7 +5,7 @@ import { useRouter } from "next/navigation";
 
 export default function AutoLogout() {
   const isLoggingOut = useRef(false);
-  const inactivityTimer = useRef<NodeJS.Timeout>();
+  const inactivityTimer = useRef<NodeJS.Timeout | null>(null);
   const router = useRouter();
 
   // 30분 (1800000ms) 후 비활성으로 간주
