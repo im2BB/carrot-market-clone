@@ -159,7 +159,7 @@ export default function AddEventForm() {
         <div>
           <label
             htmlFor="image"
-            className={`border-2 aspect-video w-full flex items-center justify-center flex-col text-neutral-300 border-neutral-300 rounded-md border-dashed cursor-pointer bg-white bg-center bg-no-repeat bg-contain ${
+            className={`border-2 aspect-video w-full flex items-center justify-center flex-col text-neutral-300 border-neutral-300 rounded-md border-dashed cursor-pointer bg-center bg-cover ${
               !imageSelected && uploadError ? "border-red-500" : ""
             }`}
             style={{ backgroundImage: `url(${preview})` }}

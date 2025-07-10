@@ -64,7 +64,7 @@ export default async function EventPage({
               src={imgSrc}
               alt={event.title}
               fill
-              className="object-contain bg-white"
+              className="object-cover"
               unoptimized={imgSrc.includes("imagedelivery.net")}
             />
           ) : (

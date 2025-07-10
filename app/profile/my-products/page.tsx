@@ -65,7 +65,7 @@ export default async function MyProductsPage() {
                     <img
                       src={imgSrc}
                       alt={product.title}
-                      className="w-full h-full object-cover rounded-lg"
+                      className="w-full h-full object-contain bg-white rounded-lg"
                     />
                   </div>
                   <div className="flex-1">

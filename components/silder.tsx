@@ -61,7 +61,7 @@ export default function Slider({ events }: { events: Event[] }) {
         delay: 10000,
         disableOnInteraction: false,
       }}
-      spaceBetween={50}
+      spaceBetween={0}
       slidesPerView={1}
       className="rounded-lg bg-white overflow-hidden hover:cursor-pointer"
     >
@@ -70,12 +70,12 @@ export default function Slider({ events }: { events: Event[] }) {
         return (
           <SwiperSlide key={event.id}>
             <Link href={`/events/${event.id}`}>
-              <div className="relative h-64 w-full bg-white">
+              <div className="relative h-64 w-full">
                 <Image
                   src={imgSrc}
                   alt={event.title}
                   fill
-                  className="object-contain"
+                  className="object-cover"
                   unoptimized={imgSrc.includes("imagedelivery.net")}
                 />
               </div>

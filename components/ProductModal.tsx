@@ -88,10 +88,10 @@ export default function ProductModal({
           className="cursor-pointer hover:bg-neutral-750 rounded-md p-2 -m-2 transition-colors"
           onClick={handleModalClick}
         >
-          <div className="relative aspect-square w-full rounded-md overflow-hidden mb-4">
+          <div className="relative aspect-square w-full rounded-md overflow-hidden mb-4 bg-white">
             <Image
               fill
-              className="object-cover"
+              className="object-contain"
               src={`${product.photo}/public`}
               alt={product.title}
             />

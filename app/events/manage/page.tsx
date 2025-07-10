@@ -92,7 +92,7 @@ export default async function EventManagePage() {
                     <img
                       src={imgSrc}
                       alt={event.title}
-                      className="w-full h-full object-contain bg-white rounded-lg"
+                      className="w-full h-full object-cover rounded-lg"
                     />
                   </div>
                   <div className="flex-1">

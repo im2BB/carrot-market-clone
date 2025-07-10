@@ -79,7 +79,7 @@ export default async function Home() {
                         alt={product.title || "상품 이미지"}
                         width={400}
                         height={400}
-                        className="w-full h-full object-cover"
+                        className="w-full h-full object-contain bg-white"
                         unoptimized={imgSrc.includes("imagedelivery.net")}
                       />
                     ) : (

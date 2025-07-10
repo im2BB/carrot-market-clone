@@ -74,7 +74,7 @@ export default async function SearchPage({
                   key={product.id}
                   className="block hover:scale-105 transition-transform duration-100"
                 >
-                  <div className="bg-neutral-800 rounded-lg overflow-hidden aspect-square">
+                  <div className="bg-white rounded-lg overflow-hidden aspect-square">
                     {imgSrc.startsWith("data:image") ||
                     imgSrc.startsWith("/") ||
                     imgSrc.startsWith("http") ? (
@@ -83,7 +83,7 @@ export default async function SearchPage({
                         alt={product.title}
                         width={400}
                         height={400}
-                        className="w-full h-full object-cover"
+                        className="w-full h-full object-contain bg-white"
                         unoptimized={imgSrc.includes("imagedelivery.net")}
                       />
                     ) : (
