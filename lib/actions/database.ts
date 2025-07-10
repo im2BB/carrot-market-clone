@@ -96,6 +96,15 @@ export async function searchProducts(query: string, limit: number = 30) {
           { description: { contains: query } },
         ],
       },
+      select: {
+        id: true,
+        title: true,
+        price: true,
+        description: true,
+        photo: true,
+        created_at: true,
+        sold: true,
+      },
       orderBy: { created_at: "desc" },
       take: limit,
     });

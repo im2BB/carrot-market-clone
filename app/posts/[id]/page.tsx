@@ -1,12 +1,14 @@
 import BackButton from "@/components/back-button";
 import LikeButton from "@/components/like-button";
+import CommentList from "@/components/comment-list";
 import db from "@/lib/db";
 import getSession from "@/lib/session";
 import { formatToTimeAgo } from "@/lib/utils";
-import { EyeIcon } from "@heroicons/react/24/outline";
+import { EyeIcon, UserIcon } from "@heroicons/react/24/outline";
 import { unstable_cache as nextCache, revalidateTag } from "next/cache";
 import Image from "next/image";
 import { notFound } from "next/navigation";
+import { getComments } from "./action";
 
 async function getPost(id: number) {
   try {
@@ -92,16 +94,26 @@ export default async function PostDetail({
 
   // session.id를 인자로 전달
   const { likeCount, isLiked } = await getCachedLikeStatus(postId);
+
+  // 댓글 목록 조회
+  const comments = await getComments(postId);
+
   return (
-    <div className="p-5 text-white">
+    <div className="p-5 text-white max-w-4xl mx-auto">
       <div className="flex items-center gap-2 mb-2">
-        <Image
-          width={28}
-          height={28}
-          className="size-7 rounded-full"
-          src={post.user.avater!}
-          alt={post.user.username}
-        />
+        <div className="size-7 rounded-full overflow-hidden bg-white flex items-center justify-center">
+          {post.user.avater ? (
+            <Image
+              width={28}
+              height={28}
+              className="size-7 rounded-full object-cover"
+              src={post.user.avater}
+              alt={post.user.username}
+            />
+          ) : (
+            <UserIcon className="w-4 h-4 text-gray-600" />
+          )}
+        </div>
         <div>
           <span className="text-sm font-semibold">{post.user.username}</span>
           <div className="text-xs">
@@ -118,6 +130,14 @@ export default async function PostDetail({
         </div>
         <LikeButton isLiked={isLiked} likeCount={likeCount} postId={postId} />
       </div>
+
+      {/* 댓글 섹션 */}
+      <CommentList
+        initialComments={comments}
+        postId={postId}
+        currentUserId={session.id}
+      />
+
       <BackButton />
     </div>
   );
