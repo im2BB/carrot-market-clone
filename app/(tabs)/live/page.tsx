@@ -1,6 +1,10 @@
 import { PlusIcon } from "@heroicons/react/24/solid";
 import Link from "next/link";
 
+export const metadata = {
+  title: "라이브",
+};
+
 // 동적 렌더링 강제
 export const dynamic = "force-dynamic";
 
