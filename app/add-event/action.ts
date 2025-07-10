@@ -74,7 +74,9 @@ export async function createEvent(_: any, formData: FormData) {
     });
 
     console.log("Event created successfully:", event);
-    redirect("/events/manage");
+
+    // 클라이언트에서 리다이렉트를 처리하므로 성공 상태 반환
+    return { success: true, event };
   } catch (error) {
     console.error("이벤트 생성 에러:", error);
     if (error instanceof Error) {

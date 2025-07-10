@@ -17,14 +17,18 @@ const publicOnlyUrls: Routes = {
 };
 
 export async function middleware(request: NextRequest) {
-  const seeeion = await getSession();
-  const extists = publicOnlyUrls[request.nextUrl.pathname];
-  if (!seeeion.id) {
-    if (!extists) {
+  const session = await getSession();
+  const isPublicPage = publicOnlyUrls[request.nextUrl.pathname];
+
+  // 로그인하지 않은 사용자
+  if (!session.id) {
+    // 비공개 페이지에 접근하려고 하면 초기 페이지로 리다이렉트
+    if (!isPublicPage) {
       return NextResponse.redirect(new URL("/", request.url));
     }
   } else {
-    if (extists) {
+    // 로그인한 사용자가 공개 페이지(로그인, 회원가입 등)에 접근하면 홈으로 리다이렉트
+    if (isPublicPage) {
       return NextResponse.redirect(new URL("/home", request.url));
     }
   }

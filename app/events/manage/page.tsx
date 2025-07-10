@@ -4,7 +4,7 @@ import { format } from "date-fns";
 import { ko } from "date-fns/locale";
 import BackButton from "@/components/back-button";
 
-export const dynamic = 'force-dynamic';
+export const dynamic = "force-dynamic";
 
 export const metadata = {
   title: "이벤트 관리",
@@ -88,11 +88,11 @@ export default async function EventManagePage() {
                 className="bg-neutral-800 rounded-lg p-6 border border-neutral-700"
               >
                 <div className="flex items-start gap-6">
-                  <div className="relative w-32 h-32 flex-shrink-0">
+                  <div className="relative w-48 h-32 flex-shrink-0">
                     <img
                       src={imgSrc}
                       alt={event.title}
-                      className="w-full h-full object-cover rounded-lg"
+                      className="w-full h-full object-contain bg-white rounded-lg"
                     />
                   </div>
                   <div className="flex-1">

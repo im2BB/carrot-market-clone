@@ -144,14 +144,14 @@ export default function EditEventForm({ event }: EditEventFormProps) {
           이벤트 이미지
         </label>
         <div className="space-y-4">
-          <div className="relative w-64 h-48 border-2 border-dashed border-neutral-600 rounded-lg overflow-hidden">
+          <div className="relative w-full aspect-video border-2 border-dashed border-neutral-600 rounded-lg overflow-hidden bg-white">
             {previewImage && (
               <Image
                 src={previewImage}
                 alt="Event preview"
                 width={400}
                 height={400}
-                className="w-full h-full object-cover"
+                className="w-full h-full object-contain"
                 unoptimized={previewImage.includes("imagedelivery.net")}
               />
             )}

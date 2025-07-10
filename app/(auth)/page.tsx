@@ -1,6 +1,14 @@
 import Link from "next/link";
+import getSession from "@/lib/session";
+import { redirect } from "next/navigation";
 
-export default function Home() {
+export default async function Home() {
+  const session = await getSession();
+
+  if (session.id) {
+    redirect("/home");
+  }
+
   return (
     <div className="flex flex-col items-center justify-center min-h-screen p-6">
       <div className="my-auto flex flex-col items-center gap-2 *:font-medium">

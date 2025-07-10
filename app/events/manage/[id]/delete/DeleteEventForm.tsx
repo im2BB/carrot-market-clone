@@ -66,11 +66,11 @@ export default function DeleteEventForm({ event }: DeleteEventFormProps) {
       </div>
 
       <div className="mb-6">
-        <div className="relative w-64 h-48 border-2 border-red-500/30 rounded-lg overflow-hidden">
+        <div className="relative w-full max-w-md aspect-video border-2 border-red-500/30 rounded-lg overflow-hidden bg-white">
           <img
             src={event.image}
             alt={event.title}
-            className="w-full h-full object-cover"
+            className="w-full h-full object-contain"
           />
         </div>
       </div>

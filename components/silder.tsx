@@ -28,13 +28,17 @@ export default function Slider({ events }: { events: Event[] }) {
 
   const DEFAULT_IMAGE = "/기본사용자.jpg";
   function getSafeImageSrc(src?: string) {
-    if (!src || typeof src !== "string" || src.trim() === "") return DEFAULT_IMAGE;
+    if (!src || typeof src !== "string" || src.trim() === "")
+      return DEFAULT_IMAGE;
     if (src.startsWith("data:image")) return src;
     if (src.startsWith("/")) return src;
-    
+
     try {
       const url = new URL(src);
-      if (url.hostname.includes("imagedelivery.net") || url.hostname.includes("cloudflare")) {
+      if (
+        url.hostname.includes("imagedelivery.net") ||
+        url.hostname.includes("cloudflare")
+      ) {
         // Cloudflare Images URL이 이미 완전한 형태인지 확인
         if (src.includes("/public")) {
           return src; // 이미 완전한 URL이면 그대로 사용
@@ -66,12 +70,12 @@ export default function Slider({ events }: { events: Event[] }) {
         return (
           <SwiperSlide key={event.id}>
             <Link href={`/events/${event.id}`}>
-              <div className="relative h-64 w-full">
+              <div className="relative h-64 w-full bg-white">
                 <Image
                   src={imgSrc}
                   alt={event.title}
                   fill
-                  className="object-cover"
+                  className="object-contain"
                   unoptimized={imgSrc.includes("imagedelivery.net")}
                 />
               </div>

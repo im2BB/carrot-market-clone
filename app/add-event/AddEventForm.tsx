@@ -136,8 +136,8 @@ export default function AddEventForm() {
   // 성공 시 리다이렉트 처리
   useEffect(() => {
     if (state && "success" in state && state.success) {
-      // 성공적으로 등록되었을 때 프로필 페이지로 이동
-      router.push("/profile");
+      // 성공적으로 등록되었을 때 이벤트 관리 페이지로 이동
+      router.push("/events/manage");
     }
   }, [state, router]);
 
@@ -159,7 +159,7 @@ export default function AddEventForm() {
         <div>
           <label
             htmlFor="image"
-            className={`border-2 aspect-video w-full flex items-center justify-center flex-col text-neutral-300 border-neutral-300 rounded-md border-dashed cursor-pointer bg-center bg-cover ${
+            className={`border-2 aspect-video w-full flex items-center justify-center flex-col text-neutral-300 border-neutral-300 rounded-md border-dashed cursor-pointer bg-white bg-center bg-no-repeat bg-contain ${
               !imageSelected && uploadError ? "border-red-500" : ""
             }`}
             style={{ backgroundImage: `url(${preview})` }}

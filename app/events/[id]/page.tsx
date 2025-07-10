@@ -55,8 +55,8 @@ export default async function EventPage({
         <h1 className="text-2xl font-bold">이벤트 상세</h1>
       </div>
 
-      <div className="bg-neutral-800 rounded-lg  overflow-hidden">
-        <div className="relative h-96  w-full">
+      <div className="bg-neutral-800 rounded-lg overflow-hidden">
+        <div className="relative w-full aspect-video">
           {imgSrc.startsWith("data:image") ||
           imgSrc.startsWith("/") ||
           imgSrc.startsWith("http") ? (
@@ -64,7 +64,7 @@ export default async function EventPage({
               src={imgSrc}
               alt={event.title}
               fill
-              className="object-cover bg-white"
+              className="object-contain bg-white"
               unoptimized={imgSrc.includes("imagedelivery.net")}
             />
           ) : (
