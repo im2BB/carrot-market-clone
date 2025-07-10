@@ -4,6 +4,7 @@ import { z } from "zod";
 import db from "@/lib/db";
 import getSession from "@/lib/session";
 import { getCloudflareUploadUrl } from "@/lib/actions/image-upload";
+import { redirect } from "next/navigation";
 
 const eventSchema = z
   .object({
@@ -73,7 +74,7 @@ export async function createEvent(_: any, formData: FormData) {
     });
 
     console.log("Event created successfully:", event);
-    return { success: true, event };
+    redirect("/events/manage");
   } catch (error) {
     console.error("이벤트 생성 에러:", error);
     if (error instanceof Error) {
