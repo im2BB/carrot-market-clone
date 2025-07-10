@@ -6,6 +6,10 @@ import ProductModal from "@/components/ProductModal";
 import { PlusIcon } from "@heroicons/react/24/solid";
 import { useState } from "react";
 
+export const metadata = {
+  title: "상품 리스트",
+};
+
 // 동적 렌더링 강제
 export const dynamic = "force-dynamic";
 
