@@ -13,6 +13,15 @@ export async function getMyProducts() {
     where: {
       userId: session.id,
     },
+    select: {
+      id: true,
+      title: true,
+      price: true,
+      description: true,
+      photo: true,
+      created_at: true,
+      sold: true,
+    },
     orderBy: {
       created_at: "desc",
     },

@@ -64,17 +64,12 @@ export default async function SearchPage({
                 key={product.id}
                 className="flex flex-col items-center justify-center"
               >
-                {/* <div className="flex justify-center items-center">
-                  <h1 className="text-sm mb-6 text-center">
-                    검색 결과: "{query}"
-                  </h1>
-                </div> */}
                 <Link
                   href={`/products/${product.id}`}
                   key={product.id}
                   className="block hover:scale-105 transition-transform duration-100"
                 >
-                  <div className="bg-white rounded-lg overflow-hidden aspect-square">
+                  <div className="bg-white rounded-lg overflow-hidden aspect-square relative">
                     {imgSrc.startsWith("data:image") ||
                     imgSrc.startsWith("/") ||
                     imgSrc.startsWith("http") ? (
@@ -83,7 +78,9 @@ export default async function SearchPage({
                         alt={product.title}
                         width={400}
                         height={400}
-                        className="w-full h-full object-contain bg-white"
+                        className={`w-full h-full object-contain bg-white ${
+                          product.sold ? "grayscale opacity-60" : ""
+                        }`}
                         unoptimized={imgSrc.includes("imagedelivery.net")}
                       />
                     ) : (
@@ -91,11 +88,25 @@ export default async function SearchPage({
                         이미지가 없습니다
                       </div>
                     )}
+                    {product.sold && (
+                      <div className="absolute inset-0 flex items-center justify-center bg-black bg-opacity-50">
+                        <span className="text-white font-bold text-lg">
+                          판매완료
+                        </span>
+                      </div>
+                    )}
                   </div>
                   <div className="flex items-center gap-7 mt-3">
-                    <h3 className="text-white truncate text-lg">
-                      {product.title}
-                    </h3>
+                    <div className="flex items-center gap-2">
+                      <h3 className="text-white truncate text-lg">
+                        {product.title}
+                      </h3>
+                      {product.sold && (
+                        <span className="bg-red-500 text-white text-xs px-2 py-1 rounded">
+                          판매완료
+                        </span>
+                      )}
+                    </div>
                     <p className="text-orange-500 font-medium text-sm">
                       {product.price.toLocaleString()}원
                     </p>

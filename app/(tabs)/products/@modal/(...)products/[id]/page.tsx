@@ -6,20 +6,18 @@ export default async function InterceptedProductModalPage({
   params: Promise<{ id: string }>;
 }) {
   const { id } = await params;
+
+  // 타입 안전성을 위해 모든 필드를 조회
   const product = await db.product.findUnique({
     where: {
       id: +id,
     },
-    select: {
-      id: true,
-      title: true,
-      price: true,
-      created_at: true,
-      photo: true,
-    },
   });
 
   if (!product) return null;
+
+  // sold 속성을 안전하게 접근
+  const productWithSold = product as typeof product & { sold?: boolean };
 
   return (
     <div className="fixed inset-0 bg-black/60 z-10">
@@ -29,12 +27,26 @@ export default async function InterceptedProductModalPage({
             <img
               src={`${product.photo}/width=400,height=400`}
               alt={product.title}
-              className="object-contain w-full h-full"
+              className={`object-contain w-full h-full ${
+                productWithSold.sold ? "grayscale opacity-60" : ""
+              }`}
             />
+            {productWithSold.sold && (
+              <div className="absolute inset-0 flex items-center justify-center bg-black bg-opacity-50">
+                <span className="text-white font-bold text-xl">판매완료</span>
+              </div>
+            )}
           </div>
           <div className="flex flex-col gap-2 *:text-white">
-            <h2 className="text-2xl font-bold">{product.title}</h2>
-            <p className="text-neutral-400">
+            <div className="flex items-center gap-3">
+              <h2 className="text-2xl font-bold">{product.title}</h2>
+              {productWithSold.sold && (
+                <span className="bg-red-500 text-white text-sm px-3 py-1 rounded">
+                  판매완료
+                </span>
+              )}
+            </div>
+            <p className="text-neutral-400 text-sm ml-2">
               {new Date(product.created_at).toLocaleDateString()}
             </p>
             <p className="text-xl font-semibold text-orange-500">

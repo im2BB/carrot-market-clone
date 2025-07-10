@@ -18,6 +18,7 @@ interface Product {
     username: string;
     avater: string | null;
   };
+  sold: boolean;
 }
 
 export default function ProductModal({
@@ -91,10 +92,17 @@ export default function ProductModal({
           <div className="relative aspect-square w-full rounded-md overflow-hidden mb-4 bg-white">
             <Image
               fill
-              className="object-contain"
+              className={`object-contain ${
+                product.sold ? "grayscale opacity-60" : ""
+              }`}
               src={`${product.photo}/public`}
               alt={product.title}
             />
+            {product.sold && (
+              <div className="absolute inset-0 flex items-center justify-center bg-black bg-opacity-50">
+                <span className="text-white font-bold text-xl">판매완료</span>
+              </div>
+            )}
           </div>
           <div className="text-white">
             <div className="flex gap-3 border-b border-neutral-700 items-center mb-4 pb-3">
@@ -114,7 +122,14 @@ export default function ProductModal({
               <h3 className="font-semibold">{product.user.username}</h3>
             </div>
             <div className="flex justify-between items-center mb-3">
-              <h1 className="text-2xl font-semibold">{product.title}</h1>
+              <div className="flex items-center gap-3">
+                <h1 className="text-2xl font-semibold">{product.title}</h1>
+                {product.sold && (
+                  <span className="bg-red-500 text-white text-sm px-3 py-1 rounded">
+                    판매완료
+                  </span>
+                )}
+              </div>
               <h1 className="font-semibold text-orange-500">
                 {formatToWon(product.price)}원
               </h1>

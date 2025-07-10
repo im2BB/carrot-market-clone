@@ -34,6 +34,7 @@ model Product {
   price       Float
   description String
   photo       String
+  sold        Boolean  @default(false)
   created_at  DateTime @default(now())
   update_at   DateTime @updatedAt
   user        User     @relation(fields: [userId], references: [id], onDelete: Cascade)

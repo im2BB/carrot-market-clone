@@ -60,17 +60,35 @@ export default async function MyProductsPage() {
                 key={product.id}
                 className="bg-neutral-800 rounded-lg p-6 border border-neutral-700"
               >
-                <div className="flex items-start gap-6">
+                <div className="flex gap-6">
                   <div className="relative w-32 h-32 flex-shrink-0">
                     <img
                       src={imgSrc}
                       alt={product.title}
-                      className="w-full h-full object-contain bg-white rounded-lg"
+                      className={`w-full h-full object-contain bg-white rounded-lg ${
+                        product.sold ? "grayscale opacity-60" : ""
+                      }`}
                     />
+                    {product.sold && (
+                      <div className="absolute inset-0 flex items-center justify-center bg-black bg-opacity-50 rounded-lg">
+                        <span className="text-white font-bold text-sm">
+                          판매완료
+                        </span>
+                      </div>
+                    )}
                   </div>
                   <div className="flex-1">
                     <div className="flex items-center justify-between mb-2">
-                      <h3 className="text-xl font-semibold">{product.title}</h3>
+                      <div className="flex items-center gap-3">
+                        <h3 className="text-xl font-semibold">
+                          {product.title}
+                        </h3>
+                        {product.sold && (
+                          <span className="bg-red-500 text-white text-sm px-3 py-1 rounded">
+                            판매완료
+                          </span>
+                        )}
+                      </div>
                       <span className="text-orange-500 font-bold text-lg">
                         {formatToWon(product.price)}원
                       </span>

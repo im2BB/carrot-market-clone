@@ -5,6 +5,7 @@ import { UserIcon } from "@heroicons/react/16/solid";
 import Image from "next/image";
 import { notFound, redirect } from "next/navigation";
 import BackButton from "@/components/back-button";
+import { toggleSoldStatus } from "./action";
 
 async function getIsOwner(userId: Number) {
   const session = await getSession();
@@ -80,6 +81,12 @@ export default async function ProductDetail({
     });
     redirect(`/chats/${room.id}`);
   };
+
+  const handleToggleSold = async () => {
+    "use server";
+    await toggleSoldStatus(productId);
+  };
+
   return (
     <div>
       <div className="relative aspect-square bg-white">
@@ -110,7 +117,14 @@ export default async function ProductDetail({
       </div>
 
       <div className="p-5">
-        <h1 className="text-2xl font-semibold">{product.title}</h1>
+        <div className="flex items-center gap-2">
+          <h1 className="text-2xl font-semibold">{product.title}</h1>
+          {product.sold && (
+            <span className="bg-red-500 text-white text-sm px-2 py-1 rounded">
+              판매 완료
+            </span>
+          )}
+        </div>
         <p>{product.description}</p>
       </div>
       <div
@@ -120,14 +134,32 @@ export default async function ProductDetail({
         <span className="font-semibold text-lg text-orange-500">
           {formatToWon(product.price)}원
         </span>
-        <form action={createChatRoom}>
-          <button
-            className="bg-orange-500 px-5 py-2.5 rounded-md
-           text-white font-semibold"
-          >
-            채팅하기
-          </button>
-        </form>
+        <div className="flex gap-2">
+          {isOwner ? (
+            <form action={handleToggleSold}>
+              <button
+                className={`px-5 py-2.5 rounded-md text-white font-semibold ${
+                  product.sold
+                    ? "bg-green-500 hover:bg-green-600"
+                    : "bg-red-500 hover:bg-red-600"
+                }`}
+              >
+                {product.sold ? "판매 취소" : "판매 완료"}
+              </button>
+            </form>
+          ) : (
+            !product.sold && (
+              <form action={createChatRoom}>
+                <button
+                  className="bg-orange-500 px-5 py-2.5 rounded-md
+                 text-white font-semibold"
+                >
+                  채팅하기
+                </button>
+              </form>
+            )
+          )}
+        </div>
         <BackButton fallbackUrl="/products" />
       </div>
     </div>

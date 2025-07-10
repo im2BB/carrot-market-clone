@@ -30,9 +30,19 @@ export async function getUserProfile() {
 export async function getRecentProducts(limit: number = 9) {
   try {
     const products = await db.product.findMany({
+      where: {
+        sold: false, // 판매 완료되지 않은 상품만 조회
+      },
       take: limit,
       orderBy: { created_at: "desc" },
-      include: {
+      select: {
+        id: true,
+        title: true,
+        price: true,
+        description: true,
+        photo: true,
+        created_at: true,
+        sold: true,
         user: {
           select: {
             username: true,
@@ -60,6 +70,7 @@ export async function getProductsWithPagination(
         created_at: true,
         photo: true,
         id: true,
+        sold: true,
       },
       skip: page * take,
       take,
@@ -131,10 +142,18 @@ export async function getProductById(id: number) {
   try {
     return await db.product.findUnique({
       where: { id },
-      include: {
+      select: {
+        id: true,
+        title: true,
+        price: true,
+        description: true,
+        photo: true,
+        created_at: true,
+        sold: true,
         user: {
           select: {
             username: true,
+            avater: true,
           },
         },
       },
