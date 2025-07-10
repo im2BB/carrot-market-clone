@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { Sunflower } from "next/font/google";
 import "./globals.css";
+import AutoLogout from "@/components/auto-logout";
 
 const SunflowerKR = Sunflower({
   subsets: ["latin"],
@@ -36,6 +37,7 @@ Readonly<{
       <body
         className={`${SunflowerKR.className} bg-neutral-900 text-white max-w-screen-sm mx-auto`}
       >
+        <AutoLogout />
         {children}
       </body>
     </html>
