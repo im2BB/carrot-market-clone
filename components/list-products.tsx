@@ -33,12 +33,16 @@ export default function ListProduct({
           alt={title}
         />
       </div>
-      <div className="flex  flex-col gap-1 *:text-white">
-        <span className="text-lg">{title}</span>
-        <span className="text-sm text-neutral-500">
-          {formatToTimeAgo(created_at.toString())}
+      <div className="flex flex-col gap-5">
+        <div className="flex justify-center text-center gap-1">
+          <span className="text-lg text-white mr-5">{title}</span>
+          <span className="text-sm text-neutral-500">
+            {formatToTimeAgo(created_at.toString())}
+          </span>
+        </div>
+        <span className="text-lg font-semibold text-orange-500">
+          {formatToWon(price)}원
         </span>
-        <span className="text-lg font-semibold">{formatToWon(price)}원</span>
       </div>
     </div>
   );

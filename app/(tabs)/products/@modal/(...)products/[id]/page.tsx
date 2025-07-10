@@ -37,7 +37,7 @@ export default async function InterceptedProductModalPage({
             <p className="text-neutral-400">
               {new Date(product.created_at).toLocaleDateString()}
             </p>
-            <p className="text-xl font-semibold">
+            <p className="text-xl font-semibold text-orange-500">
               {product.price.toLocaleString()}원
             </p>
           </div>

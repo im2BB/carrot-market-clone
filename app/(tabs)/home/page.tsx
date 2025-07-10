@@ -88,7 +88,7 @@ export default async function Home() {
                       </div>
                     )}
                   </div>
-                  <div className="flex items-center gap-7 mt-3">
+                  <div className="flex flex-col items-center mt-3">
                     <h3 className="text-white truncate text-lg">
                       {product.title || "제목 없음"}
                     </h3>

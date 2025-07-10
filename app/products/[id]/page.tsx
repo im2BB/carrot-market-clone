@@ -117,7 +117,7 @@ export default async function ProductDetail({
         className="fixed w-full bottom-0 left-0 p-5 lb-10 
       bg-neutral-800 flex justify-between items-center"
       >
-        <span className="font-semibold test-lg">
+        <span className="font-semibold text-lg text-orange-500">
           {formatToWon(product.price)}원
         </span>
         <form action={createChatRoom}>

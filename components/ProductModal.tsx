@@ -115,7 +115,9 @@ export default function ProductModal({
             </div>
             <div className="flex justify-between items-center mb-3">
               <h1 className="text-2xl font-semibold">{product.title}</h1>
-              <h1 className="font-semibold">{formatToWon(product.price)}원</h1>
+              <h1 className="font-semibold text-orange-500">
+                {formatToWon(product.price)}원
+              </h1>
             </div>
             <div className="text-neutral-300">
               <p>{product.description}</p>
