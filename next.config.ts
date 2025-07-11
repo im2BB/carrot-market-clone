@@ -28,7 +28,7 @@ const nextConfig: NextConfig = {
   // 모든 페이지를 동적으로 렌더링
   experimental: {
     serverActions: {
-      bodySizeLimit: "2mb",
+      bodySizeLimit: "6mb",
     },
     forceSwcTransforms: true,
   },

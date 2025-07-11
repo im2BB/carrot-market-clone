@@ -34,6 +34,21 @@ export default function EditProfileClient({ user }: EditProfileProps) {
   const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
     if (file) {
+      // 이미지 파일 체크
+      if (!file.type.startsWith("image/")) {
+        alert("이미지 파일만 업로드할 수 있습니다.");
+        e.target.value = "";
+        return;
+      }
+
+      // 6MB 크기 제한
+      const maxSize = 6 * 1024 * 1024; // 6MB
+      if (file.size > maxSize) {
+        alert("이미지 크기는 6MB를 넘을 수 없습니다.");
+        e.target.value = "";
+        return;
+      }
+
       const reader = new FileReader();
       reader.onloadend = () => {
         setAvatarPreview(reader.result as string);

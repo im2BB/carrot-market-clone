@@ -42,10 +42,10 @@ export default function AddEventForm() {
       return;
     }
 
-    // 5MB 크기 제한
-    const maxSize = 5 * 1024 * 1024;
+    // 6MB 크기 제한
+    const maxSize = 6 * 1024 * 1024; // 6MB
     if (file.size > maxSize) {
-      alert("이미지 크기는 5MB를 넘을 수 없습니다.");
+      alert("이미지 크기는 6MB를 넘을 수 없습니다.");
       setImageSelected(false);
       return;
     }

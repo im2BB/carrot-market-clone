@@ -21,16 +21,16 @@ export default function AddProduct() {
     }
     const file = files[0];
 
-    // 이미지 파일인지 체크
+    // 이미지 파일 체크
     if (!file.type.startsWith("image/")) {
       alert("이미지 파일만 업로드할 수 있습니다.");
       return;
     }
 
-    // 3MB 이하인지 체크
-    const maxSize = 3 * 1024 * 1024; // 3MB
+    // 6MB 크기 제한
+    const maxSize = 6 * 1024 * 1024; // 6MB
     if (file.size > maxSize) {
-      alert("이미지 크기는 3MB를 넘을 수 없습니다.");
+      alert("이미지 크기는 6MB를 넘을 수 없습니다.");
       return;
     }
 
