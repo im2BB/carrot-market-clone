@@ -57,6 +57,38 @@ export async function getRecentProducts(limit: number = 9) {
   }
 }
 
+// 최근 게시물 조회
+export async function getRecentPosts(limit: number = 5) {
+  try {
+    const posts = await db.post.findMany({
+      take: limit,
+      orderBy: { created_at: "desc" },
+      select: {
+        id: true,
+        title: true,
+        description: true,
+        created_at: true,
+        views: true,
+        user: {
+          select: {
+            username: true,
+          },
+        },
+        _count: {
+          select: {
+            comments: true,
+            likes: true,
+          },
+        },
+      },
+    });
+    return posts;
+  } catch (error) {
+    console.error("Database error in getRecentPosts:", error);
+    return [];
+  }
+}
+
 // 상품 목록 조회 (페이지네이션)
 export async function getProductsWithPagination(
   page: number = 0,
