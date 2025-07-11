@@ -11,6 +11,14 @@
   html {
     -ms-overflow-style: none; /* Internet Explorer 10+ */
     scrollbar-width: none; /* Firefox */
+    /* PWA 최적화 */
+    touch-action: manipulation;
+    -webkit-tap-highlight-color: transparent;
+    -webkit-touch-callout: none;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
   }
   html::-webkit-scrollbar {
     display: none; /* Safari and Chrome */
@@ -19,9 +27,28 @@
   body {
     -ms-overflow-style: none; /* Internet Explorer 10+ */
     scrollbar-width: none; /* Firefox */
+    /* PWA 최적화 */
+    overscroll-behavior: none;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
   }
   body::-webkit-scrollbar {
     display: none; /* Safari and Chrome */
+  }
+
+  /* 모바일 최적화 */
+  * {
+    -webkit-tap-highlight-color: transparent;
+  }
+
+  input,
+  textarea,
+  button,
+  select {
+    -webkit-user-select: auto;
+    -moz-user-select: auto;
+    -ms-user-select: auto;
+    user-select: auto;
   }
 }
 
@@ -49,11 +76,100 @@
     background-size: 200% 100%;
     animation: shimmer 2s infinite linear;
   }
+
+  /* PWA 애니메이션 */
+  @keyframes slide-down {
+    from {
+      opacity: 0;
+      transform: translateY(-100%);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  @keyframes slide-up {
+    from {
+      opacity: 0;
+      transform: translateY(100%);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  @keyframes fade-in {
+    from {
+      opacity: 0;
+    }
+    to {
+      opacity: 1;
+    }
+  }
+
+  @keyframes bounce-in {
+    0% {
+      opacity: 0;
+      transform: scale(0.3);
+    }
+    50% {
+      opacity: 1;
+      transform: scale(1.05);
+    }
+    70% {
+      transform: scale(0.9);
+    }
+    100% {
+      opacity: 1;
+      transform: scale(1);
+    }
+  }
+
+  .animate-slide-down {
+    animation: slide-down 0.3s ease-out;
+  }
+
+  .animate-slide-up {
+    animation: slide-up 0.3s ease-out;
+  }
+
+  .animate-fade-in {
+    animation: fade-in 0.3s ease-out;
+  }
+
+  .animate-bounce-in {
+    animation: bounce-in 0.5s ease-out;
+  }
+
+  /* 터치 피드백 */
+  .touch-feedback {
+    transition: all 0.1s ease;
+  }
+
+  .touch-feedback:active {
+    transform: scale(0.98);
+    filter: brightness(0.9);
+  }
+
+  /* PWA 스타일 클래스 */
+  .pwa-card {
+    @apply bg-white/10 backdrop-blur-sm border border-white/20 rounded-xl;
+  }
+
+  .pwa-button {
+    @apply bg-orange-500 hover:bg-orange-600 active:bg-orange-700 text-white font-medium py-3 px-6 rounded-lg transition-all duration-200 touch-feedback;
+  }
+
+  .pwa-button-secondary {
+    @apply bg-white/10 hover:bg-white/20 active:bg-white/30 text-white font-medium py-3 px-6 rounded-lg transition-all duration-200 touch-feedback;
+  }
 }
 
 @layer components {
   .primary-btn {
-    @apply w-full bg-orange-500 text-white  font-medium  rounded-md text-center hover:bg-orange-400 transition-colors;
+    @apply w-full bg-orange-500 text-white font-medium rounded-md text-center hover:bg-orange-400 transition-colors touch-feedback;
   }
 
   /* 스크롤바 숨김 */
@@ -63,5 +179,43 @@
   }
   .scrollbar-hide::-webkit-scrollbar {
     display: none; /* Safari and Chrome */
+  }
+
+  /* PWA 안전 영역 */
+  .pwa-safe-area {
+    padding-top: env(safe-area-inset-top);
+    padding-bottom: env(safe-area-inset-bottom);
+    padding-left: env(safe-area-inset-left);
+    padding-right: env(safe-area-inset-right);
+  }
+
+  /* 네비게이션 바 스타일 */
+  .pwa-nav {
+    @apply fixed bottom-0 left-0 right-0 bg-neutral-800/90 backdrop-blur-sm border-t border-neutral-700;
+    padding-bottom: env(safe-area-inset-bottom);
+  }
+}
+
+/* 모바일 브라우저 최적화 */
+@media (max-width: 640px) {
+  .container {
+    padding-left: 1rem;
+    padding-right: 1rem;
+  }
+}
+
+/* 다크 모드 지원 */
+@media (prefers-color-scheme: dark) {
+  html {
+    color-scheme: dark;
+  }
+}
+
+/* 모션 감소 설정 */
+@media (prefers-reduced-motion: reduce) {
+  * {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
   }
 }

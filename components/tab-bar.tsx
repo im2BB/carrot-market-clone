@@ -19,52 +19,64 @@ import { usePathname } from "next/navigation";
 
 export default function TabBar() {
   const pathname = usePathname();
+
+  const tabs = [
+    {
+      href: "/home",
+      label: "홈",
+      icon: pathname === "/home" ? SolidHomeIcon : OutlineHomeIcon,
+    },
+    {
+      href: "/life",
+      label: "커뮤니티",
+      icon: pathname === "/life" ? SolidNewspaperIcon : OutlineNewspaperIcon,
+    },
+    {
+      href: "/chat",
+      label: "채팅",
+      icon: pathname === "/chat" ? SolidChatIcon : OutlineChatIcon,
+    },
+    {
+      href: "/products",
+      label: "상품",
+      icon:
+        pathname === "/products"
+          ? SolidShoppingBagIcon
+          : OutlineShoppingBagIcon,
+    },
+    {
+      href: "/profile",
+      label: "프로필",
+      icon: pathname === "/profile" ? SolidUserIcon : OutlineUserIcon,
+    },
+  ];
+
   return (
-    <div
-      className="flexd bottom-0 w-full mx-auto  
-    max-w-screen-md grid grid-cols-5 border-neutral-600 border-t
-    px-5 py-3 *:text-white bg-neutral-800"
-    >
-      <Link href="/home" className="flex flex-col items-center gap-px">
-        {pathname === "/home" ? (
-          <SolidHomeIcon className="w-7 h-7" />
-        ) : (
-          <OutlineHomeIcon className="w-7 h-7" />
-        )}
-        <span>홈</span>
-      </Link>
-      <Link href="/life" className="flex flex-col items-center gap-px">
-        {pathname === "/life" ? (
-          <SolidNewspaperIcon className="w-7 h-7" />
-        ) : (
-          <OutlineNewspaperIcon className="w-7 h-7" />
-        )}
-        <span>커뮤니티</span>
-      </Link>
-      <Link href="/chat" className="flex flex-col items-center gap-px">
-        {pathname === "/chat" ? (
-          <SolidChatIcon className="w-7 h-7" />
-        ) : (
-          <OutlineChatIcon className="w-7 h-7" />
-        )}
-        <span>채팅</span>
-      </Link>
-      <Link href="/products" className="flex flex-col items-center gap-px">
-        {pathname === "/products" ? (
-          <SolidShoppingBagIcon className="w-7 h-7" />
-        ) : (
-          <OutlineShoppingBagIcon className="w-7 h-7" />
-        )}
-        <span>쇼핑</span>
-      </Link>
-      <Link href="/profile" className="flex flex-col items-center gap-px">
-        {pathname === "/profile" ? (
-          <SolidUserIcon className="w-7 h-7" />
-        ) : (
-          <OutlineUserIcon className="w-7 h-7" />
-        )}
-        <span>내 당근</span>
-      </Link>
+    <div className="pwa-nav">
+      <div className="flex justify-around items-center max-w-screen-sm mx-auto px-4 py-2">
+        {tabs.map((tab) => {
+          const Icon = tab.icon;
+          const isActive = pathname === tab.href;
+
+          return (
+            <Link
+              key={tab.href}
+              href={tab.href}
+              className={`
+                flex flex-col items-center gap-1 py-2 px-3 rounded-lg transition-all duration-200 touch-feedback
+                ${
+                  isActive
+                    ? "text-orange-500 bg-orange-500/10"
+                    : "text-gray-400 hover:text-white hover:bg-white/5"
+                }
+              `}
+            >
+              <Icon className="w-6 h-6" />
+              <span className="text-xs font-medium">{tab.label}</span>
+            </Link>
+          );
+        })}
+      </div>
     </div>
   );
 }
