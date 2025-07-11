@@ -21,11 +21,13 @@
     "paths": {
       "@/*": ["./*"]
     },
-    "forceConsistentCasingInFileNames": false
+    "forceConsistentCasingInFileNames": false,
+    "types": []
   },
   "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", ".next/types/**/*.ts", "types/**/*.ts"],
   "exclude": ["node_modules"],
   "typeAcquisition": {
-    "exclude": ["minimatch"]
+    "enable": false,
+    "exclude": ["minimatch", "@types/minimatch"]
   }
 }
