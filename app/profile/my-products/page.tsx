@@ -2,7 +2,7 @@ import { getMyProducts } from "./action";
 import { formatToWon } from "@/lib/utils";
 import Link from "next/link";
 import BackButton from "@/components/back-button";
-import DeleteProductButton from "./DeleteProductButton";
+import ToggleSoldButton from "./ToggleSoldButton";
 
 export const metadata = {
   title: "내 판매상품",
@@ -109,13 +109,10 @@ export default async function MyProductsPage() {
                       >
                         상품 보기
                       </Link>
-                      <Link
-                        href={`/add-products?edit=${product.id}`}
-                        className="bg-neutral-500 hover:bg-neutral-600 text-white px-4 py-2 rounded-lg text-sm font-medium transition-colors"
-                      >
-                        수정
-                      </Link>
-                      <DeleteProductButton productId={product.id} />
+                      <ToggleSoldButton
+                        productId={product.id}
+                        isSold={product.sold}
+                      />
                     </div>
                   </div>
                 </div>

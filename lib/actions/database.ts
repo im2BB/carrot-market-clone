@@ -34,7 +34,13 @@ export async function getRecentProducts(limit: number = 9) {
       // 모든 상품 조회 (판매 완료 포함)
       take: limit,
       orderBy: { created_at: "desc" },
-      // select: { ... } 제거 → 모든 필드 가져오기
+      include: {
+        user: {
+          select: {
+            username: true,
+          },
+        },
+      },
     });
 
     // 대표 이미지 처리

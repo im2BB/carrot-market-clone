@@ -58,10 +58,19 @@ export default async function Life() {
               <div className="flex items-center justify-between text-sm">
                 <div className="flex gap-4 items-center">
                   <span>
-                    {new Date(post.created_at).toLocaleDateString("ko-KR")}
+                    {new Date(post.created_at)
+                      .toLocaleDateString("ko-KR", {
+                        year: "numeric",
+                        month: "2-digit",
+                        day: "2-digit",
+                      })
+                      .replace(/\. /g, ".")
+                      .replace(/\.$/, "")}
                   </span>
                   <span>|</span>
-                  <span>{post.user?.username || "알 수 없음"}</span>
+                  <span className="text-orange-400">
+                    {post.user?.username || "알 수 없음"}
+                  </span>
                   <span>.</span>
                   <span>조회수 {post.views}</span>
                 </div>

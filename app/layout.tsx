@@ -3,6 +3,7 @@ import "./globals.css";
 import AutoLogout from "@/components/auto-logout";
 import InstallPrompt from "@/components/install-prompt";
 import PWAStatus from "@/components/pwa-status";
+import NetworkStatus from "@/components/NetworkStatus";
 
 export const metadata: Metadata = {
   title: "당근당근!",
@@ -97,11 +98,17 @@ export default function RootLayout({
         <link rel="manifest" href="/manifest.json" />
         <link rel="mask-icon" href="/pwa-icon.svg" color="#f97316" />
         <link rel="shortcut icon" href="/pwa-icon.svg" />
+        <meta name="theme-color" content="#ff6f0f" />
+        <meta name="apple-mobile-web-app-capable" content="yes" />
+        <meta name="apple-mobile-web-app-status-bar-style" content="default" />
+        <meta name="apple-mobile-web-app-title" content="CarrotMarket" />
+        <link rel="apple-touch-icon" href="/favicon-192.png" />
       </head>
       <body
         style={{ fontFamily: "'AstaSans', sans-serif" }}
         className={"bg-neutral-900 text-white max-w-screen-sm mx-auto"}
       >
+        <NetworkStatus />
         <AutoLogout />
         <PWAStatus />
         <InstallPrompt />

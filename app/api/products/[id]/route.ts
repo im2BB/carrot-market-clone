@@ -2,9 +2,12 @@ import { NextRequest, NextResponse } from "next/server";
 import db from "@/lib/db";
 import getSession from "@/lib/session";
 
-export async function GET(request: NextRequest, { params }: { params: any }) {
+export async function GET(
+  request: NextRequest,
+  { params }: { params: Promise<{ id: string }> }
+) {
   try {
-    const { id } = params;
+    const { id } = await params;
     const productId = Number(id);
     if (isNaN(productId)) {
       return NextResponse.json(

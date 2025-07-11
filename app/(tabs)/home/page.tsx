@@ -27,7 +27,7 @@ export default async function Home() {
       <div className="flex justify-center items-center py-8">
         <Image
           src="/logo-carrot.png"
-          alt="당근이려나 로고"
+          alt="당근마켓 클론 로고"
           width={220}
           height={220}
           priority
@@ -125,6 +125,18 @@ export default async function Home() {
                     <p className="text-orange-500 font-medium text-sm">
                       {product.price ? product.price.toLocaleString() : 0}원
                     </p>
+                    <div className="flex items-center gap-2 mt-1">
+                      <span className="text-neutral-400 text-xs">
+                        {product.user?.username || "알 수 없음"}
+                      </span>
+                      <span className="text-neutral-500 text-xs">•</span>
+                      <span className="text-neutral-400 text-xs">
+                        {formatDistanceToNow(new Date(product.created_at), {
+                          addSuffix: true,
+                          locale: ko,
+                        })}
+                      </span>
+                    </div>
                   </div>
                 </Link>
               );

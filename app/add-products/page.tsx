@@ -16,6 +16,17 @@ interface PhotoData {
   file: File;
 }
 
+interface FormState {
+  fieldErrors?: {
+    title?: string[];
+    price?: string[];
+    description?: string[];
+  };
+  fieldValues?: {
+    description?: string;
+  };
+}
+
 export default function AddProduct() {
   const [photos, setPhotos] = useState<PhotoData[]>([]);
   const [representativeIndex, setRepresentativeIndex] = useState(0);
@@ -96,7 +107,7 @@ export default function AddProduct() {
     setRepresentativeIndex(index);
   };
 
-  const interceptAction = async (_: any, formData: FormData) => {
+  const interceptAction = async (_: unknown, formData: FormData) => {
     if (photos.length === 0) {
       alert("최소 1장의 사진을 업로드해주세요.");
       return;
@@ -250,14 +261,14 @@ export default function AddProduct() {
           required
           placeholder="제목을 입력해주세요"
           type="text"
-          errors={state?.fieldErrors.title}
+          errors={(state as FormState)?.fieldErrors?.title}
         />
         <Input
           name="price"
           required
           placeholder="가격을 입력해주세요"
           type="number"
-          errors={state?.fieldErrors.price}
+          errors={(state as FormState)?.fieldErrors?.price}
         />
         {/* 설명 입력란 textarea로 대체 */}
         <div>
@@ -266,11 +277,11 @@ export default function AddProduct() {
             required
             placeholder="설명을 입력해주세요"
             className="bg-transparent rounded-md w-full h-40 md:h-60 foucus:outline-none ring-2 focus:ring-4 transition ring-neutral-200 focus:ring-orange-500 border-none placeholder:text-neutral-400 p-3 text-white resize-vertical"
-            defaultValue={state?.fieldValues?.description || ""}
+            defaultValue={(state as FormState)?.fieldValues?.description || ""}
           />
-          {state?.fieldErrors?.description && (
+          {(state as FormState)?.fieldErrors?.description && (
             <div className="text-red-500 text-xs mt-1">
-              {state.fieldErrors.description}
+              {(state as FormState).fieldErrors!.description}
             </div>
           )}
         </div>
