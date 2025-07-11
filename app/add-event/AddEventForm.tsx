@@ -73,7 +73,7 @@ export default function AddEventForm() {
     }
   };
 
-  const interceptAction = async (_: unknown, formData: FormData) => {
+  const interceptAction = async (_: any, formData: FormData) => {
     try {
       if (!imageSelected) {
         return {
@@ -135,7 +135,12 @@ export default function AddEventForm() {
 
   // 성공 시 리다이렉트 처리
   useEffect(() => {
-    if (state && "success" in state && state.success) {
+    if (
+      state &&
+      typeof state === "object" &&
+      "success" in state &&
+      (state as any).success
+    ) {
       // 성공적으로 등록되었을 때 이벤트 관리 페이지로 이동
       router.push("/events/manage");
     }
