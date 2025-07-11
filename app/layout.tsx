@@ -1,15 +1,8 @@
 import type { Metadata } from "next";
-import { Sunflower } from "next/font/google";
 import "./globals.css";
 import AutoLogout from "@/components/auto-logout";
 import InstallPrompt from "@/components/install-prompt";
 import PWAStatus from "@/components/pwa-status";
-
-const SunflowerKR = Sunflower({
-  subsets: ["latin"],
-  weight: ["300", "500", "700"],
-  style: ["normal"],
-});
 
 export const metadata: Metadata = {
   title: "당근당근!",
@@ -88,6 +81,10 @@ export default function RootLayout({
   return (
     <html lang="ko">
       <head>
+        <link
+          href="https://fonts.cdnfonts.com/css/asta-sans"
+          rel="stylesheet"
+        />
         <meta name="apple-mobile-web-app-capable" content="yes" />
         <meta name="apple-mobile-web-app-status-bar-style" content="default" />
         <meta name="apple-mobile-web-app-title" content="당근당근" />
@@ -102,7 +99,8 @@ export default function RootLayout({
         <link rel="shortcut icon" href="/pwa-icon.svg" />
       </head>
       <body
-        className={`${SunflowerKR.className} bg-neutral-900 text-white max-w-screen-sm mx-auto`}
+        style={{ fontFamily: "'AstaSans', sans-serif" }}
+        className={"bg-neutral-900 text-white max-w-screen-sm mx-auto"}
       >
         <AutoLogout />
         <PWAStatus />

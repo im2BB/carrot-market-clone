@@ -2,16 +2,25 @@
 
 import Button from "@/components/button";
 import Input from "@/components/Input";
-import { PhotoIcon } from "@heroicons/react/24/solid";
+import { PhotoIcon, XMarkIcon } from "@heroicons/react/24/solid";
 import { useState } from "react";
 import { useActionState } from "react";
 import { getUploadUrl, uploadProduct } from "./actions";
 import BackButton from "@/components/back-button";
 
+interface PhotoData {
+  id: string;
+  url: string;
+  preview: string;
+  uploadURL: string;
+  file: File;
+}
+
 export default function AddProduct() {
-  const [priview, setPreview] = useState("");
-  const [uploadUrl, setuploadUrl] = useState("");
-  const [photoId, setphotoId] = useState("");
+  const [photos, setPhotos] = useState<PhotoData[]>([]);
+  const [representativeIndex, setRepresentativeIndex] = useState(0);
+  const [isUploading, setIsUploading] = useState(false);
+
   const onImageChange = async (event: React.ChangeEvent<HTMLInputElement>) => {
     const {
       target: { files },
@@ -19,78 +28,223 @@ export default function AddProduct() {
     if (!files) {
       return;
     }
-    const file = files[0];
 
-    // 이미지 파일 체크
-    if (!file.type.startsWith("image/")) {
-      alert("이미지 파일만 업로드할 수 있습니다.");
+    // 최대 5장 제한
+    if (photos.length + files.length > 5) {
+      alert("최대 5장까지만 업로드할 수 있습니다.");
       return;
     }
 
-    // 6MB 크기 제한
-    const maxSize = 6 * 1024 * 1024; // 6MB
-    if (file.size > maxSize) {
-      alert("이미지 크기는 6MB를 넘을 수 없습니다.");
-      return;
-    }
+    setIsUploading(true);
 
-    const url = URL.createObjectURL(file);
-    //URL.createObjectURL(file); 업로드한 파일에 대한 URL을 생성
-    // 해당 사용 브라우져에 일시적으로 생성 새로고침시 삭제
-    setPreview(url);
-    const { success, result } = await getUploadUrl();
-    if (success) {
-      const { id, uploadURL } = result;
-      setuploadUrl(uploadURL);
-      setphotoId(id);
+    try {
+      for (let i = 0; i < files.length; i++) {
+        const file = files[i];
+
+        // 이미지 파일 체크
+        if (!file.type.startsWith("image/")) {
+          alert("이미지 파일만 업로드할 수 있습니다.");
+          continue;
+        }
+
+        // 6MB 크기 제한
+        const maxSize = 6 * 1024 * 1024; // 6MB
+        if (file.size > maxSize) {
+          alert("이미지 크기는 6MB를 넘을 수 없습니다.");
+          continue;
+        }
+
+        const preview = URL.createObjectURL(file);
+        const { success, result } = await getUploadUrl();
+
+        if (success) {
+          const { id, uploadURL } = result;
+          const photoUrl = `https://imagedelivery.net/yaj69MDVrIu8_HJDUNcGIg/${id}`;
+
+          setPhotos((prev) => [
+            ...prev,
+            {
+              id,
+              url: photoUrl,
+              preview,
+              uploadURL,
+              file,
+            },
+          ]);
+        }
+      }
+    } catch (error) {
+      console.error("이미지 업로드 중 오류:", error);
+      alert("이미지 업로드 중 오류가 발생했습니다.");
+    } finally {
+      setIsUploading(false);
     }
   };
-  const interceptAction = async (_: any, formData: FormData) => {
-    const file = formData.get("photo");
-    if (!file) {
-      return;
-    }
-    const cloudflareForm = new FormData();
-    cloudflareForm.append("file", file);
-    const response = await fetch(uploadUrl, {
-      method: "post",
-      body: cloudflareForm,
+
+  const removePhoto = (index: number) => {
+    setPhotos((prev) => {
+      const newPhotos = prev.filter((_, i) => i !== index);
+      // 대표 이미지 인덱스 조정
+      if (representativeIndex >= newPhotos.length) {
+        setRepresentativeIndex(Math.max(0, newPhotos.length - 1));
+      }
+      return newPhotos;
     });
-    if (response.status !== 200) {
+  };
+
+  const setRepresentative = (index: number) => {
+    setRepresentativeIndex(index);
+  };
+
+  const interceptAction = async (_: any, formData: FormData) => {
+    if (photos.length === 0) {
+      alert("최소 1장의 사진을 업로드해주세요.");
       return;
     }
-    const photoUrl = `https://imagedelivery.net/yaj69MDVrIu8_HJDUNcGIg/${photoId}`;
-    formData.set("photo", photoUrl);
+
+    // 모든 이미지를 Cloudflare에 업로드
+    for (let i = 0; i < photos.length; i++) {
+      const photo = photos[i];
+      const cloudflareForm = new FormData();
+      cloudflareForm.append("file", photo.file);
+
+      const response = await fetch(photo.uploadURL, {
+        method: "post",
+        body: cloudflareForm,
+      });
+
+      if (response.status !== 200) {
+        alert("이미지 업로드에 실패했습니다.");
+        return;
+      }
+    }
+
+    // FormData에 모든 이미지 URL 추가
+    photos.forEach((photo) => {
+      formData.append("photos", photo.url);
+    });
+
+    formData.append("representativePhotoIndex", representativeIndex.toString());
+
     return uploadProduct(_, formData);
   };
+
   const [state, action] = useActionState(interceptAction, null);
+
+  // 엔터키로 submit 방지
+  const handleFormKeyDown = (e: React.KeyboardEvent<HTMLFormElement>) => {
+    if (
+      e.key === "Enter" &&
+      e.target instanceof HTMLTextAreaElement === false
+    ) {
+      e.preventDefault();
+    }
+  };
+
+  // 저장하기 버튼 클릭 시 확인창
+  const handleSaveClick = (e: React.MouseEvent<HTMLButtonElement>) => {
+    if (!window.confirm("저장하시겠습니까?")) {
+      e.preventDefault();
+    }
+  };
+
   return (
     <div>
-      <form action={action} className="flex flex-col gap-5 p-5">
-        <label
-          htmlFor="photo"
-          className="border-2 aspect-square flex items-center 
-          justify-center flex-col text-neutral-300 border-neutral-300 
-          rounded-md border-dashed cursor-pointer bg-center bg-cover"
-          style={{ backgroundImage: `url(${priview})` }}
-        >
-          {priview === "" ? (
-            <>
-              <PhotoIcon className="w-20" />
-              <div className="text-neutral-400 text-sm">
-                사진을 추가해주세요
-              </div>
-            </>
-          ) : null}
-        </label>
-        <input
-          onChange={onImageChange}
-          type="file"
-          id="photo"
-          name="photo"
-          accept="image/*"
-          className="hidden"
-        />
+      <form
+        action={action}
+        className="flex flex-col gap-5 p-5"
+        onKeyDown={handleFormKeyDown}
+      >
+        {/* 이미지 업로드 영역 */}
+        <div className="space-y-4">
+          <div className="flex items-center justify-between">
+            <h3 className="text-lg font-medium text-white">상품 이미지</h3>
+            <span className="text-sm text-neutral-400">{photos.length}/5</span>
+          </div>
+
+          {/* 이미지 업로드 버튼(label) 내부에 대표 이미지 미리보기 */}
+          <label
+            htmlFor="photo"
+            className="border-2 aspect-square flex items-center 
+            justify-center flex-col text-neutral-300 border-neutral-300 
+            rounded-md border-dashed cursor-pointer bg-center bg-cover hover:border-orange-400 transition-colors w-150 h-150 mx-auto relative"
+            style={photos.length > 0 ? { padding: 0 } : {}}
+          >
+            {photos.length === 0 ? (
+              <>
+                <PhotoIcon className="w-12" />
+                <div className="text-neutral-400 text-sm text-center">
+                  사진을 추가해주세요
+                  <br />
+                  <span className="text-xs">최대 5장까지</span>
+                </div>
+              </>
+            ) : (
+              <>
+                <img
+                  src={photos[representativeIndex].preview}
+                  alt="대표 이미지 미리보기"
+                  className="object-contain w-full h-full rounded-md"
+                />
+                <div className="absolute bottom-2 left-2 bg-orange-500 text-white text-xs px-2 py-1 rounded">
+                  대표 미리보기
+                </div>
+              </>
+            )}
+          </label>
+
+          <input
+            onChange={onImageChange}
+            type="file"
+            id="photo"
+            name="photo"
+            accept="image/*"
+            multiple
+            className="hidden"
+            disabled={isUploading}
+          />
+
+          {/* 썸네일 리스트 (가로 스크롤) */}
+          {photos.length > 0 && (
+            <div className="flex gap-3 overflow-x-auto pb-2">
+              {photos.map((photo, index) => (
+                <div
+                  key={photo.id}
+                  className="relative w-20 h-20 flex-shrink-0"
+                >
+                  <img
+                    src={photo.preview}
+                    alt={`썸네일 ${index + 1}`}
+                    className={`object-cover w-full h-full rounded-lg border-2 cursor-pointer transition-all ${
+                      representativeIndex === index
+                        ? "border-orange-500"
+                        : "border-neutral-400"
+                    }`}
+                    onClick={() => setRepresentative(index)}
+                  />
+                  <button
+                    type="button"
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      removePhoto(index);
+                    }}
+                    className="absolute top-1 right-1 bg-red-500 text-white rounded-full p-1 hover:bg-red-600 transition-colors z-10"
+                  >
+                    <XMarkIcon className="w-4 h-4" />
+                  </button>
+                </div>
+              ))}
+            </div>
+          )}
+
+          {photos.length > 0 && (
+            <p className="text-xs text-neutral-400">
+              💡 아래 썸네일을 클릭하면 대표 이미지가 변경됩니다
+            </p>
+          )}
+        </div>
+
+        {/* 이하 기존 입력 폼 유지 */}
         <Input
           name="title"
           required
@@ -104,15 +258,27 @@ export default function AddProduct() {
           placeholder="가격을 입력해주세요"
           type="number"
           errors={state?.fieldErrors.price}
-        />{" "}
-        <Input
-          name="description"
-          required
-          placeholder="설명을 입력해주세요"
-          type="text"
-          errors={state?.fieldErrors.description}
         />
-        <Button text="저장하기" />
+        {/* 설명 입력란 textarea로 대체 */}
+        <div>
+          <textarea
+            name="description"
+            required
+            placeholder="설명을 입력해주세요"
+            className="bg-transparent rounded-md w-full h-40 md:h-60 foucus:outline-none ring-2 focus:ring-4 transition ring-neutral-200 focus:ring-orange-500 border-none placeholder:text-neutral-400 p-3 text-white resize-vertical"
+            defaultValue={state?.fieldValues?.description || ""}
+          />
+          {state?.fieldErrors?.description && (
+            <div className="text-red-500 text-xs mt-1">
+              {state.fieldErrors.description}
+            </div>
+          )}
+        </div>
+        <Button
+          text={isUploading ? "업로드 중..." : "저장하기"}
+          disabled={isUploading}
+          onClick={handleSaveClick}
+        />
       </form>
       <BackButton />
     </div>

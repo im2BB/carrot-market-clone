@@ -6,6 +6,7 @@ import Image from "next/image";
 import { notFound, redirect } from "next/navigation";
 import BackButton from "@/components/back-button";
 import { toggleSoldStatus } from "./action";
+import ProductImageSlider from "@/components/ProductImageSlider";
 
 async function getIsOwner(userId: Number) {
   const session = await getSession();
@@ -59,6 +60,15 @@ export default async function ProductDetail({
     return notFound();
   }
   const isOwner = await getIsOwner(product.userId);
+
+  // 이미지 배열 처리 (기존 photo 필드와 새로운 photos 배열 모두 지원)
+  const images =
+    product.photos && product.photos.length > 0
+      ? product.photos
+      : product.photo
+      ? [product.photo]
+      : [];
+
   const createChatRoom = async () => {
     "use server";
     const session = await getSession();
@@ -88,15 +98,15 @@ export default async function ProductDetail({
   };
 
   return (
-    <div>
-      <div className="relative aspect-square bg-white">
-        <Image
-          fill
-          className="object-contain"
-          src={`${product.photo}/public`}
-          alt={product.title}
-        />
-      </div>
+    <div className="relative">
+      <BackButton fallbackUrl="/products" position="right" />
+      <ProductImageSlider
+        images={images}
+        representativeIndex={product.representativePhotoIndex || 0}
+        productId={productId}
+        isOwner={isOwner}
+      />
+
       <div className="p-5 flex flex-col gap-3 border-b border-neutral-700">
         <div className="size-10 overflow-hidden rounded-full bg-white flex items-center justify-center">
           {product.user.avater ? (
@@ -160,7 +170,6 @@ export default async function ProductDetail({
             )
           )}
         </div>
-        <BackButton fallbackUrl="/products" />
       </div>
     </div>
   );

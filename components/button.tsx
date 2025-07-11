@@ -3,14 +3,16 @@ import { useFormStatus } from "react-dom";
 
 interface ButtonProps {
   text: string;
+  disabled?: boolean;
+  onClick?: (e: React.MouseEvent<HTMLButtonElement>) => void;
 }
 
-export default function Button({ text }: ButtonProps) {
+export default function Button({ text, disabled, onClick }: ButtonProps) {
   const { pending } = useFormStatus();
   return (
     <button
-      disabled={pending}
-      //이 훅은 form에 자식 계열(form내부)만 사용가능
+      disabled={pending || disabled}
+      onClick={onClick}
       className="primary-btn h-10 
     disabled:bg-neutral-400 disabled:text-neutral-300
     disabled:cursor-not-allowed"

@@ -5,9 +5,13 @@ import { useRouter } from "next/navigation";
 
 interface BackButtonProps {
   fallbackUrl?: string;
+  position?: "left" | "right";
 }
 
-export default function BackButton({ fallbackUrl }: BackButtonProps) {
+export default function BackButton({
+  fallbackUrl,
+  position = "left",
+}: BackButtonProps) {
   const router = useRouter();
 
   const handleBack = () => {
@@ -21,12 +25,11 @@ export default function BackButton({ fallbackUrl }: BackButtonProps) {
   return (
     <button
       onClick={handleBack}
-      className="bg-orange-500 flex items-center
-      justify-center rounded-full size-12 fixed 
-      bottom-24 right-8 text-white transition-colors 
-      hover:bg-orange-400"
+      className={`bg-orange-500 flex items-center justify-center rounded-full w-12 h-12 absolute top-4 ${
+        position === "right" ? "right-4" : "left-4"
+      } z-30 text-white transition-colors hover:bg-orange-400`}
     >
-      <ArrowLeftIcon className="size-7" />
+      <ArrowLeftIcon className="w-6 h-6" />
     </button>
   );
 }

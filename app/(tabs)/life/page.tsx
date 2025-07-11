@@ -15,7 +15,6 @@ export const metadata = {
 };
 
 async function getPosts() {
-  // await new Promise((r) => setTimeout(r, 100000)); // 스켈레톤용
   const posts = await db.post.findMany({
     select: {
       id: true,
@@ -29,7 +28,13 @@ async function getPosts() {
           likes: true,
         },
       },
+      user: {
+        select: {
+          username: true,
+        },
+      },
     },
+    orderBy: { created_at: "desc" },
   });
   return posts;
 }
@@ -52,7 +57,11 @@ export default async function Life() {
               <p>{post.description}</p>
               <div className="flex items-center justify-between text-sm">
                 <div className="flex gap-4 items-center">
-                  <span>{formatToTimeAgo(post.created_at.toString())}</span>
+                  <span>
+                    {new Date(post.created_at).toLocaleDateString("ko-KR")}
+                  </span>
+                  <span>|</span>
+                  <span>{post.user?.username || "알 수 없음"}</span>
                   <span>.</span>
                   <span>조회수 {post.views}</span>
                 </div>

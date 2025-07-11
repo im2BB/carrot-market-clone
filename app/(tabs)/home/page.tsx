@@ -24,70 +24,21 @@ export default async function Home() {
 
   return (
     <div className="p-7">
-      <div className="p-10 gap-10 flex justify-center items-center">
-        <p className="text-6xl text-orange-600">🥕당근이려나</p>
+      <div className="flex justify-center items-center py-8">
+        <Image
+          src="/logo-carrot.png"
+          alt="당근이려나 로고"
+          width={220}
+          height={220}
+          priority
+        />
       </div>
       <SearchBar />
       <div>
         <Silder events={events || []} />
       </div>
 
-      {/* 최근 게시물 섹션 */}
       <div className="gap-2 mb-8">
-        <h2 className="flex p-5 justify-center text-orange-400 items-center text-lg font-medium">
-          최근 게시물
-        </h2>
-        {!posts || posts.length === 0 ? (
-          <div className="flex flex-col items-center justify-center py-8 gap-2">
-            <p className="text-neutral-400 text-sm">등록된 게시물이 없습니다</p>
-          </div>
-        ) : (
-          <div className="space-y-3">
-            {posts.map((post) => (
-              <Link
-                key={post.id}
-                href={`/posts/${post.id}`}
-                className="block bg-neutral-800 rounded-lg p-4 hover:bg-neutral-700 transition-colors"
-              >
-                <div className="flex justify-between items-start mb-2">
-                  <h3 className="text-white font-medium text-sm line-clamp-1 flex-1">
-                    {post.title}
-                  </h3>
-                  <span className="text-neutral-400 text-xs ml-2 flex-shrink-0">
-                    {formatDistanceToNow(new Date(post.created_at), {
-                      addSuffix: true,
-                      locale: ko,
-                    })}
-                  </span>
-                </div>
-                {post.description && (
-                  <p className="text-neutral-300 text-xs line-clamp-2 mb-2">
-                    {post.description}
-                  </p>
-                )}
-                <div className="flex justify-between items-center text-xs text-neutral-400">
-                  <span>{post.user.username}</span>
-                  <div className="flex gap-3">
-                    <span>👁 {post.views}</span>
-                    <span>💬 {post._count.comments}</span>
-                    <span>👍 {post._count.likes}</span>
-                  </div>
-                </div>
-              </Link>
-            ))}
-            <div className="text-center pt-2">
-              <Link
-                href="/life"
-                className="text-orange-400 text-sm hover:text-orange-300 transition-colors"
-              >
-                더보기 →
-              </Link>
-            </div>
-          </div>
-        )}
-      </div>
-
-      <div className="gap-2">
         <h2 className="flex p-5 justify-center text-orange-400 items-center text-lg font-medium">
           최근 등록 상품
         </h2>
@@ -178,6 +129,48 @@ export default async function Home() {
                 </Link>
               );
             })}
+          </div>
+        )}
+      </div>
+
+      {/* 최근 게시물 섹션 - 최근 상품 아래로 이동, 제목만 표시 */}
+      <div className="gap-2">
+        <h2 className="flex p-5 justify-center text-orange-400 items-center text-lg font-medium">
+          최근 게시물
+        </h2>
+        {!posts || posts.length === 0 ? (
+          <div className="flex flex-col items-center justify-center py-8 gap-2">
+            <p className="text-neutral-400 text-sm">등록된 게시물이 없습니다</p>
+          </div>
+        ) : (
+          <div className="space-y-3">
+            {posts.map((post) => (
+              <Link
+                key={post.id}
+                href={`/posts/${post.id}`}
+                className="block bg-neutral-800 rounded-lg p-4 hover:bg-neutral-700 transition-colors"
+              >
+                <div className="flex justify-between items-center">
+                  <h3 className="text-white font-medium text-sm line-clamp-1 flex-1">
+                    {post.title}
+                  </h3>
+                  <span className="text-neutral-400 text-xs ml-2 flex-shrink-0">
+                    {formatDistanceToNow(new Date(post.created_at), {
+                      addSuffix: true,
+                      locale: ko,
+                    })}
+                  </span>
+                </div>
+              </Link>
+            ))}
+            <div className="text-center pt-2">
+              <Link
+                href="/life"
+                className="text-orange-400 text-sm hover:text-orange-300 transition-colors"
+              >
+                더보기 →
+              </Link>
+            </div>
           </div>
         )}
       </div>
