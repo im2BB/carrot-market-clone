@@ -72,3 +72,38 @@ export async function deleteChatRoom(chatRoomId: string) {
     return { success: false };
   }
 }
+
+// 게시글 삭제
+export async function deletePost(postId: number) {
+  try {
+    // 트랜잭션을 사용하여 모든 작업이 함께 실행되도록 보장
+    await db.$transaction(async (tx) => {
+      // 1. 먼저 해당 게시글의 모든 좋아요 삭제
+      await tx.like.deleteMany({
+        where: {
+          postId,
+        },
+      });
+
+      // 2. 해당 게시글의 모든 댓글 삭제
+      await tx.comment.deleteMany({
+        where: {
+          postId,
+        },
+      });
+
+      // 3. 게시글 삭제
+      await tx.post.delete({
+        where: {
+          id: postId,
+        },
+      });
+    });
+
+    revalidatePath("/life");
+    return { success: true };
+  } catch (error) {
+    console.error("게시글 삭제 중 오류 발생:", error);
+    return { success: false };
+  }
+}

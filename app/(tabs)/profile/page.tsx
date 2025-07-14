@@ -5,6 +5,7 @@ import Link from "next/link";
 import { cookies } from "next/headers";
 import { redirect } from "next/navigation";
 import { getSafeAvatarSrc, DEFAULT_AVATAR } from "@/lib/utils";
+import { isAdmin } from "@/lib/actions/admin";
 
 export const metadata = {
   title: "내 정보",
@@ -15,6 +16,7 @@ export const dynamic = "force-dynamic";
 
 export default async function Profile() {
   const user = await getProfile();
+  const adminCheck = await isAdmin();
 
   if (!user) {
     return (
@@ -26,93 +28,94 @@ export default async function Profile() {
 
   const logOut = async () => {
     "use server";
-    const cookieStore = await cookies();
-    cookieStore.set("delicious-karrot", "", { maxAge: 0, path: "/" });
-    redirect("/login");
+    const cookie = await cookies();
+    cookie.delete("session");
+    redirect("/");
   };
 
-  const avatarSrc = getSafeAvatarSrc(user.avater);
+  const productCount = user._count?.products || 0;
+  const postCount = user._count?.posts || 0;
 
   return (
-    <div className="p-5 gap-5">
-      <div className="flex justify-between">
-        <div className="flex items-center gap-4 mb-8">
-          <div className="w-16 h-16 rounded-full bg-white flex items-center justify-center overflow-hidden">
-            {avatarSrc !== DEFAULT_AVATAR ? (
-              <Image
-                src={avatarSrc}
-                alt={user.username}
-                width={64}
-                height={64}
-                className="w-full h-full object-cover"
-                unoptimized={avatarSrc.includes("imagedelivery.net")}
-              />
-            ) : (
-              <UserIcon className="w-8 h-8 text-gray-600" />
-            )}
-          </div>
-          <div>
-            <h3 className="text-white font-medium text-lg">{user.username}</h3>
-            <p className="text-gray-400">{user.email}</p>
-          </div>
-        </div>
-        <div className="p-3">
-          {" "}
-          <a
-            href="/profile/edit"
-            className="primary-btn h-8 w-24 flex items-center justify-center"
-          >
-            프로필 수정
-          </a>
+    <div className="space-y-6">
+      <div className="px-5 flex items-center gap-3">
+        <Image
+          width={60}
+          height={60}
+          src={getSafeAvatarSrc(user.avatar)}
+          alt={user.username}
+          className="size-14 rounded-full object-cover"
+        />
+        <div className="flex flex-col">
+          <span className="text-lg font-semibold">{user.username}</span>
+          <span className="text-sm text-gray-400">{user.email}</span>
         </div>
       </div>
-      <div className="flex gap-4 text-center border-y border-neutral-800 py-4">
+
+      <div className="grid grid-cols-2 gap-2 text-center">
         <Link
           href="/profile/my-products"
-          className="flex-1 hover:bg-neutral-800 rounded-lg p-2 transition-colors"
+          className="flex flex-col items-center p-3 transition-colors hover:bg-neutral-800 rounded-lg"
         >
-          <span className="text-white font-medium block">
-            {user._count.products}
+          <span className="text-2xl font-bold text-orange-500">
+            {productCount}
           </span>
-          <span className="text-sm text-gray-400">판매상품</span>
+          <span className="text-sm text-gray-400">상품</span>
         </Link>
         <Link
           href="/profile/my-posts"
-          className="flex-1 hover:bg-neutral-800 rounded-lg p-2 transition-colors"
+          className="flex flex-col items-center p-3 transition-colors hover:bg-neutral-800 rounded-lg"
         >
-          <span className="text-white font-medium block">
-            {user._count.posts}
+          <span className="text-2xl font-bold text-orange-500">
+            {postCount}
           </span>
           <span className="text-sm text-gray-400">게시글</span>
         </Link>
       </div>
       <div className="flex p-5 gap-5 items-center justify-center border-y border-neutral-800">
-        <a
-          href="/add-event"
+        {adminCheck && (
+          <a
+            href="/add-event"
+            className="primary-btn h-8 w-24 flex items-center justify-center mt-2"
+          >
+            이벤트 등록
+          </a>
+        )}
+        <Link
+          href="/add-products"
           className="primary-btn h-8 w-24 flex items-center justify-center mt-2"
         >
-          이벤트 등록
-        </a>
-        <a
-          href="/events/manage"
+          상품 등록
+        </Link>
+        <Link
+          href="/add-post"
           className="primary-btn h-8 w-24 flex items-center justify-center mt-2"
         >
-          이벤트 관리
-        </a>
+          게시글 작성
+        </Link>
       </div>
-      <form
-        className="gap-2 p-8 flex justify-center items-center"
-        action={logOut}
-      >
-        <button
-          className="
-          primary-btn h-8 w-1/2 
-          disabled:bg-neutral-400 disabled:text-neutral-300
-          disabled:cursor-not-allowed"
+      <div className="space-y-3 px-5">
+        <Link
+          href="/profile/edit"
+          className="flex items-center justify-between p-3 transition-colors hover:bg-neutral-800 rounded-lg"
         >
-          로그 아웃
-        </button>
-      </form>
+          <span>프로필 수정</span>
+          <UserIcon className="size-5 text-gray-400" />
+        </Link>
+        <Link
+          href="/events/manage"
+          className="flex items-center justify-between p-3 transition-colors hover:bg-neutral-800 rounded-lg"
+        >
+          <span>이벤트 관리</span>
+          <UserIcon className="size-5 text-gray-400" />
+        </Link>
+        <form action={logOut}>
+          <button className="flex items-center justify-between p-3 transition-colors hover:bg-neutral-800 rounded-lg w-full text-left">
+            <span>로그아웃</span>
+            <UserIcon className="size-5 text-gray-400" />
+          </button>
+        </form>
+      </div>
     </div>
   );
 }

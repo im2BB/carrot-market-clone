@@ -1,4 +1,4 @@
-import type { Metadata } from "next";
+import type { Metadata, Viewport } from "next";
 import "./globals.css";
 import AutoLogout from "@/components/auto-logout";
 import InstallPrompt from "@/components/install-prompt";
@@ -6,9 +6,9 @@ import PWAStatus from "@/components/pwa-status";
 import NetworkStatus from "@/components/NetworkStatus";
 
 export const metadata: Metadata = {
+  metadataBase: new URL("http://localhost:3000"),
   title: "당근당근!",
   description: "당근마켓 클론 - 중고 거래 플랫폼",
-  manifest: "/manifest.json",
   appleWebApp: {
     capable: true,
     statusBarStyle: "default",
@@ -62,12 +62,13 @@ export const metadata: Metadata = {
       { url: "/pwa-icon.svg", sizes: "512x512", type: "image/svg+xml" },
     ],
   },
-  viewport: {
-    width: "device-width",
-    initialScale: 1,
-    maximumScale: 1,
-    userScalable: false,
-  },
+};
+
+export const viewport: Viewport = {
+  width: "device-width",
+  initialScale: 1,
+  maximumScale: 1,
+  userScalable: false,
   themeColor: [
     { media: "(prefers-color-scheme: light)", color: "#f97316" },
     { media: "(prefers-color-scheme: dark)", color: "#1f2937" },
@@ -82,10 +83,6 @@ export default function RootLayout({
   return (
     <html lang="ko">
       <head>
-        <link
-          href="https://fonts.cdnfonts.com/css/asta-sans"
-          rel="stylesheet"
-        />
         <meta name="apple-mobile-web-app-capable" content="yes" />
         <meta name="apple-mobile-web-app-status-bar-style" content="default" />
         <meta name="apple-mobile-web-app-title" content="당근당근" />
@@ -93,20 +90,16 @@ export default function RootLayout({
         <meta name="msapplication-config" content="/browserconfig.xml" />
         <meta name="msapplication-TileColor" content="#f97316" />
         <meta name="msapplication-tap-highlight" content="no" />
-        <link rel="apple-touch-icon" href="/pwa-icon.svg" />
+        <link rel="apple-touch-icon" href="/icon-192.png" />
         <link rel="icon" type="image/svg+xml" href="/pwa-icon.svg" />
         <link rel="manifest" href="/manifest.json" />
         <link rel="mask-icon" href="/pwa-icon.svg" color="#f97316" />
         <link rel="shortcut icon" href="/pwa-icon.svg" />
-        <meta name="theme-color" content="#ff6f0f" />
-        <meta name="apple-mobile-web-app-capable" content="yes" />
-        <meta name="apple-mobile-web-app-status-bar-style" content="default" />
-        <meta name="apple-mobile-web-app-title" content="CarrotMarket" />
-        <link rel="apple-touch-icon" href="/favicon-192.png" />
       </head>
       <body
-        style={{ fontFamily: "'AstaSans', sans-serif" }}
-        className={"bg-neutral-900 text-white max-w-screen-sm mx-auto"}
+        className={
+          "bg-neutral-900 text-white max-w-screen-sm mx-auto font-sans"
+        }
       >
         <NetworkStatus />
         <AutoLogout />

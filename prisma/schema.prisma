@@ -16,6 +16,7 @@ model User {
   phone      String?      @unique
   github_id  String?      @unique
   avater     String?
+  role       Role         @default(USER) //사용자 역할 (USER, ADMIN)
   created_at DateTime     @default(now()) //now는 생성시 시간을 저장
   update_at  DateTime     @updatedAt //updatedAt 은 업데이트 된 시간 값을 저장
   products   Product[]
@@ -121,4 +122,9 @@ model Event {
   updated_at  DateTime @updatedAt
   user        User     @relation(fields: [userId], references: [id], onDelete: Cascade)
   userId      Int
+}
+
+enum Role {
+  USER
+  ADMIN
 }

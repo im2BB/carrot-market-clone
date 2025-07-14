@@ -4,6 +4,7 @@ import { z } from "zod";
 import db from "@/lib/db";
 import getSession from "@/lib/session";
 import { getCloudflareUploadUrl } from "@/lib/actions/image-upload";
+import { isAdmin } from "@/lib/actions/admin";
 import { redirect } from "next/navigation";
 
 const eventSchema = z
@@ -37,6 +38,12 @@ const eventSchema = z
 
 export async function createEvent(_: any, formData: FormData) {
   try {
+    // Admin 권한 확인
+    const adminCheck = await isAdmin();
+    if (!adminCheck) {
+      return { error: "이벤트 등록 권한이 없습니다." };
+    }
+
     const data = {
       image: formData.get("image"),
       title: formData.get("title"),
@@ -88,5 +95,11 @@ export async function createEvent(_: any, formData: FormData) {
 }
 
 export async function getUploadUrl() {
+  // Admin 권한 확인
+  const adminCheck = await isAdmin();
+  if (!adminCheck) {
+    throw new Error("이벤트 등록 권한이 없습니다.");
+  }
+
   return await getCloudflareUploadUrl();
 }

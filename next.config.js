@@ -29,11 +29,6 @@ const nextConfig = {
     ];
   },
   images: {
-    domains: [
-      "imagedelivery.net",
-      "cloudflare.com",
-      "avatars.githubusercontent.com",
-    ],
     remotePatterns: [
       {
         protocol: "https",
@@ -44,6 +39,12 @@ const nextConfig = {
       {
         protocol: "https",
         hostname: "cloudflare.com",
+        port: "",
+        pathname: "/**",
+      },
+      {
+        protocol: "https",
+        hostname: "avatars.githubusercontent.com",
         port: "",
         pathname: "/**",
       },

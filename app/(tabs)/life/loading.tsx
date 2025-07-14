@@ -1,14 +1,31 @@
 export default function Loading() {
   return (
-    <div className="p-5 animate-pulse flex flex-col gap-5">
+    <div className="p-5 animate-pulse flex flex-col">
       {[...Array(10)].map((_, index) => (
-        <div key={index} className="*:rounded-md flex gap-5 animate-pulse">
-          <div className="flex flex-col gap-2 *:rounded-md">
-            <div className="bg-neutral-700 h-5 w-20" />
-            <div className="bg-neutral-700 h-5 w-40" />
-            <div className="flex gap-2 *:rounded-md">
-              <div className="bg-neutral-700 h-5 w-5" />
-              <div className="bg-neutral-700 h-5 w-5" />
+        <div
+          key={index}
+          className="pb-5 gap-2 mb-5 border-b border-neutral-500 flex flex-col animate-pulse"
+        >
+          <div className="bg-neutral-700 h-6 w-40 rounded" />
+          <div className="bg-neutral-700 h-4 w-full rounded" />
+          <div className="bg-neutral-700 h-4 w-3/4 rounded" />
+          <div className="flex items-center justify-between text-sm mt-2">
+            <div className="flex gap-4 items-center">
+              <div className="bg-neutral-700 h-4 w-20 rounded" />
+              <div className="bg-neutral-700 h-4 w-1 rounded" />
+              <div className="bg-neutral-700 h-4 w-16 rounded" />
+              <div className="bg-neutral-700 h-4 w-1 rounded" />
+              <div className="bg-neutral-700 h-4 w-12 rounded" />
+            </div>
+            <div className="flex gap-4 items-center">
+              <div className="flex items-center gap-1">
+                <div className="bg-neutral-700 h-4 w-4 rounded" />
+                <div className="bg-neutral-700 h-4 w-4 rounded" />
+              </div>
+              <div className="flex items-center gap-1">
+                <div className="bg-neutral-700 h-4 w-4 rounded" />
+                <div className="bg-neutral-700 h-4 w-4 rounded" />
+              </div>
             </div>
           </div>
         </div>

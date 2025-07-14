@@ -10,7 +10,7 @@ export default function ProductModalSkeleton({
         <div className="absolute top-4 right-4 w-6 h-6 bg-neutral-700 rounded animate-pulse" />
 
         {/* 이미지 스켈레톤 */}
-        <div className="relative aspect-square w-full rounded-md overflow-hidden mb-4">
+        <div className="relative aspect-square w-full rounded-md overflow-hidden mb-4 bg-white">
           <div className="w-full h-full bg-neutral-700 shimmer" />
         </div>
 
@@ -22,7 +22,7 @@ export default function ProductModalSkeleton({
 
         {/* 제목과 가격 스켈레톤 */}
         <div className="flex justify-between items-center mb-3">
-          <div className="h-8 w-32 bg-neutral-700 rounded animate-pulse" />
+          <div className="h-8 w-48 bg-neutral-700 rounded animate-pulse" />
           <div className="h-6 w-24 bg-neutral-700 rounded animate-pulse" />
         </div>
 
@@ -35,7 +35,7 @@ export default function ProductModalSkeleton({
 
         {/* 안내 텍스트 스켈레톤 */}
         <div className="text-center mt-4">
-          <div className="h-4 w-32 bg-neutral-700 rounded animate-pulse mx-auto" />
+          <div className="h-4 w-48 bg-neutral-700 rounded animate-pulse mx-auto" />
         </div>
       </div>
     </div>
