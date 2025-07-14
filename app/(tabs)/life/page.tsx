@@ -4,9 +4,9 @@ import {
   ChatBubbleBottomCenterIcon,
   HandThumbUpIcon,
 } from "@heroicons/react/24/outline";
-
 import { PlusIcon } from "@heroicons/react/24/outline";
 import FloatingButton from "@/components/floating-button";
+import Link from "next/link";
 
 export const dynamic = "force-dynamic";
 
@@ -84,9 +84,10 @@ export default async function Life() {
             <h2 className="text-lg font-semibold text-white">공지사항</h2>
           </div>
           {notices.map((notice) => (
-            <div
+            <Link
               key={notice.id}
-              className="pb-5 mb-5 border-b border-neutral-500 text-neutral-400 last:pb-0 last:border-b-0 bg-gradient-to-r from-orange-900/10 to-transparent rounded-lg p-4 border border-orange-500/20"
+              href={`/posts/${notice.id}`}
+              className="block pb-5 mb-5 border-b border-neutral-500 text-neutral-400 last:pb-0 last:border-b-0 bg-gradient-to-r from-orange-900/10 to-transparent rounded-lg p-4 border border-orange-500/20 hover:from-orange-900/20 hover:bg-neutral-800/50 transition-colors cursor-pointer"
             >
               <div className="flex items-center space-x-2 mb-2">
                 <span className="inline-flex items-center px-2 py-1 rounded-full text-xs font-medium bg-orange-500 text-white">
@@ -112,7 +113,7 @@ export default async function Life() {
                   {notice._count.comments}
                 </span>
               </div>
-            </div>
+            </Link>
           ))}
         </div>
       )}
@@ -125,9 +126,10 @@ export default async function Life() {
           </div>
         )}
         {posts.map((post) => (
-          <div
+          <Link
             key={post.id}
-            className="pb-5 mb-5 border-b border-neutral-500 text-neutral-400 last:pb-0 last:border-b-0"
+            href={`/posts/${post.id}`}
+            className="block pb-5 mb-5 border-b border-neutral-500 text-neutral-400 last:pb-0 last:border-b-0 hover:bg-neutral-800/50 transition-colors cursor-pointer rounded-lg p-3"
           >
             <h2 className="text-white text-lg font-semibold mb-1">
               {post.title}
@@ -146,7 +148,7 @@ export default async function Life() {
                 {post._count.comments}
               </span>
             </div>
-          </div>
+          </Link>
         ))}
       </div>
 
