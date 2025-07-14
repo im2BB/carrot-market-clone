@@ -31,6 +31,17 @@ async function handleCreateNotice(formData: FormData) {
       );
     }
   } catch (error) {
+    // redirect로 인한 NEXT_REDIRECT 오류는 정상적인 동작이므로 다시 던집니다
+    if (
+      error &&
+      typeof error === "object" &&
+      "digest" in error &&
+      typeof error.digest === "string" &&
+      error.digest.startsWith("NEXT_REDIRECT")
+    ) {
+      throw error;
+    }
+
     console.error("공지사항 생성 중 오류 발생:", error);
     redirect(
       "/admin/create-notice?error=server_error&message=" +
