@@ -4,6 +4,8 @@ import { formatDistanceToNow } from "date-fns";
 import { ko } from "date-fns/locale";
 import Link from "next/link";
 
+export const dynamic = "force-dynamic";
+
 // 관리자 게시글 삭제 액션
 async function adminDeletePost(postId: number) {
   "use server";

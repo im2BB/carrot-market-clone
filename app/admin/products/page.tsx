@@ -4,6 +4,8 @@ import { formatDistanceToNow } from "date-fns";
 import { ko } from "date-fns/locale";
 import Link from "next/link";
 
+export const dynamic = "force-dynamic";
+
 // 이미지 URL 처리 함수
 function getOptimizedImageUrl(url: string | null, size: number = 100): string {
   if (!url) return "/logo-carrot.png";

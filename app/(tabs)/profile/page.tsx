@@ -42,7 +42,7 @@ export default async function Profile() {
         <Image
           width={60}
           height={60}
-          src={getSafeAvatarSrc(user.avatar)}
+          src={getSafeAvatarSrc(user.avater)}
           alt={user.username}
           className="size-14 rounded-full object-cover"
         />

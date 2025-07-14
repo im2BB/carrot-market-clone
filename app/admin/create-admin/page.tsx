@@ -1,5 +1,8 @@
 import { createAdminAccount } from "@/lib/actions/admin";
 import { revalidatePath } from "next/cache";
+import { redirect } from "next/navigation";
+
+export const dynamic = "force-dynamic";
 
 // 관리자 계정 생성 액션
 async function handleCreateAdmin(formData: FormData) {
@@ -10,16 +13,17 @@ async function handleCreateAdmin(formData: FormData) {
   const password = formData.get("password") as string;
 
   if (!username || !email || !password) {
-    return { success: false, message: "모든 필드를 입력해주세요." };
+    redirect("/admin/create-admin?error=missing_fields");
   }
 
   const result = await createAdminAccount({ username, email, password });
 
   if (result.success) {
     revalidatePath("/admin/create-admin");
+    redirect("/admin?message=success");
+  } else {
+    redirect("/admin/create-admin?error=failed");
   }
-
-  return result;
 }
 
 export default function CreateAdminPage() {

@@ -3,6 +3,8 @@ import { formatDistanceToNow } from "date-fns";
 import { ko } from "date-fns/locale";
 import Link from "next/link";
 
+export const dynamic = "force-dynamic";
+
 export default async function AdminDashboard() {
   const data = await getAdminStats();
 

@@ -5,6 +5,8 @@ import { ko } from "date-fns/locale";
 import Image from "next/image";
 import Link from "next/link";
 
+export const dynamic = "force-dynamic";
+
 // 관리자 이벤트 삭제 액션
 async function adminDeleteEvent(eventId: number) {
   "use server";

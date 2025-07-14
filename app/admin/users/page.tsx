@@ -4,6 +4,8 @@ import { ko } from "date-fns/locale";
 import { revalidatePath } from "next/cache";
 import Link from "next/link";
 
+export const dynamic = "force-dynamic";
+
 // 로컬 Role enum 정의 (Prisma 클라이언트가 업데이트되지 않은 경우)
 enum Role {
   USER = "USER",
