@@ -4,10 +4,12 @@ import { formatDistanceToNow } from "date-fns";
 import { ko } from "date-fns/locale";
 import Link from "next/link";
 import { revalidatePath } from "next/cache";
+import { redirect } from "next/navigation";
+import AdminDeleteButton from "@/components/AdminDeleteButton";
 
 export const dynamic = "force-dynamic";
 
-// 관리자 게시글 삭제 액션
+// 관리자 게시글 삭제 액션 (서버 액션은 유지하되 사용하지 않음)
 async function adminDeletePost(postId: number) {
   "use server";
 
@@ -15,13 +17,13 @@ async function adminDeletePost(postId: number) {
     const result = await deletePost(postId);
     if (result.success) {
       revalidatePath("/admin/posts");
-      return { success: true, message: "게시글이 삭제되었습니다." };
+      redirect("/admin/posts?success=post_deleted");
     } else {
-      return { success: false, message: "게시글 삭제에 실패했습니다." };
+      redirect("/admin/posts?error=delete_failed");
     }
   } catch (error) {
     console.error("게시글 삭제 오류:", error);
-    return { success: false, message: "게시글 삭제에 실패했습니다." };
+    redirect("/admin/posts?error=delete_failed");
   }
 }
 
@@ -34,18 +36,24 @@ async function adminToggleNotice(postId: number) {
     if (result.success) {
       revalidatePath("/admin/posts");
       revalidatePath("/life");
-      return result;
+      redirect("/admin/posts?success=notice_toggled");
     } else {
-      return result;
+      redirect("/admin/posts?error=toggle_failed");
     }
   } catch (error) {
     console.error("공지사항 토글 오류:", error);
-    return { success: false, message: "상태 변경에 실패했습니다." };
+    redirect("/admin/posts?error=toggle_failed");
   }
 }
 
-export default async function AdminPostsPage() {
+export default async function AdminPostsPage({
+  searchParams,
+}: {
+  searchParams?: { success?: string; error?: string };
+}) {
   const { posts, totalPosts } = await getAdminPosts(0, 20);
+  const success = searchParams?.success;
+  const error = searchParams?.error;
 
   return (
     <div className="space-y-4 lg:space-y-6">
@@ -65,6 +73,49 @@ export default async function AdminPostsPage() {
           📢 공지사항 작성
         </Link>
       </div>
+
+      {/* 성공 메시지 표시 */}
+      {success && (
+        <div className="bg-green-900/20 border border-green-700 rounded-lg p-4">
+          <div className="flex items-start">
+            <div className="flex-shrink-0">
+              <span className="text-green-500 text-lg">✅</span>
+            </div>
+            <div className="ml-3">
+              <h4 className="text-sm font-medium text-green-400">
+                작업이 완료되었습니다
+              </h4>
+              <div className="mt-2 text-sm text-green-300">
+                {success === "notice_created" &&
+                  "공지사항이 성공적으로 등록되었습니다."}
+                {success === "post_deleted" &&
+                  "게시글이 성공적으로 삭제되었습니다."}
+                {success === "notice_toggled" &&
+                  "공지사항 상태가 변경되었습니다."}
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* 오류 메시지 표시 */}
+      {error && (
+        <div className="bg-red-900/20 border border-red-700 rounded-lg p-4">
+          <div className="flex items-start">
+            <div className="flex-shrink-0">
+              <span className="text-red-500 text-lg">⚠️</span>
+            </div>
+            <div className="ml-3">
+              <h4 className="text-sm font-medium text-red-400">
+                오류가 발생했습니다
+              </h4>
+              <div className="mt-2 text-sm text-red-300">
+                작업을 완료할 수 없습니다. 다시 시도해주세요.
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
 
       {/* 데스크톱 테이블 뷰 */}
       <div className="hidden lg:block bg-neutral-800 shadow-lg rounded-lg border border-neutral-700">
@@ -174,17 +225,11 @@ export default async function AdminPostsPage() {
                         {post.isNotice ? "공지해제" : "공지설정"}
                       </button>
                     </form>
-                    <form
-                      action={adminDeletePost.bind(null, post.id)}
-                      className="inline"
-                    >
-                      <button
-                        type="submit"
-                        className="text-red-400 hover:text-red-300 transition-colors"
-                      >
-                        삭제
-                      </button>
-                    </form>
+                    <AdminDeleteButton
+                      postId={post.id}
+                      title={post.title}
+                      isDesktop={true}
+                    />
                   </td>
                 </tr>
               ))}
@@ -279,17 +324,11 @@ export default async function AdminPostsPage() {
                   {post.isNotice ? "공지해제" : "공지설정"}
                 </button>
               </form>
-              <form
-                action={adminDeletePost.bind(null, post.id)}
-                className="inline"
-              >
-                <button
-                  type="submit"
-                  className="px-3 py-1 text-xs font-medium bg-red-500 hover:bg-red-600 text-white rounded transition-colors"
-                >
-                  삭제
-                </button>
-              </form>
+              <AdminDeleteButton
+                postId={post.id}
+                title={post.title}
+                isDesktop={false}
+              />
             </div>
           </div>
         ))}

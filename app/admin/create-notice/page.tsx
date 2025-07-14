@@ -22,7 +22,7 @@ async function handleCreateNotice(formData: FormData) {
     if (result.success) {
       revalidatePath("/admin/posts");
       revalidatePath("/life");
-      redirect("/admin/posts?message=notice_created");
+      redirect("/admin/posts?success=notice_created");
     } else {
       console.error("공지사항 생성 실패:", result.message);
       redirect(
