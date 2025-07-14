@@ -15,12 +15,15 @@ export const metadata = {
 };
 
 async function getPosts() {
-  const posts = await db.post.findMany({
+  // 공지사항과 일반 게시글을 분리해서 조회
+  const notices = await db.post.findMany({
+    where: { isNotice: true },
     select: {
       id: true,
       title: true,
       description: true,
       views: true,
+      isNotice: true,
       created_at: true,
       _count: {
         select: {
@@ -34,72 +37,121 @@ async function getPosts() {
         },
       },
     },
-    orderBy: { created_at: "desc" },
+    orderBy: {
+      created_at: "desc",
+    },
   });
-  return posts;
+
+  const posts = await db.post.findMany({
+    where: { isNotice: false },
+    select: {
+      id: true,
+      title: true,
+      description: true,
+      views: true,
+      isNotice: true,
+      created_at: true,
+      _count: {
+        select: {
+          comments: true,
+          likes: true,
+        },
+      },
+      user: {
+        select: {
+          username: true,
+        },
+      },
+    },
+    orderBy: {
+      created_at: "desc",
+    },
+  });
+
+  return { notices, posts };
 }
 
 export default async function Life() {
-  const posts = await getPosts();
+  const { notices, posts } = await getPosts();
+
   return (
-    <div className="relative">
-      <div className="p-5 flex flex-col">
-        {posts && posts.length > 0 ? (
-          posts.map((post) => (
-            <a
-              key={post.id}
-              href={`/posts/${post.id}`}
-              className="pb-5 gap-2 mb-5 border-b border-neutral-500 text-neutral-400 flex flex-col last:pb-0 last:border-b-0"
+    <div className="p-5 flex flex-col gap-5">
+      {/* 공지사항 섹션 */}
+      {notices.length > 0 && (
+        <div className="space-y-3">
+          <div className="flex items-center space-x-2 mb-4">
+            <span className="text-lg">📢</span>
+            <h2 className="text-lg font-semibold text-white">공지사항</h2>
+          </div>
+          {notices.map((notice) => (
+            <div
+              key={notice.id}
+              className="pb-5 mb-5 border-b border-neutral-500 text-neutral-400 last:pb-0 last:border-b-0 bg-gradient-to-r from-orange-900/10 to-transparent rounded-lg p-4 border border-orange-500/20"
             >
-              <h2 className=" text-white text-lg font-semibold">
-                {post.title}
-              </h2>
-              <p>{post.description}</p>
-              <div className="flex items-center justify-between text-sm">
-                <div className="flex gap-4 items-center">
-                  <span>
-                    {new Date(post.created_at)
-                      .toLocaleDateString("ko-KR", {
-                        year: "numeric",
-                        month: "2-digit",
-                        day: "2-digit",
-                      })
-                      .replace(/\. /g, ".")
-                      .replace(/\.$/, "")}
-                  </span>
-                  <span>|</span>
-                  <span className="text-orange-400">
-                    {post.user?.username || "알 수 없음"}
-                  </span>
-                  <span>.</span>
-                  <span>조회수 {post.views}</span>
-                </div>
-                <div className="flex gap-4 items-center *:flex *:items-center *:gap-1">
-                  <span>
-                    <HandThumbUpIcon className="size-4" />
-                    {post._count.likes}
-                  </span>
-                  <span>
-                    <ChatBubbleBottomCenterIcon className="size-4" />
-                    {post._count.comments}
-                  </span>
-                </div>
+              <div className="flex items-center space-x-2 mb-2">
+                <span className="inline-flex items-center px-2 py-1 rounded-full text-xs font-medium bg-orange-500 text-white">
+                  📢 공지
+                </span>
+                <span className="text-orange-400 text-sm">
+                  {formatToTimeAgo(notice.created_at.toString())}
+                </span>
               </div>
-            </a>
-          ))
-        ) : (
-          <div className="flex flex-col items-center justify-center pt-64 gap-4">
-            <p className="text-neutral-400 text-lg">
-              등록된 커뮤니티 정보가 없습니다
-            </p>
-            <p className="text-neutral-500 text-sm">
-              첫번째로 커뮤니티 정보를 등록해 보시겠어요?
-            </p>
+              <h2 className="text-white text-lg font-semibold mb-1">
+                {notice.title}
+              </h2>
+              <p className="mb-1 text-neutral-400">{notice.description}</p>
+              <div className="flex items-center gap-4 text-sm">
+                <span>{notice.user.username}</span>
+                <span>조회 {notice.views}</span>
+                <span className="flex items-center gap-1">
+                  <HandThumbUpIcon className="size-4" />
+                  {notice._count.likes}
+                </span>
+                <span className="flex items-center gap-1">
+                  <ChatBubbleBottomCenterIcon className="size-4" />
+                  {notice._count.comments}
+                </span>
+              </div>
+            </div>
+          ))}
+        </div>
+      )}
+
+      {/* 일반 게시글 섹션 */}
+      <div className="space-y-3">
+        {notices.length > 0 && (
+          <div className="flex items-center space-x-2 mb-4 pt-4 border-t border-neutral-600">
+            <h2 className="text-lg font-semibold text-white">자유게시판</h2>
           </div>
         )}
+        {posts.map((post) => (
+          <div
+            key={post.id}
+            className="pb-5 mb-5 border-b border-neutral-500 text-neutral-400 last:pb-0 last:border-b-0"
+          >
+            <h2 className="text-white text-lg font-semibold mb-1">
+              {post.title}
+            </h2>
+            <p className="mb-1 text-neutral-400">{post.description}</p>
+            <div className="flex items-center gap-4 text-sm">
+              <span>{post.user.username}</span>
+              <span>{formatToTimeAgo(post.created_at.toString())}</span>
+              <span>조회 {post.views}</span>
+              <span className="flex items-center gap-1">
+                <HandThumbUpIcon className="size-4" />
+                {post._count.likes}
+              </span>
+              <span className="flex items-center gap-1">
+                <ChatBubbleBottomCenterIcon className="size-4" />
+                {post._count.comments}
+              </span>
+            </div>
+          </div>
+        ))}
       </div>
+
       <FloatingButton href="/add-post">
-        <PlusIcon className="size-8" />
+        <PlusIcon className="size-6" />
       </FloatingButton>
     </div>
   );

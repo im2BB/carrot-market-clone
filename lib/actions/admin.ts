@@ -335,6 +335,7 @@ export async function getAdminPosts(page: number = 0, take: number = 10) {
         title: true,
         description: true,
         views: true,
+        isNotice: true,
         created_at: true,
         user: {
           select: {
@@ -435,5 +436,115 @@ export async function toggleEventActive(eventId: number) {
   } catch (error) {
     console.error("이벤트 상태 변경 오류:", error);
     return { success: false, message: "이벤트 상태 변경에 실패했습니다." };
+  }
+}
+
+// 공지사항 생성
+export async function createNotice(formData: {
+  title: string;
+  description: string;
+}) {
+  try {
+    const session = await getSession();
+    if (!session.id) {
+      throw new Error("로그인이 필요합니다.");
+    }
+
+    const adminCheck = await isAdmin();
+    if (!adminCheck) {
+      throw new Error("관리자 권한이 필요합니다.");
+    }
+
+    const notice = await db.post.create({
+      data: {
+        title: formData.title,
+        description: formData.description,
+        isNotice: true,
+        userId: session.id,
+      },
+    });
+
+    return { success: true, message: "공지사항이 등록되었습니다.", notice };
+  } catch (error) {
+    console.error("공지사항 생성 오류:", error);
+    return {
+      success: false,
+      message:
+        error instanceof Error
+          ? error.message
+          : "공지사항 등록에 실패했습니다.",
+    };
+  }
+}
+
+// 게시글을 공지사항으로 토글
+export async function toggleNoticeStatus(postId: number) {
+  try {
+    const adminCheck = await isAdmin();
+    if (!adminCheck) {
+      throw new Error("관리자 권한이 필요합니다.");
+    }
+
+    const post = await db.post.findUnique({
+      where: { id: postId },
+      select: { isNotice: true },
+    });
+
+    if (!post) {
+      throw new Error("게시글을 찾을 수 없습니다.");
+    }
+
+    const updatedPost = await db.post.update({
+      where: { id: postId },
+      data: { isNotice: !post.isNotice },
+    });
+
+    return {
+      success: true,
+      message: post.isNotice
+        ? "공지사항이 해제되었습니다."
+        : "공지사항으로 설정되었습니다.",
+      isNotice: updatedPost.isNotice,
+    };
+  } catch (error) {
+    console.error("공지사항 상태 변경 오류:", error);
+    return {
+      success: false,
+      message:
+        error instanceof Error ? error.message : "상태 변경에 실패했습니다.",
+    };
+  }
+}
+
+// 공지사항 목록 조회
+export async function getNotices() {
+  try {
+    const notices = await db.post.findMany({
+      where: { isNotice: true },
+      select: {
+        id: true,
+        title: true,
+        description: true,
+        views: true,
+        created_at: true,
+        user: {
+          select: {
+            username: true,
+          },
+        },
+        _count: {
+          select: {
+            comments: true,
+            likes: true,
+          },
+        },
+      },
+      orderBy: { created_at: "desc" },
+    });
+
+    return notices;
+  } catch (error) {
+    console.error("공지사항 목록 조회 오류:", error);
+    return [];
   }
 }

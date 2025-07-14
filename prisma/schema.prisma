@@ -49,6 +49,7 @@ model Post {
   title       String
   description String?
   views       Int       @default(0)
+  isNotice    Boolean   @default(false) // 공지사항 여부
   created_at  DateTime  @default(now())
   update_at   DateTime  @updatedAt
   user        User      @relation(fields: [userId], references: [id], onDelete: Cascade)

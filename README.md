@@ -19,3 +19,9 @@
 # npx prisma migrate dev 사용해 생성한 스키마에 대한 정보를 업데이트 하고
 
 # 다시 시작해야하는 번거로움이 존재하지만 무료라는 강한 강점이 있습니다
+
+# 현재 페이지 vercel에 배포 중이며 DB도 vercel에서 선택한 prisma로 무료 배포 중입니다
+
+# 배포시 vercel --prod로 하면 프로젝트 배포 할수있으며
+
+#env 설정 변경 될시 vercel env pull .env.local 로 env 설정 업데이트 해야 합니다

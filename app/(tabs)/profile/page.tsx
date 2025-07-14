@@ -2,10 +2,9 @@ import { getProfile } from "@/app/(tabs)/profile/action";
 import { UserIcon } from "@heroicons/react/24/outline";
 import Image from "next/image";
 import Link from "next/link";
-import { cookies } from "next/headers";
-import { redirect } from "next/navigation";
 import { getSafeAvatarSrc, DEFAULT_AVATAR } from "@/lib/utils";
 import { isAdmin } from "@/lib/actions/admin";
+import LogoutButton from "@/components/LogoutButton";
 
 export const metadata = {
   title: "내 정보",
@@ -25,13 +24,6 @@ export default async function Profile() {
       </div>
     );
   }
-
-  const logOut = async () => {
-    "use server";
-    const cookie = await cookies();
-    cookie.delete("session");
-    redirect("/");
-  };
 
   const productCount = user._count?.products || 0;
   const postCount = user._count?.posts || 0;
@@ -102,19 +94,7 @@ export default async function Profile() {
           <span>프로필 수정</span>
           <UserIcon className="size-5 text-gray-400" />
         </Link>
-        <Link
-          href="/events/manage"
-          className="flex items-center justify-between p-3 transition-colors hover:bg-neutral-800 rounded-lg"
-        >
-          <span>이벤트 관리</span>
-          <UserIcon className="size-5 text-gray-400" />
-        </Link>
-        <form action={logOut}>
-          <button className="flex items-center justify-between p-3 transition-colors hover:bg-neutral-800 rounded-lg w-full text-left">
-            <span>로그아웃</span>
-            <UserIcon className="size-5 text-gray-400" />
-          </button>
-        </form>
+        <LogoutButton />
       </div>
     </div>
   );
