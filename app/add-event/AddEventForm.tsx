@@ -141,8 +141,8 @@ export default function AddEventForm() {
       "success" in state &&
       (state as any).success
     ) {
-      // 성공적으로 등록되었을 때 이벤트 관리 페이지로 이동
-      router.push("/events/manage");
+      // 성공적으로 등록되었을 때 어드민 이벤트 페이지로 이동
+      router.push("/admin/events");
     }
   }, [state, router]);
 

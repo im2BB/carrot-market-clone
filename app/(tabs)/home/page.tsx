@@ -1,11 +1,7 @@
 import Silder from "@/components/silder";
 import Link from "next/link";
 import SearchBar from "@/components/SearchBar";
-import {
-  getRecentProductsAction,
-  getEventsAction,
-  getRecentPostsAction,
-} from "./action";
+import { getHomePageDataAction } from "./action";
 import Image from "next/image";
 import { formatDistanceToNow } from "date-fns";
 import { ko } from "date-fns/locale";
@@ -14,13 +10,51 @@ export const metadata = {
   title: "홈",
 };
 
-// 동적 렌더링 강제 - 데이터베이스 데이터를 실시간으로 가져오기 위해
+// 임시로 동적 렌더링 강제하여 캐시 우회
 export const dynamic = "force-dynamic";
 
+// 안전한 이미지 URL 처리 함수
+function getSafeImageUrl(url?: string): string {
+  if (!url || typeof url !== "string" || url.trim() === "") {
+    return "/기본사용자.jpg";
+  }
+
+  // Data URL인 경우 그대로 반환
+  if (url.startsWith("data:image")) {
+    return url;
+  }
+
+  // 상대 경로인 경우 그대로 반환
+  if (url.startsWith("/")) {
+    return url;
+  }
+
+  try {
+    const urlObj = new URL(url);
+    // Cloudflare Images 최적화
+    if (
+      urlObj.hostname.includes("imagedelivery.net") ||
+      urlObj.hostname.includes("cloudflare")
+    ) {
+      return `${url}/width=400,height=400`;
+    }
+    // 유효한 HTTP/HTTPS URL인 경우 그대로 반환
+    if (urlObj.protocol === "http:" || urlObj.protocol === "https:") {
+      return url;
+    }
+  } catch (error) {
+    // URL 파싱 실패 시 기본 이미지 반환
+    console.warn("Invalid image URL:", url);
+  }
+
+  return "/기본사용자.jpg";
+}
+
 export default async function Home() {
-  const products = await getRecentProductsAction();
-  const events = await getEventsAction();
-  const posts = await getRecentPostsAction();
+  // 단일 함수로 모든 데이터를 병렬로 가져오기
+  const { products, events, posts } = await getHomePageDataAction();
+
+  console.log("홈페이지 렌더링 - 이벤트:", events?.length, events);
 
   return (
     <div className="p-7">
@@ -52,57 +86,29 @@ export default async function Home() {
         ) : (
           <div className="grid grid-cols-3 gap-4">
             {products.map((product) => {
-              const DEFAULT_IMAGE = "/기본사용자.jpg";
-
-              function getSafeImageSrc(src?: string) {
-                if (!src || typeof src !== "string" || src.trim() === "")
-                  return DEFAULT_IMAGE;
-                if (src.startsWith("data:image")) return src;
-                try {
-                  const url = new URL(src);
-                  if (
-                    url.hostname.includes("imagedelivery.net") ||
-                    url.hostname.includes("cloudflare")
-                  ) {
-                    return `${src}/width=400,height=400`;
-                  }
-                  if (url.protocol === "http:" || url.protocol === "https:")
-                    return src;
-                } catch {
-                  if (src.startsWith("/")) return src;
-                  return DEFAULT_IMAGE;
-                }
-                return DEFAULT_IMAGE;
-              }
-
-              const imgSrc = getSafeImageSrc(product.photo);
+              const safeImageUrl = getSafeImageUrl(product.photo);
 
               return (
                 <Link
                   href={`/products/${product.id}`}
                   key={product.id}
-                  className="block hover:scale-110 transition-transform duration-100"
-                  scroll={false}
+                  className="block hover:scale-105 transition-transform duration-200"
+                  prefetch={true}
                 >
                   <div className="bg-white rounded-lg overflow-hidden aspect-square relative">
-                    {imgSrc.startsWith("data:image") ||
-                    imgSrc.startsWith("/") ||
-                    imgSrc.startsWith("http") ? (
-                      <Image
-                        src={imgSrc}
-                        alt={product.title || "상품 이미지"}
-                        width={400}
-                        height={400}
-                        className={`w-full h-full object-contain bg-white ${
-                          product.sold ? "grayscale opacity-60" : ""
-                        }`}
-                        unoptimized={imgSrc.includes("imagedelivery.net")}
-                      />
-                    ) : (
-                      <div className="w-full h-full flex items-center justify-center text-neutral-400">
-                        이미지가 없습니다
-                      </div>
-                    )}
+                    <Image
+                      src={safeImageUrl}
+                      alt={product.title || "상품 이미지"}
+                      width={400}
+                      height={400}
+                      className={`w-full h-full object-contain bg-white ${
+                        product.sold ? "grayscale opacity-60" : ""
+                      }`}
+                      placeholder="blur"
+                      blurDataURL="data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wBDAAYEBQYFBAYGBQYHBwYIChAKCgkJChQODwwQFxQYGBcUFhYaHSUfGhsjHBYWICwgIyYnKSopGR8tMC0oMCUoKSj/2wBDAQcHBwoIChMKChMoGhYaKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCj/wAARCAABAAEDASIAAhEBAxEB/8QAFQABAQAAAAAAAAAAAAAAAAAAAAv/xAAUEAEAAAAAAAAAAAAAAAAAAAAA/8QAFQEBAQAAAAAAAAAAAAAAAAAAAAX/xAAUEQEAAAAAAAAAAAAAAAAAAAAA/9oADAMBAAIRAxEAPwCdABmX/9k="
+                      loading={product.id <= 6 ? "eager" : "lazy"}
+                      unoptimized={safeImageUrl.includes("imagedelivery.net")}
+                    />
                     {product.sold && (
                       <div className="absolute inset-0 flex items-center justify-center bg-black bg-opacity-50">
                         <span className="text-white font-bold text-lg">
@@ -145,7 +151,7 @@ export default async function Home() {
         )}
       </div>
 
-      {/* 최근 게시물 섹션 - 최근 상품 아래로 이동, 제목만 표시 */}
+      {/* 최근 게시물 섹션 - 최적화됨 */}
       <div className="gap-2">
         <h2 className="flex p-5 justify-center text-orange-400 items-center text-lg font-medium">
           최근 게시물
@@ -161,6 +167,7 @@ export default async function Home() {
                 key={post.id}
                 href={`/posts/${post.id}`}
                 className="block bg-neutral-800 rounded-lg p-4 hover:bg-neutral-700 transition-colors"
+                prefetch={true}
               >
                 <div className="flex justify-between items-center">
                   <h3 className="text-white font-medium text-sm line-clamp-1 flex-1">

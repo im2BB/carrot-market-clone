@@ -1,4 +1,4 @@
-import db from "@/lib/db";
+import { getCachedProductById } from "@/lib/actions/database";
 import getSession from "@/lib/session";
 import { formatToWon } from "@/lib/utils";
 import { UserIcon } from "@heroicons/react/16/solid";
@@ -7,6 +7,7 @@ import { notFound, redirect } from "next/navigation";
 import BackButton from "@/components/back-button";
 import { toggleSoldStatus } from "./action";
 import ProductImageSlider from "@/components/ProductImageSlider";
+import db from "@/lib/db";
 
 async function getIsOwner(userId: Number) {
   const session = await getSession();
@@ -22,27 +23,11 @@ export async function generateMetadata({
   params: Promise<{ id: string }>;
 }) {
   const { id } = await params;
-  const product = await getProduct(Number(id));
+  const product = await getCachedProductById(Number(id));
   return {
-    title: product?.title,
+    title: product?.title || "상품 정보",
+    description: product?.description || "상품 상세 정보",
   };
-}
-
-async function getProduct(id: number) {
-  const product = await db.product.findUnique({
-    where: {
-      id,
-    },
-    include: {
-      user: {
-        select: {
-          username: true,
-          avater: true,
-        },
-      },
-    },
-  });
-  return product;
 }
 
 export default async function ProductDetail({
@@ -55,10 +40,13 @@ export default async function ProductDetail({
   if (isNaN(productId)) {
     return notFound();
   }
-  const product = await getProduct(productId);
+
+  // 캐시된 함수 사용으로 성능 향상
+  const product = await getCachedProductById(productId);
   if (!product) {
     return notFound();
   }
+
   const isOwner = await getIsOwner(product.userId);
 
   // 이미지 배열 처리 (기존 photo 필드와 새로운 photos 배열 모두 지원)
@@ -67,7 +55,7 @@ export default async function ProductDetail({
       ? product.photos
       : product.photo
       ? [product.photo]
-      : [];
+      : ["/기본사용자.jpg"];
 
   const createChatRoom = async () => {
     "use server";
@@ -116,6 +104,8 @@ export default async function ProductDetail({
               height={40}
               alt={product.user.username}
               className="w-full h-full object-cover"
+              placeholder="blur"
+              blurDataURL="data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wBDAAYEBQYFBAYGBQYHBwYIChAKCgkJChQODwwQFxQYGBcUFhYaHSUfGhsjHBYWICwgIyYnKSopGR8tMC0oMCUoKSj/2wBDAQcHBwoIChMKChMoGhYaKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCj/wAARCAABAAEDASIAAhEBAxEB/8QAFQABAQAAAAAAAAAAAAAAAAAAAAv/xAAUEAEAAAAAAAAAAAAAAAAAAAAA/8QAFQEBAQAAAAAAAAAAAAAAAAAAAAX/xAAUEQEAAAAAAAAAAAAAAAAAAAAA/9oADAMBAAIRAxAAPwCdABmX/9k="
             />
           ) : (
             <UserIcon className="w-6 h-6 text-gray-600" />
@@ -135,7 +125,7 @@ export default async function ProductDetail({
             </span>
           )}
         </div>
-        <p>{product.description}</p>
+        <p className="mt-3 text-neutral-300">{product.description}</p>
       </div>
       <div
         className="fixed w-full bottom-0 left-0 p-5 lb-10 
@@ -148,7 +138,7 @@ export default async function ProductDetail({
           {isOwner ? (
             <form action={handleToggleSold}>
               <button
-                className={`px-5 py-2.5 rounded-md text-white font-semibold ${
+                className={`px-5 py-2.5 rounded-md text-white font-semibold transition-colors ${
                   product.sold
                     ? "bg-green-500 hover:bg-green-600"
                     : "bg-red-500 hover:bg-red-600"
@@ -162,7 +152,7 @@ export default async function ProductDetail({
               <form action={createChatRoom}>
                 <button
                   className="bg-orange-500 px-5 py-2.5 rounded-md
-                 text-white font-semibold"
+                 text-white font-semibold hover:bg-orange-600 transition-colors"
                 >
                   채팅하기
                 </button>

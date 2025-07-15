@@ -27,19 +27,34 @@ export default function ListProduct({
     onProductClick(id);
   };
 
+  // 안전한 이미지 URL 처리
+  const getSafeImageUrl = (url: string) => {
+    if (!url) return "/기본사용자.jpg";
+    if (url.includes("imagedelivery.net")) {
+      return `${url}/width=200,height=200`;
+    }
+    return url;
+  };
+
   return (
     <div
-      className="flex gap-5 cursor-pointer items-center py-3 border-b border-neutral-800"
+      className="flex gap-5 cursor-pointer items-center py-3 border-b border-neutral-800 hover:bg-neutral-900 transition-colors"
       onClick={handleClick}
     >
       <div className="relative size-28 rounded-md overflow-hidden flex-shrink-0">
         <Image
-          fill
-          src={`${photo}/width=100,height=100`}
-          className={`object-cover bg-white ${
+          src={getSafeImageUrl(photo)}
+          alt={title}
+          width={112}
+          height={112}
+          className={`object-cover bg-white w-full h-full ${
             sold ? "grayscale opacity-60" : ""
           }`}
-          alt={title}
+          placeholder="blur"
+          blurDataURL="data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wBDAAYEBQYFBAYGBQYHBwYIChAKCgkJChQODwwQFxQYGBcUFhYaHSUfGhsjHBYWICwgIyYnKSopGR8tMC0oMCUoKSj/2wBDAQcHBwoIChMKChMoGhYaKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCj/wAARCAABAAEDASIAAhEBAxEB/8QAFQABAQAAAAAAAAAAAAAAAAAAAAv/xAAUEAEAAAAAAAAAAAAAAAAAAAAA/8QAFQEBAQAAAAAAAAAAAAAAAAAAAAX/xAAUEQEAAAAAAAAAAAAAAAAAAAAA/9oADAMBAAIRAxEAPwCdABmX/9k="
+          loading={id <= 5 ? "eager" : "lazy"}
+          unoptimized={photo?.includes("imagedelivery.net")}
+          priority={id <= 3}
         />
         {sold && (
           <div className="absolute inset-0 flex items-center justify-center bg-black bg-opacity-50">

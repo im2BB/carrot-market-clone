@@ -59,7 +59,7 @@ export async function updateEvent(eventId: number, formData: FormData) {
       data: updateData,
     });
 
-    revalidatePath("/events/manage");
+    revalidatePath("/admin/events");
     revalidatePath("/");
 
     return { success: true };

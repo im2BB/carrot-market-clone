@@ -29,7 +29,7 @@ export default function DeleteEventForm({ event }: DeleteEventFormProps) {
       const result = await deleteEvent(event.id);
 
       if (result.success) {
-        router.push("/events/manage");
+        router.push("/admin/events");
         router.refresh();
       } else {
         setError(result.error || "이벤트 삭제에 실패했습니다.");
@@ -97,7 +97,7 @@ export default function DeleteEventForm({ event }: DeleteEventFormProps) {
           {isLoading ? "삭제 중..." : "이벤트 삭제"}
         </button>
         <button
-          onClick={() => router.push("/events/manage")}
+          onClick={() => router.push("/admin/events")}
           className="px-6 py-3 bg-neutral-700 hover:bg-neutral-600 text-white rounded-lg font-medium transition-colors"
         >
           취소

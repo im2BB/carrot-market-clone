@@ -1,11 +1,11 @@
 "use server";
 
-import { getProductsWithPagination } from "@/lib/actions/database";
+import { getCachedProductsWithPagination } from "@/lib/actions/database";
 
 export async function getInitialProducts() {
-  return await getProductsWithPagination(0, 50);
+  return await getCachedProductsWithPagination(0, 20);
 }
 
 export async function getMoreProducts(page: number) {
-  return await getProductsWithPagination(page, 50);
+  return await getCachedProductsWithPagination(page, 20);
 }

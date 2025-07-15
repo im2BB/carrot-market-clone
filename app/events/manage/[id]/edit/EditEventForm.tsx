@@ -75,7 +75,7 @@ export default function EditEventForm({ event }: EditEventFormProps) {
       }
       const result = await updateEvent(event.id, formDataToSend);
       if (result.success) {
-        router.push("/events/manage");
+        router.push("/admin/events");
         router.refresh();
       } else {
         console.error(result.error || "이벤트 수정에 실패했습니다.");

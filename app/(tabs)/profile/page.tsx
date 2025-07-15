@@ -29,14 +29,14 @@ export default async function Profile() {
   const postCount = user._count?.posts || 0;
 
   return (
-    <div className="space-y-6">
+    <div className="space-y-6 pt-5">
       <div className="px-5 flex items-center gap-3">
         <Image
           width={60}
           height={60}
           src={getSafeAvatarSrc(user.avater)}
           alt={user.username}
-          className="size-14 rounded-full object-cover"
+          className="size-14 rounded-full bg-white object-cover"
         />
         <div className="flex flex-col">
           <span className="text-lg font-semibold">{user.username}</span>

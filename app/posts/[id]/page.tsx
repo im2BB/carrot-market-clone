@@ -12,15 +12,9 @@ import { getComments } from "./action";
 
 async function getPost(id: number) {
   try {
-    const post = await db.post.update({
-      where: {
-        id,
-      },
-      data: {
-        views: {
-          increment: 1,
-        },
-      },
+    // 조회수 증가와 데이터 조회를 분리하여 성능 개선
+    const post = await db.post.findUnique({
+      where: { id },
       include: {
         user: {
           select: {
@@ -35,6 +29,17 @@ async function getPost(id: number) {
         },
       },
     });
+
+    if (post) {
+      // 조회수 증가는 별도로 처리 (백그라운드)
+      db.post
+        .update({
+          where: { id },
+          data: { views: { increment: 1 } },
+        })
+        .catch(console.error);
+    }
+
     return post;
   } catch (e) {
     return null;
@@ -43,24 +48,26 @@ async function getPost(id: number) {
 
 const GetcachedPost = nextCache(getPost, ["post-detail"], {
   tags: ["post-detail"],
-  revalidate: 60,
+  revalidate: 300, // 5분
 });
 
 async function getLikeStatus(postId: number, userId: number) {
-  // const session = await getSession();
-  const isLiked = await db.like.findUnique({
-    where: {
-      id: {
-        postId,
-        userId: userId,
+  const [isLiked, likeCount] = await Promise.all([
+    db.like.findUnique({
+      where: {
+        id: {
+          postId,
+          userId: userId,
+        },
       },
-    },
-  });
-  const likeCount = await db.like.count({
-    where: {
-      postId,
-    },
-  });
+    }),
+    db.like.count({
+      where: {
+        postId,
+      },
+    }),
+  ]);
+
   return {
     likeCount,
     isLiked: Boolean(isLiked),
@@ -70,8 +77,9 @@ async function getLikeStatus(postId: number, userId: number) {
 async function getCachedLikeStatus(postId: number) {
   const session = await getSession();
   const userId = session.id;
-  const cachedOperation = nextCache(getLikeStatus, ["product-like-status"], {
+  const cachedOperation = nextCache(getLikeStatus, ["post-like-status"], {
     tags: [`like-status-${postId}`],
+    revalidate: 60, // 1분
   });
   return cachedOperation(postId, userId!);
 }
@@ -81,7 +89,7 @@ export default async function PostDetail({
 }: {
   params: Promise<{ id: string }>;
 }) {
-  const session = await getSession(); // 여기서 세션 가져오기
+  const session = await getSession();
   const { id } = await params;
   const postId = Number(id);
   if (isNaN(postId)) {
@@ -92,11 +100,11 @@ export default async function PostDetail({
     return notFound();
   }
 
-  // session.id를 인자로 전달
-  const { likeCount, isLiked } = await getCachedLikeStatus(postId);
-
-  // 댓글 목록 조회
-  const comments = await getComments(postId);
+  // 병렬로 처리하여 성능 향상
+  const [{ likeCount, isLiked }, comments] = await Promise.all([
+    getCachedLikeStatus(postId),
+    getComments(postId),
+  ]);
 
   return (
     <div className="p-5 text-white max-w-4xl mx-auto">
@@ -109,6 +117,8 @@ export default async function PostDetail({
               className="size-7 rounded-full object-cover"
               src={post.user.avater}
               alt={post.user.username}
+              placeholder="blur"
+              blurDataURL="data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wBDAAYEBQYFBAYGBQYHBwYIChAKCgkJChQODwwQFxQYGBcUFhYaHSUfGhsjHBYWICwgIyYnKSopGR8tMC0oMCUoKSj/2wBDAQcHBwoIChMKChMoGhYaKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCj/wAARCAABAAEDASIAAhEBAxEB/8QAFQABAQAAAAAAAAAAAAAAAAAAAAv/xAAUEAEAAAAAAAAAAAAAAAAAAAAA/8QAFQEBAQAAAAAAAAAAAAAAAAAAAAX/xAAUEQEAAAAAAAAAAAAAAAAAAAAA/9oADAMBAAIRAxEAPwCdABmX/9k="
             />
           ) : (
             <UserIcon className="w-4 h-4 text-gray-600" />
@@ -122,7 +132,7 @@ export default async function PostDetail({
         </div>
       </div>
       <h2 className="text-lg font-semibold">{post.title}</h2>
-      <p className="mb-5">{post.description}</p>
+      <p className="mb-5 text-neutral-300">{post.description}</p>
       <div className="flex flex-col gap-5 items-start">
         <div className="flex items-center gap-2 text-neutral-400 text-sm">
           <EyeIcon className="size-5" />

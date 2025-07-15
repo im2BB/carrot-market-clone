@@ -1,6 +1,6 @@
 "use client";
 
-import { UserIcon } from "@heroicons/react/24/outline";
+import { ArrowRightOnRectangleIcon, UserIcon } from "@heroicons/react/24/outline";
 
 export default function LogoutButton() {
   const handleLogout = async () => {
@@ -26,7 +26,7 @@ export default function LogoutButton() {
       className="flex items-center justify-between p-3 transition-colors hover:bg-neutral-800 rounded-lg w-full text-left"
     >
       <span>로그아웃</span>
-      <UserIcon className="size-5 text-gray-400" />
+      <ArrowRightOnRectangleIcon className="size-5 text-gray-400" />
     </button>
   );
 }

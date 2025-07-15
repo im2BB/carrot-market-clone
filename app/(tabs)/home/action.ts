@@ -1,20 +1,9 @@
-import {
-  getRecentProducts,
-  getEvents,
-  getRecentPosts,
-} from "@/lib/actions/database";
+import { getHomePageData } from "@/lib/actions/database";
 
-// 최근 등록 상품 불러오기
-export async function getRecentProductsAction() {
-  return await getRecentProducts(9);
-}
-
-// 이벤트 목록 불러오기
-export async function getEventsAction() {
-  return await getEvents();
-}
-
-// 최근 게시물 불러오기
-export async function getRecentPostsAction() {
-  return await getRecentPosts(5);
+// 홈페이지 데이터를 한번에 가져오는 최적화된 액션 (임시로 캐시 우회)
+export async function getHomePageDataAction() {
+  console.log("홈페이지 데이터 로딩 중...");
+  const result = await getHomePageData();
+  console.log("홈페이지 데이터 결과:", result);
+  return result;
 }

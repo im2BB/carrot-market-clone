@@ -35,7 +35,7 @@ export async function deleteEvent(eventId: number) {
       where: { id: eventId },
     });
 
-    revalidatePath("/events/manage");
+    revalidatePath("/admin/events");
     revalidatePath("/");
 
     return { success: true };
