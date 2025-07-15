@@ -69,7 +69,7 @@ export async function deleteChatRoom(chatRoomId: string) {
     return { success: true };
   } catch (error) {
     console.error("채팅방 삭제 중 오류 발생:", error);
-    return { success: false };
+    return { success: false, error: "채팅방 삭제에 실패했습니다." };
   }
 }
 
@@ -104,6 +104,6 @@ export async function deletePost(postId: number) {
     return { success: true };
   } catch (error) {
     console.error("게시글 삭제 중 오류 발생:", error);
-    return { success: false };
+    return { success: false, error: "게시글 삭제에 실패했습니다." };
   }
 }
