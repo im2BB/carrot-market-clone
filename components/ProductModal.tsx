@@ -69,8 +69,10 @@ export default function ProductModal({
   if (!product) {
     return (
       <div className="fixed inset-0 bg-black/60 z-50 flex items-center justify-center">
-        <div className="bg-neutral-800 p-6 rounded-lg">
-          <div className="text-white">상품을 찾을 수 없습니다.</div>
+        <div className="bg-white dark:bg-neutral-800 p-6 rounded-lg">
+          <div className="text-black dark:text-white">
+            상품을 찾을 수 없습니다.
+          </div>
         </div>
       </div>
     );
@@ -79,14 +81,14 @@ export default function ProductModal({
   return (
     <div className="fixed inset-0 bg-black/60 z-50 flex items-center justify-center">
       <div
-        className="bg-neutral-800 p-6 rounded-lg max-w-lg w-full mx-4 relative"
+        className="bg-white dark:bg-neutral-800 p-6 rounded-lg max-w-lg w-full mx-4 relative"
         onClick={(e) => e.stopPropagation()}
       >
         <CloseButton onCloseClick={handleClose} />
 
         {/* 클릭 가능한 콘텐츠 영역 */}
         <div
-          className="cursor-pointer hover:bg-neutral-750 rounded-md p-2 -m-2 transition-colors"
+          className="cursor-pointer rounded-md p-2 -m-2"
           onClick={handleModalClick}
         >
           <div className="relative aspect-square w-full rounded-md overflow-hidden mb-4 bg-white">
@@ -104,8 +106,8 @@ export default function ProductModal({
               </div>
             )}
           </div>
-          <div className="text-white">
-            <div className="flex gap-3 border-b border-neutral-700 items-center mb-4 pb-3">
+          <div className="text-black dark:text-white">
+            <div className="flex gap-3 border-b border-gray-200 dark:border-neutral-700 items-center mb-4 pb-3">
               <div className="size-10 overflow-hidden rounded-full bg-white flex items-center justify-center">
                 {product.user.avater ? (
                   <Image
@@ -134,14 +136,14 @@ export default function ProductModal({
                 {formatToWon(product.price)}원
               </h1>
             </div>
-            <div className="text-neutral-300">
+            <div className="text-gray-700 dark:text-neutral-300">
               <p>{product.description}</p>
             </div>
           </div>
         </div>
 
         {/* 클릭하여 상세페이지로 이동 안내 */}
-        <div className="text-center mt-4 text-neutral-400 text-sm">
+        <div className="text-center mt-4 text-gray-500 dark:text-neutral-400 text-sm">
           클릭 시 상세페이지로 이동합니다
         </div>
 

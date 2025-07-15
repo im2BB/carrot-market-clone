@@ -4,6 +4,7 @@ import AutoLogout from "@/components/auto-logout";
 import InstallPrompt from "@/components/install-prompt";
 import PWAStatus from "@/components/pwa-status";
 import NetworkStatus from "@/components/NetworkStatus";
+import ThemeWrapper from "@/components/theme-wrapper";
 
 export const metadata: Metadata = {
   metadataBase: new URL("http://localhost:3000"),
@@ -98,14 +99,16 @@ export default function RootLayout({
       </head>
       <body
         className={
-          "bg-neutral-900 text-white max-w-screen-sm mx-auto font-sans"
+          "bg-white dark:bg-neutral-900 text-black dark:text-white max-w-screen-sm mx-auto font-sans"
         }
       >
-        <NetworkStatus />
-        <AutoLogout />
-        <PWAStatus />
-        <InstallPrompt />
-        {children}
+        <ThemeWrapper>
+          <NetworkStatus />
+          <AutoLogout />
+          <PWAStatus />
+          <InstallPrompt />
+          {children}
+        </ThemeWrapper>
       </body>
     </html>
   );

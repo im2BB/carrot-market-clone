@@ -169,8 +169,12 @@ export default function AddProduct() {
         {/* 이미지 업로드 영역 */}
         <div className="space-y-4">
           <div className="flex items-center justify-between">
-            <h3 className="text-lg font-medium text-white">상품 이미지</h3>
-            <span className="text-sm text-neutral-400">{photos.length}/5</span>
+            <h3 className="text-lg font-medium text-black dark:text-white">
+              상품 이미지
+            </h3>
+            <span className="text-sm text-gray-500 dark:text-neutral-400">
+              {photos.length}/5
+            </span>
           </div>
 
           {/* 이미지 업로드 버튼(label) 내부에 대표 이미지 미리보기 */}
@@ -184,7 +188,7 @@ export default function AddProduct() {
             {photos.length === 0 ? (
               <>
                 <PhotoIcon className="w-12" />
-                <div className="text-neutral-400 text-sm text-center">
+                <div className="text-gray-500 dark:text-neutral-400 text-sm text-center">
                   사진을 추가해주세요
                   <br />
                   <span className="text-xs">최대 5장까지</span>
@@ -249,7 +253,7 @@ export default function AddProduct() {
           )}
 
           {photos.length > 0 && (
-            <p className="text-xs text-neutral-400">
+            <p className="text-xs text-gray-500 dark:text-neutral-400">
               💡 아래 썸네일을 클릭하면 대표 이미지가 변경됩니다
             </p>
           )}
@@ -276,7 +280,7 @@ export default function AddProduct() {
             name="description"
             required
             placeholder="설명을 입력해주세요"
-            className="bg-transparent rounded-md w-full h-40 md:h-60 foucus:outline-none ring-2 focus:ring-4 transition ring-neutral-200 focus:ring-orange-500 border-none placeholder:text-neutral-400 p-3 text-white resize-vertical"
+            className="bg-white dark:bg-transparent rounded-md w-full h-40 md:h-60 foucus:outline-none ring-2 focus:ring-4 transition ring-gray-300 dark:ring-neutral-200 focus:ring-orange-500 border border-gray-300 dark:border-none placeholder:text-gray-500 dark:placeholder:text-neutral-400 p-3 text-black dark:text-white resize-vertical"
             defaultValue={(state as FormState)?.fieldValues?.description || ""}
           />
           {(state as FormState)?.fieldErrors?.description && (

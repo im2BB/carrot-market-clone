@@ -14,7 +14,7 @@ export default function Button({ text, disabled, onClick }: ButtonProps) {
       disabled={pending || disabled}
       onClick={onClick}
       className="primary-btn h-10 
-    disabled:bg-neutral-400 disabled:text-neutral-300
+    disabled:bg-gray-300 dark:disabled:bg-neutral-400 disabled:text-gray-500 dark:disabled:text-neutral-300
     disabled:cursor-not-allowed"
     >
       {pending ? "로딩 중..." : text}

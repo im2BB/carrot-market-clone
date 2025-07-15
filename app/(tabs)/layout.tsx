@@ -14,7 +14,7 @@ export default async function TabLayout({
   }
 
   return (
-    <div className="min-h-screen bg-neutral-900 text-white">
+    <div className="min-h-screen bg-white dark:bg-neutral-900 text-gray-900 dark:text-white">
       <main className="pb-20 pwa-safe-area">{children}</main>
       <TabBar />
     </div>

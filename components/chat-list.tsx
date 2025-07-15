@@ -57,7 +57,7 @@ export default async function ChatList() {
             <Link
               href={`/chats/${chat.id}`}
               key={chat.id}
-              className="flex items-center gap-4 p-4 bg-neutral-900 rounded-md hover:bg-neutral-800 group"
+              className="flex items-center gap-4 p-4 bg-white dark:bg-neutral-900 border border-gray-200 dark:border-neutral-700 rounded-md hover:bg-orange-50 dark:hover:bg-neutral-800 group transition-colors"
             >
               <div className="relative size-12 bg-white rounded-full overflow-hidden flex items-center justify-center">
                 <Image
@@ -69,12 +69,12 @@ export default async function ChatList() {
               </div>
               <div className="flex-1">
                 <div className="flex items-center justify-between">
-                  <span className="font-medium text-white">
+                  <span className="font-medium text-black dark:text-white">
                     {otherUser?.username || "알 수 없는 사용자"}
                   </span>
                   <div className="flex items-center gap-2">
                     {lastMessage && (
-                      <span className="text-sm text-neutral-500">
+                      <span className="text-sm text-gray-500 dark:text-neutral-500">
                         {formatToTimeAgo(lastMessage.created_at.toString())}
                       </span>
                     )}
@@ -82,7 +82,7 @@ export default async function ChatList() {
                   </div>
                 </div>
                 {lastMessage && (
-                  <p className="text-sm text-neutral-400 truncate">
+                  <p className="text-sm text-gray-600 dark:text-neutral-400 truncate">
                     {lastMessage.payload}
                   </p>
                 )}
@@ -92,8 +92,10 @@ export default async function ChatList() {
         })
       ) : (
         <div className="flex flex-col items-center justify-center pt-64 gap-4">
-          <p className="text-neutral-400 text-lg">채팅 내역이 없습니다</p>
-          <p className="text-neutral-500 text-sm">
+          <p className="text-gray-500 dark:text-neutral-400 text-lg">
+            채팅 내역이 없습니다
+          </p>
+          <p className="text-gray-400 dark:text-neutral-500 text-sm">
             상품 상세 페이지에서 채팅을 시작해보세요
           </p>
         </div>

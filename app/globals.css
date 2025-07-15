@@ -191,7 +191,7 @@
 
   /* 네비게이션 바 스타일 */
   .pwa-nav {
-    @apply fixed bottom-0 left-0 right-0 bg-neutral-800/90 backdrop-blur-sm border-t border-neutral-700;
+    @apply fixed bottom-0 left-0 right-0 bg-white/90 dark:bg-neutral-800/90 backdrop-blur-sm border-t border-gray-200 dark:border-neutral-700;
     padding-bottom: env(safe-area-inset-bottom);
   }
 }

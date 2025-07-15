@@ -21,7 +21,7 @@ export default async function InterceptedProductModalPage({
 
   return (
     <div className="fixed inset-0 bg-black/60 z-10">
-      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 bg-neutral-800 p-6 rounded-lg max-w-lg w-full">
+      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 bg-white dark:bg-neutral-800 p-6 rounded-lg max-w-lg w-full">
         <a href={`/products/${id}`} className="block">
           <div className="relative aspect-square w-full rounded-md overflow-hidden mb-4 bg-white">
             <img
@@ -37,16 +37,18 @@ export default async function InterceptedProductModalPage({
               </div>
             )}
           </div>
-          <div className="flex flex-col gap-2 *:text-white">
+          <div className="flex flex-col gap-2">
             <div className="flex items-center gap-3">
-              <h2 className="text-2xl font-bold">{product.title}</h2>
+              <h2 className="text-2xl font-bold text-black dark:text-white">
+                {product.title}
+              </h2>
               {productWithSold.sold && (
                 <span className="bg-red-500 text-white text-sm px-3 py-1 rounded">
                   판매완료
                 </span>
               )}
             </div>
-            <p className="text-neutral-400 text-sm ml-2">
+            <p className="text-gray-500 dark:text-neutral-400 text-sm ml-2">
               {new Date(product.created_at).toLocaleDateString()}
             </p>
             <p className="text-xl font-semibold text-orange-500">

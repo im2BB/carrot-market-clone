@@ -116,13 +116,13 @@ export default function ChatMessagesList({
                 <span
                   className={`${
                     message.userId === userId
-                      ? "bg-neutral-500"
-                      : "bg-orange-500"
+                      ? "bg-orange-500 text-white"
+                      : "bg-gray-200 dark:bg-neutral-600 text-black dark:text-white"
                   } p-2.5 rounded-md`}
                 >
                   {message.payload}
                 </span>
-                <span className="text-xs">
+                <span className="text-xs text-gray-500 dark:text-neutral-400">
                   {formatToTimeAgo(message.created_at.toString())}
                 </span>
               </div>
@@ -133,7 +133,7 @@ export default function ChatMessagesList({
       </div>
 
       {/* 입력창 - 탭바 위에 고정 */}
-      <div className="fixed bottom-16 mb-6 left-0 right-0 bg-neutral-900 p-4 border-t border-neutral-700">
+      <div className="fixed bottom-16 mb-6 left-0 right-0 bg-white dark:bg-neutral-900 border-t border-gray-200 dark:border-neutral-700 p-4">
         <form
           className="flex relative max-w-screen-md mx-auto"
           onSubmit={onSubmit}
@@ -142,7 +142,7 @@ export default function ChatMessagesList({
             required
             onChange={onChange}
             value={message}
-            className="bg-transparent rounded-full w-full h-10 focus:outline-none px-5 ring-2 focus:ring-4 transition ring-neutral-200 focus:ring-neutral-50 border-none placeholder:text-neutral-400"
+            className="bg-white dark:bg-neutral-800 rounded-full w-full h-10 focus:outline-none px-5 ring-2 focus:ring-4 transition ring-gray-200 dark:ring-neutral-200 focus:ring-orange-300 dark:focus:ring-neutral-50 border border-gray-300 dark:border-none placeholder:text-gray-500 dark:placeholder:text-neutral-400 text-black dark:text-white"
             type="text"
             name="message"
             placeholder="메시지를 입력하세요"

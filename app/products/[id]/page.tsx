@@ -95,7 +95,7 @@ export default async function ProductDetail({
         isOwner={isOwner}
       />
 
-      <div className="p-5 flex flex-col gap-3 border-b border-neutral-700">
+      <div className="p-5 flex flex-col gap-3 border-b border-gray-200 dark:border-neutral-700">
         <div className="size-10 overflow-hidden rounded-full bg-white flex items-center justify-center">
           {product.user.avater ? (
             <Image
@@ -105,31 +105,37 @@ export default async function ProductDetail({
               alt={product.user.username}
               className="w-full h-full object-cover"
               placeholder="blur"
-              blurDataURL="data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wBDAAYEBQYFBAYGBQYHBwYIChAKCgkJChQODwwQFxQYGBcUFhYaHSUfGhsjHBYWICwgIyYnKSopGR8tMC0oMCUoKSj/2wBDAQcHBwoIChMKChMoGhYaKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCj/wAARCAABAAEDASIAAhEBAxEB/8QAFQABAQAAAAAAAAAAAAAAAAAAAAv/xAAUEAEAAAAAAAAAAAAAAAAAAAAA/8QAFQEBAQAAAAAAAAAAAAAAAAAAAAX/xAAUEQEAAAAAAAAAAAAAAAAAAAAA/9oADAMBAAIRAxAAPwCdABmX/9k="
+              blurDataURL="data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wBDAAYEBQYFBAYGBQYHBwYIChAKCgkJChQODwwQFxQYGBcUFhYaHSUfGhsjHBYWICwgIyYnKSopGR8tMC0oMCUoKSj/2wBDAQcHBwoIChMKChMoGhYaKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCj/wAARCAABAAEDASIAAhEBAxEB/8QAFQABAQAAAAAAAAAAAAAAAAAAAAv/xAAUEAEAAAAAAAAAAAAAAAAAAAAA/8QAFQEBAQAAAAAAAAAAAAAAAAAAAAX/xAAUEQEAAAAAAAAAAAAAAAAAAAAA/9oADAMBAAIRAxEAPwCdABmX/9k="
             />
           ) : (
             <UserIcon className="w-6 h-6 text-gray-600" />
           )}
         </div>
         <div>
-          <h3>{product.user.username}</h3>
+          <h3 className="text-black dark:text-white">
+            {product.user.username}
+          </h3>
         </div>
       </div>
 
       <div className="p-5">
         <div className="flex items-center gap-2">
-          <h1 className="text-2xl font-semibold">{product.title}</h1>
+          <h1 className="text-2xl font-semibold text-black dark:text-white">
+            {product.title}
+          </h1>
           {product.sold && (
             <span className="bg-red-500 text-white text-sm px-2 py-1 rounded">
               판매 완료
             </span>
           )}
         </div>
-        <p className="mt-3 text-neutral-300">{product.description}</p>
+        <p className="mt-3 text-gray-700 dark:text-neutral-300">
+          {product.description}
+        </p>
       </div>
       <div
         className="fixed w-full bottom-0 left-0 p-5 lb-10 
-      bg-neutral-800 flex justify-between items-center"
+      bg-white dark:bg-neutral-800 border-t border-gray-200 dark:border-neutral-700 flex justify-between items-center"
       >
         <span className="font-semibold text-lg text-orange-500">
           {formatToWon(product.price)}원

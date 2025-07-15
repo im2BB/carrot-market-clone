@@ -67,7 +67,7 @@ export default function TabBar() {
                 ${
                   isActive
                     ? "text-orange-500 bg-orange-500/10"
-                    : "text-gray-400 hover:text-white hover:bg-white/5"
+                    : "text-black dark:text-gray-400 hover:text-orange-500 dark:hover:text-white hover:bg-orange-100 dark:hover:bg-white/5"
                 }
               `}
             >

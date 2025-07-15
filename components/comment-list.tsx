@@ -115,8 +115,10 @@ export default function CommentList({
   };
 
   return (
-    <div className="mt-8 border-t border-neutral-700 pt-6">
-      <h3 className="text-lg font-semibold mb-4">댓글 {comments.length}개</h3>
+    <div className="mt-8 border-t border-gray-200 dark:border-neutral-700 pt-6">
+      <h3 className="text-lg font-semibold mb-4 text-black dark:text-white">
+        댓글 {comments.length}개
+      </h3>
 
       {/* 댓글 작성 폼 */}
       {currentUserId && (
@@ -126,13 +128,13 @@ export default function CommentList({
               value={newComment}
               onChange={(e) => setNewComment(e.target.value)}
               placeholder="댓글을 입력하세요..."
-              className="flex-1 bg-neutral-800 border border-neutral-600 rounded-lg p-3 text-white placeholder-neutral-400 resize-none min-h-[80px] focus:outline-none focus:border-orange-500"
+              className="flex-1 bg-white dark:bg-neutral-800 border border-gray-300 dark:border-neutral-600 rounded-lg p-3 text-black dark:text-white placeholder-gray-500 dark:placeholder-neutral-400 resize-none min-h-[80px] focus:outline-none focus:border-orange-500"
               disabled={isSubmitting}
             />
             <button
               type="submit"
               disabled={!newComment.trim() || isSubmitting}
-              className="self-end bg-orange-500 hover:bg-orange-600 disabled:bg-neutral-600 disabled:cursor-not-allowed text-white px-4 py-2 rounded-lg font-medium transition-colors"
+              className="self-end bg-orange-500 hover:bg-orange-600 disabled:bg-gray-300 dark:disabled:bg-neutral-600 disabled:cursor-not-allowed text-white px-4 py-2 rounded-lg font-medium transition-colors"
             >
               {isSubmitting ? "작성중..." : "작성"}
             </button>
@@ -143,14 +145,14 @@ export default function CommentList({
       {/* 댓글 목록 */}
       <div className="space-y-4">
         {comments.length === 0 ? (
-          <p className="text-neutral-400 text-center py-8">
+          <p className="text-gray-500 dark:text-neutral-400 text-center py-8">
             첫 번째 댓글을 작성해보세요!
           </p>
         ) : (
           comments.map((comment) => (
             <div
               key={comment.id}
-              className="flex gap-3 p-4 bg-neutral-800 rounded-lg"
+              className="flex gap-3 p-4 bg-white dark:bg-neutral-800 border border-gray-200 dark:border-neutral-700 rounded-lg"
             >
               <div className="size-8 rounded-full overflow-hidden bg-white flex items-center justify-center flex-shrink-0">
                 {comment.user.avater ? (
@@ -169,10 +171,10 @@ export default function CommentList({
               <div className="flex-1">
                 <div className="flex items-center justify-between mb-1">
                   <div className="flex items-center gap-2">
-                    <span className="font-medium text-sm">
+                    <span className="font-medium text-sm text-black dark:text-white">
                       {comment.user.username}
                     </span>
-                    <span className="text-xs text-neutral-400">
+                    <span className="text-xs text-gray-500 dark:text-neutral-400">
                       {formatToTimeAgo(comment.created_at.toString())}
                     </span>
                   </div>
@@ -180,7 +182,7 @@ export default function CommentList({
                   {currentUserId === comment.user.id && (
                     <button
                       onClick={() => handleDelete(comment.id)}
-                      className="text-neutral-400 hover:text-red-400 transition-colors p-1"
+                      className="text-gray-400 dark:text-neutral-400 hover:text-red-500 dark:hover:text-red-400 transition-colors p-1"
                       title="댓글 삭제"
                     >
                       <TrashIcon className="w-4 h-4" />
@@ -188,7 +190,7 @@ export default function CommentList({
                   )}
                 </div>
 
-                <p className="text-white whitespace-pre-wrap">
+                <p className="text-black dark:text-white whitespace-pre-wrap">
                   {comment.payload}
                 </p>
               </div>

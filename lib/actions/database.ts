@@ -210,10 +210,10 @@ export async function getProductsWithPagination(
   }
 }
 
-// 캐시된 상품 목록
+// 캐시된 상품 목록 - 매개변수를 키에 포함하여 페이지별 캐시
 export const getCachedProductsWithPagination = nextCache(
   getProductsWithPagination,
-  ["products-pagination"],
+  [], // 빈 배열로 두면 함수 매개변수가 자동으로 캐시 키에 포함됨
   {
     revalidate: 300, // 5분
     tags: ["products"],

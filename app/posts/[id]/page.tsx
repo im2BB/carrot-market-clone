@@ -107,7 +107,7 @@ export default async function PostDetail({
   ]);
 
   return (
-    <div className="p-5 text-white max-w-4xl mx-auto">
+    <div className="p-5 text-black dark:text-white max-w-4xl mx-auto">
       <div className="flex items-center gap-2 mb-2">
         <div className="size-7 rounded-full overflow-hidden bg-white flex items-center justify-center">
           {post.user.avater ? (
@@ -126,15 +126,19 @@ export default async function PostDetail({
         </div>
         <div>
           <span className="text-sm font-semibold">{post.user.username}</span>
-          <div className="text-xs">
+          <div className="text-xs text-gray-500 dark:text-gray-400">
             <span>{formatToTimeAgo(post.created_at.toString())}</span>
           </div>
         </div>
       </div>
-      <h2 className="text-lg font-semibold">{post.title}</h2>
-      <p className="mb-5 text-neutral-300">{post.description}</p>
+      <h2 className="text-lg font-semibold text-black dark:text-white">
+        {post.title}
+      </h2>
+      <p className="mb-5 text-gray-600 dark:text-neutral-300">
+        {post.description}
+      </p>
       <div className="flex flex-col gap-5 items-start">
-        <div className="flex items-center gap-2 text-neutral-400 text-sm">
+        <div className="flex items-center gap-2 text-gray-500 dark:text-neutral-400 text-sm">
           <EyeIcon className="size-5" />
           <span>조회 {post.views}</span>
         </div>

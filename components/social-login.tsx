@@ -6,7 +6,7 @@ interface SocialLoginProps {
 export default function SocialLogin({ text }: SocialLoginProps) {
   return (
     <>
-      <div className="w-full h-px bg-neutral-500" />
+      <div className="w-full h-px bg-gray-300 dark:bg-neutral-500" />
       <div className="flex flex-col gap-3">
         <Link
           className="primary-btn flex h-10 items-center justify-center gap-2"

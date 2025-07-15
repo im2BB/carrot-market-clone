@@ -38,7 +38,7 @@ export default function ListProduct({
 
   return (
     <div
-      className="flex gap-5 cursor-pointer items-center py-3 border-b border-neutral-800 hover:bg-neutral-900 transition-colors"
+      className="flex gap-5 p-2 cursor-pointer items-center py-3 border-b border-gray-200 dark:border-neutral-800 hover:bg-orange-50 dark:hover:bg-orange-100/20 transition-colors"
       onClick={handleClick}
     >
       <div className="relative size-28 rounded-md overflow-hidden flex-shrink-0">
@@ -64,7 +64,7 @@ export default function ListProduct({
       </div>
       <div className="flex flex-col gap-1 flex-1 min-w-0">
         <div className="flex items-center gap-2">
-          <span className="text-lg text-white truncate font-semibold">
+          <span className="text-lg text-black dark:text-white truncate font-semibold">
             {title}
           </span>
           {sold && (
@@ -76,7 +76,7 @@ export default function ListProduct({
         <span className="text-orange-500 font-bold text-base">
           {formatToWon(price)}원
         </span>
-        <div className="flex gap-3 text-xs text-neutral-400 mt-1">
+        <div className="flex gap-3 text-xs text-black dark:text-neutral-400 mt-1">
           <span>판매자: {user?.username || "알 수 없음"}</span>
           <span>|</span>
           <span>{new Date(created_at).toLocaleDateString("ko-KR")}</span>

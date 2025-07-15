@@ -26,9 +26,9 @@ export default async function Home() {
         <Link href="/create-account" className="primary-btn py-2.5 text-lg ">
           시작하기
         </Link>
-        <div className="flex gap-2">
+        <div className="flex gap-2 text-black dark:text-white">
           <span>이미 계정이 있으신가요?</span>
-          <Link href="/login" className="hover:underline">
+          <Link href="/login" className="hover:underline text-orange-500">
             로그인
           </Link>
         </div>
