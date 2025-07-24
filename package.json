@@ -16,6 +16,7 @@
     "@heroicons/react": "^2.2.0",
     "@prisma/client": "^6.11.1",
     "@supabase/supabase-js": "^2.49.10",
+    "@tailwindcss/line-clamp": "^0.4.4",
     "@types/bcrypt": "^5.0.2",
     "@types/bcryptjs": "^3.0.0",
     "@vonage/auth": "^1.12.0",

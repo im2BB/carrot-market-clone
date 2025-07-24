@@ -4,6 +4,7 @@ import { formatToTimeAgo, getSafeAvatarSrc } from "@/lib/utils";
 import db from "@/lib/db";
 import getSession from "@/lib/session";
 import DeleteChatButton from "./delete-chat-button";
+import { UserIcon } from "@heroicons/react/24/solid";
 
 async function getChatList() {
   const session = await getSession();
@@ -52,6 +53,7 @@ export default async function ChatList() {
         chats.map((chat) => {
           const otherUser = chat.users[0];
           const lastMessage = chat.messages[0];
+          const avatarSrc = getSafeAvatarSrc(otherUser?.avater);
 
           return (
             <Link
@@ -59,13 +61,19 @@ export default async function ChatList() {
               key={chat.id}
               className="flex items-center gap-4 p-4 bg-white dark:bg-neutral-900 border border-gray-200 dark:border-neutral-700 rounded-md hover:bg-orange-50 dark:hover:bg-neutral-800 group transition-colors"
             >
-              <div className="relative size-12 bg-white rounded-full overflow-hidden flex items-center justify-center">
-                <Image
-                  fill
-                  src={getSafeAvatarSrc(otherUser?.avater)}
-                  alt={otherUser?.username || "사용자"}
-                  className="object-cover"
-                />
+              <div className="relative size-12 bg-gray-200 dark:bg-neutral-600 rounded-full overflow-hidden flex items-center justify-center">
+                {avatarSrc && avatarSrc !== "/기본사용자.jpg" ? (
+                  <Image
+                    fill
+                    src={avatarSrc}
+                    alt={otherUser?.username || "사용자"}
+                    className="object-cover"
+                    placeholder="blur"
+                    blurDataURL="data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wBDAAYEBQYFBAYGBQYHBwYIChAKCgkJChQODwwQFxQYGBcUFhYaHSUfGhsjHBYWICwgIyYnKSopGR8tMC0oMCUoKSj/2wBDAQcHBwoIChMKChMoGhYaKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCj/wAARCAABAAEDASIAAhEBAxEB/8QAFQABAQAAAAAAAAAAAAAAAAAAAAv/xAAUEAEAAAAAAAAAAAAAAAAAAAAA/8QAFQEBAQAAAAAAAAAAAAAAAAAAAAX/xAAUEQEAAAAAAAAAAAAAAAAAAAAA/9oADAMBAAIRAxAAPwCdABmX/9k="
+                  />
+                ) : (
+                  <UserIcon className="w-6 h-6 text-gray-600 dark:text-gray-400" />
+                )}
               </div>
               <div className="flex-1">
                 <div className="flex items-center justify-between">

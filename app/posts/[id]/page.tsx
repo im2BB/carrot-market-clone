@@ -159,7 +159,7 @@ export default async function PostDetail({
         <h2 className="text-lg font-semibold text-black dark:text-white">
           {post.title}
         </h2>
-        <p className="mb-5 text-gray-600 dark:text-neutral-300">
+        <p className="mb-5 text-gray-600 dark:text-neutral-300 whitespace-pre-wrap">
           {post.description}
         </p>
         <div className="flex flex-col gap-5 items-start">

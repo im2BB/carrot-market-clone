@@ -86,7 +86,7 @@ export default async function ProductDetail({
   };
 
   return (
-    <div className="relative">
+    <div className="relative h-screen overflow-y-auto scrollbar-hide">
       <BackButton fallbackUrl="/products" position="right" />
       <ProductImageSlider
         images={images}
@@ -118,7 +118,7 @@ export default async function ProductDetail({
         </div>
       </div>
 
-      <div className="p-5">
+      <div className="p-5 pb-24">
         <div className="flex items-center gap-2">
           <h1 className="text-2xl font-semibold text-black dark:text-white">
             {product.title}
@@ -129,13 +129,14 @@ export default async function ProductDetail({
             </span>
           )}
         </div>
-        <p className="mt-3 text-gray-700 dark:text-neutral-300">
+        <p className="mt-3 text-gray-700 dark:text-neutral-300 whitespace-pre-wrap">
           {product.description}
         </p>
       </div>
+
       <div
-        className="fixed w-full bottom-0 left-0 p-5 lb-10 
-      bg-white dark:bg-neutral-800 border-t border-gray-200 dark:border-neutral-700 flex justify-between items-center"
+        className="fixed w-full bottom-0 left-0 p-5 
+        bg-white dark:bg-neutral-800 border-t border-gray-200 dark:border-neutral-700 flex justify-between items-center z-10"
       >
         <span className="font-semibold text-lg text-orange-500">
           {formatToWon(product.price)}원

@@ -113,13 +113,13 @@ export default function ProductImageSlider({
         <>
           <button
             onClick={prevImage}
-            className="absolute left-2 top-1/2 transform -translate-y-1/2 bg-black bg-opacity-50 text-white p-2 rounded-full hover:bg-opacity-70 transition-all"
+            className="absolute left-2 top-1/2 transform -translate-y-1/2 bg-black bg-opacity-50 text-white p-2 rounded-full hover:bg-opacity-70 transition-all z-10"
           >
             <ChevronLeftIcon className="w-6 h-6" />
           </button>
           <button
             onClick={nextImage}
-            className="absolute right-2 top-1/2 transform -translate-y-1/2 bg-black bg-opacity-50 text-white p-2 rounded-full hover:bg-opacity-70 transition-all"
+            className="absolute right-2 top-1/2 transform -translate-y-1/2 bg-black bg-opacity-50 text-white p-2 rounded-full hover:bg-opacity-70 transition-all z-10"
           >
             <ChevronRightIcon className="w-6 h-6" />
           </button>
@@ -128,7 +128,7 @@ export default function ProductImageSlider({
 
       {/* 이미지 인디케이터 */}
       {images.length > 1 && (
-        <div className="absolute bottom-4 left-1/2 transform -translate-x-1/2 flex gap-2">
+        <div className="absolute bottom-4 left-1/2 transform -translate-x-1/2 flex gap-2 z-10">
           {images.map((_, index) => (
             <button
               key={index}
@@ -143,7 +143,7 @@ export default function ProductImageSlider({
 
       {/* 대표 이미지 표시 및 변경 버튼 */}
       {isOwner && images.length > 1 && onRepresentativeChange && (
-        <div className="absolute top-4 right-4 flex flex-col gap-2">
+        <div className="absolute top-4 right-4 flex flex-col gap-2 z-10">
           {currentIndex === representativeIndex && (
             <div className="bg-orange-500 text-white text-xs px-2 py-1 rounded">
               대표
@@ -167,7 +167,7 @@ export default function ProductImageSlider({
 
       {/* 이미지 카운터 */}
       {images.length > 1 && (
-        <div className="absolute top-4 left-4 bg-black bg-opacity-50 text-white text-xs px-2 py-1 rounded">
+        <div className="absolute top-4 left-4 bg-black bg-opacity-50 text-white text-xs px-2 py-1 rounded z-10">
           {currentIndex + 1} / {images.length}
         </div>
       )}

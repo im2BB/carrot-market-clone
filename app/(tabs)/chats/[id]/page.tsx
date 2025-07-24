@@ -83,7 +83,7 @@ export default async function ChatRoom({
       chatRoomId={id}
       userId={session.id!}
       username={user.username}
-      avater={user.avater ?? ""}
+      avater={user.avater || ""}
       initialMessages={initialMessages}
     />
   );

@@ -110,7 +110,7 @@ export default async function Life() {
               <h2 className="text-black dark:text-white text-lg font-semibold mb-1">
                 {notice.title}
               </h2>
-              <p className="mb-1 text-gray-600 dark:text-neutral-400">
+              <p className="mb-1 text-gray-600 dark:text-neutral-400 whitespace-pre-wrap line-clamp-3">
                 {notice.description}
               </p>
               <div className="flex items-center gap-4 text-sm">
@@ -156,7 +156,7 @@ export default async function Life() {
               <h2 className="text-black dark:text-white text-lg font-semibold mb-1">
                 {post.title}
               </h2>
-              <p className="mb-1 text-gray-600 dark:text-neutral-400">
+              <p className="mb-1 text-gray-600 dark:text-neutral-400 whitespace-pre-wrap line-clamp-3">
                 {post.description}
               </p>
               <div className="flex items-center gap-4 text-sm">

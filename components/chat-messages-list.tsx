@@ -4,7 +4,7 @@ import { InitialChatMessages } from "@/app/(tabs)/chats/[id]/page";
 import { formatToTimeAgo } from "@/lib/utils";
 import { useEffect, useRef, useState } from "react";
 import Image from "next/image";
-import { ArrowUpCircleIcon } from "@heroicons/react/24/solid";
+import { ArrowUpCircleIcon, UserIcon } from "@heroicons/react/24/solid";
 import { RealtimeChannel, createClient } from "@supabase/supabase-js";
 import { saveMessageAction } from "@/app/(tabs)/chats/actions";
 import BackButton from "./back-button";
@@ -100,13 +100,21 @@ export default function ChatMessagesList({
               }`}
             >
               {message.userId === userId ? null : (
-                <Image
-                  src={message.user.avater!}
-                  alt={message.user.username}
-                  width={50}
-                  height={50}
-                  className="size-8 rounded-full"
-                />
+                <div className="size-8 rounded-full bg-gray-200 dark:bg-neutral-600 flex items-center justify-center overflow-hidden">
+                  {message.user.avater && message.user.avater.trim() !== "" ? (
+                    <Image
+                      src={message.user.avater}
+                      alt={message.user.username}
+                      width={32}
+                      height={32}
+                      className="w-full h-full object-cover"
+                      placeholder="blur"
+                      blurDataURL="data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wBDAAYEBQYFBAYGBQYHBwYIChAKCgkJChQODwwQFxQYGBcUFhYaHSUfGhsjHBYWICwgIyYnKSopGR8tMC0oMCUoKSj/2wBDAQcHBwoIChMKChMoGhYaKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCj/wAARCAABAAEDASIAAhEBAxEB/8QAFQABAQAAAAAAAAAAAAAAAAAAAAv/xAAUEAEAAAAAAAAAAAAAAAAAAAAA/8QAFQEBAQAAAAAAAAAAAAAAAAAAAAX/xAAUEQEAAAAAAAAAAAAAAAAAAAAA/9oADAMBAAIRAxEAPwCdABmX/9k="
+                    />
+                  ) : (
+                    <UserIcon className="w-4 h-4 text-gray-600 dark:text-gray-400" />
+                  )}
+                </div>
               )}
               <div
                 className={`flex flex-col gap-1 ${
