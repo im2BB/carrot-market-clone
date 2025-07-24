@@ -105,11 +105,11 @@ async function getCachedLikeStatus(postId: number) {
 export default async function PostDetail({
   params,
 }: {
-  params: { id: string };
+  params: Promise<{ id: string }>;
 }) {
   try {
     const session = await getSession();
-    const { id } = params;
+    const { id } = await params;
     const postId = Number(id);
 
     console.log("요청된 게시글 ID:", id, "변환된 숫자:", postId);

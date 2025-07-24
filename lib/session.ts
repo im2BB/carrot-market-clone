@@ -3,6 +3,7 @@ import { cookies } from "next/headers";
 
 interface SessionContent {
   id?: number;
+  role?: string;
 }
 export default async function getSession() {
   return getIronSession<SessionContent>(await cookies(), {
