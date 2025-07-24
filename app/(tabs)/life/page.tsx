@@ -15,60 +15,68 @@ export const metadata = {
 };
 
 async function getPosts() {
-  // 공지사항과 일반 게시글을 분리해서 조회
-  const notices = await db.post.findMany({
-    where: { isNotice: true },
-    select: {
-      id: true,
-      title: true,
-      description: true,
-      views: true,
-      isNotice: true,
-      created_at: true,
-      _count: {
-        select: {
-          comments: true,
-          likes: true,
+  try {
+    // 공지사항과 일반 게시글을 분리해서 조회
+    const notices = await db.post.findMany({
+      where: { isNotice: true },
+      select: {
+        id: true,
+        title: true,
+        description: true,
+        views: true,
+        isNotice: true,
+        created_at: true,
+        _count: {
+          select: {
+            comments: true,
+            likes: true,
+          },
+        },
+        user: {
+          select: {
+            username: true,
+          },
         },
       },
-      user: {
-        select: {
-          username: true,
-        },
+      orderBy: {
+        created_at: "desc",
       },
-    },
-    orderBy: {
-      created_at: "desc",
-    },
-  });
+    });
 
-  const posts = await db.post.findMany({
-    where: { isNotice: false },
-    select: {
-      id: true,
-      title: true,
-      description: true,
-      views: true,
-      isNotice: true,
-      created_at: true,
-      _count: {
-        select: {
-          comments: true,
-          likes: true,
+    const posts = await db.post.findMany({
+      where: { isNotice: false },
+      select: {
+        id: true,
+        title: true,
+        description: true,
+        views: true,
+        isNotice: true,
+        created_at: true,
+        _count: {
+          select: {
+            comments: true,
+            likes: true,
+          },
+        },
+        user: {
+          select: {
+            username: true,
+          },
         },
       },
-      user: {
-        select: {
-          username: true,
-        },
+      orderBy: {
+        created_at: "desc",
       },
-    },
-    orderBy: {
-      created_at: "desc",
-    },
-  });
+    });
 
-  return { notices, posts };
+    console.log("공지사항 개수:", notices.length);
+    console.log("일반 게시글 개수:", posts.length);
+
+    return { notices, posts };
+  } catch (error) {
+    console.error("게시글 조회 중 오류 발생:", error);
+    return { notices: [], posts: [] };
+  }
 }
 
 export default async function Life() {
@@ -122,6 +130,13 @@ export default async function Life() {
         </div>
       )}
 
+      {/* 공지사항이 없을 때 안내 메시지 */}
+      {notices.length === 0 && (
+        <div className="text-center py-8 text-gray-500 dark:text-gray-400">
+          <p>현재 공지사항이 없습니다.</p>
+        </div>
+      )}
+
       {/* 일반 게시글 섹션 */}
       <div className="space-y-3">
         {notices.length > 0 && (
@@ -131,33 +146,40 @@ export default async function Life() {
             </h2>
           </div>
         )}
-        {posts.map((post) => (
-          <Link
-            key={post.id}
-            href={`/posts/${post.id}`}
-            className="block pb-5 mb-5 border-b border-gray-200 dark:border-neutral-500 text-gray-600 dark:text-neutral-400 last:pb-0 last:border-b-0 hover:bg-orange-50 dark:hover:bg-neutral-800/50 transition-colors cursor-pointer rounded-lg p-3"
-          >
-            <h2 className="text-black dark:text-white text-lg font-semibold mb-1">
-              {post.title}
-            </h2>
-            <p className="mb-1 text-gray-600 dark:text-neutral-400">
-              {post.description}
-            </p>
-            <div className="flex items-center gap-4 text-sm">
-              <span>{post.user.username}</span>
-              <span>{formatToTimeAgo(post.created_at.toString())}</span>
-              <span>조회 {post.views}</span>
-              <span className="flex items-center gap-1">
-                <HandThumbUpIcon className="size-4" />
-                {post._count.likes}
-              </span>
-              <span className="flex items-center gap-1">
-                <ChatBubbleBottomCenterIcon className="size-4" />
-                {post._count.comments}
-              </span>
-            </div>
-          </Link>
-        ))}
+        {posts.length > 0 ? (
+          posts.map((post) => (
+            <Link
+              key={post.id}
+              href={`/posts/${post.id}`}
+              className="block pb-5 mb-5 border-b border-gray-200 dark:border-neutral-500 text-gray-600 dark:text-neutral-400 last:pb-0 last:border-b-0 hover:bg-orange-50 dark:hover:bg-neutral-800/50 transition-colors cursor-pointer rounded-lg p-3"
+            >
+              <h2 className="text-black dark:text-white text-lg font-semibold mb-1">
+                {post.title}
+              </h2>
+              <p className="mb-1 text-gray-600 dark:text-neutral-400">
+                {post.description}
+              </p>
+              <div className="flex items-center gap-4 text-sm">
+                <span>{post.user.username}</span>
+                <span>{formatToTimeAgo(post.created_at.toString())}</span>
+                <span>조회 {post.views}</span>
+                <span className="flex items-center gap-1">
+                  <HandThumbUpIcon className="size-4" />
+                  {post._count.likes}
+                </span>
+                <span className="flex items-center gap-1">
+                  <ChatBubbleBottomCenterIcon className="size-4" />
+                  {post._count.comments}
+                </span>
+              </div>
+            </Link>
+          ))
+        ) : (
+          <div className="text-center py-8 text-gray-500 dark:text-gray-400">
+            <p>아직 게시글이 없습니다.</p>
+            <p className="text-sm mt-2">첫 번째 게시글을 작성해보세요!</p>
+          </div>
+        )}
       </div>
 
       <FloatingButton href="/add-post">
