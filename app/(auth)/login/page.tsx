@@ -6,9 +6,13 @@ import SocialLogin from "@/components/social-login";
 import { useActionState } from "react";
 import { login } from "./action";
 import { PASSWORD_MIN_LENGTH } from "@/lib/constants";
+import { useSearchParams } from "next/navigation";
 
 export default function LogIn() {
   const [state, dispatch] = useActionState(login, null);
+  const searchParams = useSearchParams();
+  const error = searchParams.get("error");
+
   return (
     <div className="flex flex-col gap-10 py-8 px-6">
       <div className="flex flex-col gap-2 *:font-medium">
@@ -17,6 +21,14 @@ export default function LogIn() {
           로그인 시 이메일과 비밀번호를 입력하세요
         </h2>
       </div>
+
+      {/* GitHub 로그인 에러 메시지 */}
+      {error === "github_auth_failed" && (
+        <div className="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded">
+          GitHub 로그인에 실패했습니다. 다시 시도해주세요.
+        </div>
+      )}
+
       <form action={dispatch} className="flex flex-col gap-3">
         <FormInput
           name="email"

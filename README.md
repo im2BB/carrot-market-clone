@@ -8,7 +8,7 @@
 
 - **Frontend**: Next.js 15.3.2, TypeScript, Tailwind CSS
 - **Backend**: Next.js App Router, Server Actions
-- **Database**: Prisma 
+- **Database**: Prisma
 - **Authentication**: Iron Session
 - **Image Upload**: Cloudflare Images
 - **Real-time Chat**: Supabase Realtime
@@ -113,10 +113,7 @@ vercel env pull .env.local
 
 - 스키마 변경 시: `npx prisma migrate dev`
 - Prisma Studio 재시작 필요
-- 무료 SQLite (개발) / PostgreSQL (배포) 사용
 
 ## 📱 모바일 지원
 
 현재 PWA로 구성되어 있어 모바일에서도 네이티브 앱처럼 사용할 수 있습니다.
-
-
