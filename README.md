@@ -1,27 +1,122 @@
-# 당근 마켓 클론 입니다
+# 당근마켓 클론 프로젝트
 
-#
+## 📱 프로젝트 소개
 
-# Next js 15.3.2 사용중이며
+당근마켓을 클론한 웹 애플리케이션입니다. 중고거래, 커뮤니티, 채팅 기능을 포함한 풀스택 웹앱입니다.
 
-# Tailwind V3(pulgin : "@tailwindcss/forms" ) / zod / prisma / sqlite 사용하고 있습니다
+## 🛠 기술 스택
 
-# typescript로 작업/공부하고 있습니다
+- **Frontend**: Next.js 15.3.2, TypeScript, Tailwind CSS
+- **Backend**: Next.js App Router, Server Actions
+- **Database**: Prisma 
+- **Authentication**: Iron Session
+- **Image Upload**: Cloudflare Images
+- **Real-time Chat**: Supabase Realtime
+- **Deployment**: Vercel
 
-# 클론 작업이 완료되면 모바일 웹으로도 실행 가능하게 하이브리드 웹앱으로 작업도 해볼 예정입니다
+## 🚀 주요 기능
 
-# 그리고 언제든 다른 웹이나 앱으로 변환할수 있게 컴포넌트화 시켰습니다다
+- 🔐 사용자 인증 (GitHub OAuth)
+- 📦 상품 등록 및 관리
+- 💬 실시간 채팅
+- 📝 커뮤니티 게시글
+- 🔍 상품 검색
+- 👤 사용자 프로필 관리
+- 📱 PWA 지원 (모바일 웹앱)
 
-# next js 기동중 다른 콘솔을 열어 npx prisma studio 실행하여 사용 가능합니다
+## 🏃‍♂️ 시작하기
 
-# 다만 새로운 스키마 생성시 프리스마 스튜디오 정지 후
+### 1. 저장소 클론
 
-# npx prisma migrate dev 사용해 생성한 스키마에 대한 정보를 업데이트 하고
+```bash
+git clone [repository-url]
+cd carrot-market-clone
+```
 
-# 다시 시작해야하는 번거로움이 존재하지만 무료라는 강한 강점이 있습니다
+### 2. 의존성 설치
 
-# 현재 페이지 vercel에 배포 중이며 DB도 vercel에서 선택한 prisma로 무료 배포 중입니다
+```bash
+npm install
+```
 
-# 배포시 vercel --prod로 하면 프로젝트 배포 할수있으며
+### 3. 환경 변수 설정
 
-#env 설정 변경 될시 vercel env pull .env.local 로 env 설정 업데이트 해야 합니다
+`.env.local` 파일을 생성하고 다음 변수들을 설정하세요:
+
+```env
+DATABASE_URL="file:./dev.db"
+IRON_SECRET="your-secret-key"
+GITHUB_CLIENT_ID="your-github-client-id"
+GITHUB_CLIENT_SECRET="your-github-client-secret"
+CLOUDFLARE_ACCOUNT_ID="your-cloudflare-account-id"
+CLOUDFLARE_API_KEY="your-cloudflare-api-key"
+```
+
+### 4. 데이터베이스 설정
+
+```bash
+npx prisma generate
+npx prisma db push
+```
+
+### 5. 개발 서버 실행
+
+```bash
+npm run dev
+```
+
+### 6. Prisma Studio 실행 (선택사항)
+
+```bash
+npx prisma studio
+```
+
+## 📁 프로젝트 구조
+
+```
+carrot-market-clone/
+├── app/                    # Next.js App Router
+│   ├── (auth)/            # 인증 관련 페이지
+│   ├── (tabs)/            # 메인 탭 페이지들
+│   ├── add-products/      # 상품 등록
+│   ├── products/          # 상품 상세
+│   ├── chats/             # 채팅 기능
+│   └── posts/             # 커뮤니티 게시글
+├── components/            # 재사용 가능한 컴포넌트
+├── lib/                   # 유틸리티 및 설정
+├── prisma/               # 데이터베이스 스키마
+└── public/               # 정적 파일
+```
+
+## 🚀 배포
+
+### Vercel 배포
+
+```bash
+vercel --prod
+```
+
+### 환경 변수 업데이트
+
+```bash
+vercel env pull .env.local
+```
+
+## 📝 개발 노트
+
+- **컴포넌트화**: 재사용 가능한 컴포넌트로 구성하여 유지보수성 향상
+- **PWA 지원**: 모바일 웹앱으로 설치 가능
+- **반응형 디자인**: 모바일과 데스크톱 모두 지원
+- **실시간 기능**: Supabase를 통한 실시간 채팅
+
+## 🔧 데이터베이스 관리
+
+- 스키마 변경 시: `npx prisma migrate dev`
+- Prisma Studio 재시작 필요
+- 무료 SQLite (개발) / PostgreSQL (배포) 사용
+
+## 📱 모바일 지원
+
+현재 PWA로 구성되어 있어 모바일에서도 네이티브 앱처럼 사용할 수 있습니다.
+
+
