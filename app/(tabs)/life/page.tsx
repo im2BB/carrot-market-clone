@@ -86,20 +86,24 @@ export default async function Life() {
     <div className="p-5 flex flex-col gap-5">
       {/* 공지사항 섹션 */}
       {notices.length > 0 && (
-        <div className="space-y-3">
+        <div className="space-y-3 p-2">
           <div className="flex items-center space-x-2 mb-4">
             <span className="text-lg">📢</span>
             <h2 className="text-lg font-semibold text-black dark:text-white">
               공지사항
             </h2>
           </div>
-          {notices.map((notice) => (
+          {notices.map((notice, index) => (
             <Link
               key={notice.id}
               href={`/posts/${notice.id}`}
-              className="block pb-5 mb-5 border-b border-gray-200 dark:border-neutral-500 text-gray-600 dark:text-neutral-400 last:pb-0 last:border-b-0 bg-gradient-to-r from-orange-900/10 to-transparent dark:from-orange-900/10 dark:to-transparent rounded-lg p-4 border border-orange-500/20 hover:from-orange-50 hover:bg-orange-50 dark:hover:from-orange-900/20 dark:hover:bg-neutral-800/50 transition-colors cursor-pointer"
+              className={`block p-4 text-gray-600 dark:text-neutral-400 bg-gradient-to-r from-orange-900/10 to-transparent dark:from-orange-900/10 dark:to-transparent rounded-lg border border-orange-500/20 hover:from-orange-50 hover:bg-orange-50 dark:hover:from-orange-900/20 dark:hover:bg-neutral-800/50 transition-colors cursor-pointer ${
+                index < notices.length - 1
+                  ? "border-b border-gray-200 dark:border-neutral-500 mb-3"
+                  : ""
+              }`}
             >
-              <div className="flex items-center space-x-2 mb-2">
+              <div className="flex items-center space-x-2">
                 <span className="inline-flex items-center px-2 py-1 rounded-full text-xs font-medium bg-orange-500 text-white">
                   📢 공지
                 </span>
@@ -110,10 +114,10 @@ export default async function Life() {
               <h2 className="text-black dark:text-white text-lg font-semibold mb-1">
                 {notice.title}
               </h2>
-              <p className="mb-1 text-gray-600 dark:text-neutral-400 whitespace-pre-wrap line-clamp-3">
+              <p className="text-gray-600 dark:text-neutral-400 whitespace-pre-wrap line-clamp-3">
                 {notice.description}
               </p>
-              <div className="flex items-center gap-4 text-sm">
+              <div className="flex items-center gap-4 text-sm mt-2">
                 <span>{notice.user.username}</span>
                 <span>조회 {notice.views}</span>
                 <span className="flex items-center gap-1">
@@ -140,18 +144,22 @@ export default async function Life() {
       {/* 일반 게시글 섹션 */}
       <div className="space-y-3">
         {notices.length > 0 && (
-          <div className="flex items-center space-x-2 mb-4 pt-4 border-t border-gray-200 dark:border-neutral-600">
+          <div className="flex items-center space-x-2 mb-4 pt-6 border-t-2 border-gray-200 dark:border-neutral-600">
             <h2 className="text-lg font-semibold text-black dark:text-white">
               자유게시판
             </h2>
           </div>
         )}
         {posts.length > 0 ? (
-          posts.map((post) => (
+          posts.map((post, index) => (
             <Link
               key={post.id}
               href={`/posts/${post.id}`}
-              className="block pb-5 mb-5 border-b border-gray-200 dark:border-neutral-500 text-gray-600 dark:text-neutral-400 last:pb-0 last:border-b-0 hover:bg-orange-50 dark:hover:bg-neutral-800/50 transition-colors cursor-pointer rounded-lg p-3"
+              className={`block pb-5 mb-5 text-gray-600 dark:text-neutral-400 hover:bg-orange-50 dark:hover:bg-neutral-800/50 transition-colors cursor-pointer rounded-lg p-3 ${
+                index < posts.length - 1
+                  ? "border-b border-gray-200 dark:border-neutral-500"
+                  : ""
+              }`}
             >
               <h2 className="text-black dark:text-white text-lg font-semibold mb-1">
                 {post.title}

@@ -101,7 +101,7 @@ export async function login(prevState: any, formData: FormData) {
         if (user.role === "ADMIN") {
           redirect("/admin");
         } else {
-          redirect("/home");
+        redirect("/home");
         }
       } else {
         return {
