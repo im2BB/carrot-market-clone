@@ -8,6 +8,7 @@ import { login } from "./action";
 import { PASSWORD_MIN_LENGTH } from "@/lib/constants";
 import { useSearchParams } from "next/navigation";
 import { Suspense } from "react";
+import GlobalLoading from "@/components/global-loading";
 
 function LoginForm() {
   const [state, dispatch] = useActionState(login, null);
@@ -57,7 +58,7 @@ function LoginForm() {
 
 export default function LogIn() {
   return (
-    <Suspense fallback={<div>Loading...</div>}>
+    <Suspense fallback={<GlobalLoading />}>
       <LoginForm />
     </Suspense>
   );

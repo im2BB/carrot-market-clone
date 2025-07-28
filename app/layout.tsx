@@ -5,6 +5,7 @@ import InstallPrompt from "@/components/install-prompt";
 import PWAStatus from "@/components/pwa-status";
 import NetworkStatus from "@/components/NetworkStatus";
 import ThemeWrapper from "@/components/theme-wrapper";
+import NavigationLoading from "@/components/navigation-loading";
 
 export const metadata: Metadata = {
   metadataBase: new URL("http://localhost:3000"),
@@ -103,6 +104,7 @@ export default function RootLayout({
         }
       >
         <ThemeWrapper>
+          <NavigationLoading />
           <NetworkStatus />
           <AutoLogout />
           <PWAStatus />
