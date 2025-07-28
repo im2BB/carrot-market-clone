@@ -7,8 +7,9 @@ import { useActionState } from "react";
 import { login } from "./action";
 import { PASSWORD_MIN_LENGTH } from "@/lib/constants";
 import { useSearchParams } from "next/navigation";
+import { Suspense } from "react";
 
-export default function LogIn() {
+function LoginForm() {
   const [state, dispatch] = useActionState(login, null);
   const searchParams = useSearchParams();
   const error = searchParams.get("error");
@@ -51,5 +52,13 @@ export default function LogIn() {
       </form>
       <SocialLogin text={" 로그인"} />
     </div>
+  );
+}
+
+export default function LogIn() {
+  return (
+    <Suspense fallback={<div>Loading...</div>}>
+      <LoginForm />
+    </Suspense>
   );
 }
