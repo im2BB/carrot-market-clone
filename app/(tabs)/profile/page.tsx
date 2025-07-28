@@ -50,7 +50,7 @@ export default async function Profile() {
         </div>
       </div>
 
-      <div className="grid grid-cols-2 gap-2 text-center">
+      <div className="grid grid-cols-2 sm:grid-cols-4 gap-2 text-center">
         <Link
           href="/profile/my-products"
           className="flex flex-col items-center p-3 transition-colors hover:bg-orange-400 rounded-lg text-black dark:text-white group"
@@ -74,16 +74,16 @@ export default async function Profile() {
           </span>
         </Link>
       </div>
-      <div className="flex p-5 gap-5 items-center justify-center border-y border-gray-200 dark:border-neutral-800">
+      <div className="flex flex-col sm:flex-row p-5 gap-3 sm:gap-5 items-center justify-center border-y border-gray-200 dark:border-neutral-800">
         <Link
           href="/add-products"
-          className="primary-btn h-8 w-24 flex items-center justify-center mt-2"
+          className="primary-btn h-8 w-full sm:w-24 flex items-center justify-center mt-2"
         >
           상품 등록
         </Link>
         <Link
           href="/add-post"
-          className="primary-btn h-8 w-24 flex items-center justify-center mt-2"
+          className="primary-btn h-8 w-full sm:w-24 flex items-center justify-center mt-2"
         >
           게시글 작성
         </Link>

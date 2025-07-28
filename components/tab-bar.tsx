@@ -53,7 +53,7 @@ export default function TabBar() {
 
   return (
     <div className="pwa-nav">
-      <div className="flex justify-around items-center max-w-screen-sm mx-auto px-4 py-2">
+      <div className="flex justify-around items-center max-w-screen-sm sm:max-w-screen-md lg:max-w-screen-lg xl:max-w-screen-xl mx-auto px-4 sm:px-6 lg:px-8 py-2">
         {tabs.map((tab) => {
           const Icon = tab.icon;
           const isActive = pathname === tab.href;

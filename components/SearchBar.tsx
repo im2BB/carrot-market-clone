@@ -19,7 +19,7 @@ export default function SearchBar({
 
   return (
     <form
-      className="flex justify-center items-center gap-3 mb-8"
+      className="flex justify-center items-center gap-3 mb-8 max-w-screen-sm sm:max-w-screen-md lg:max-w-screen-lg xl:max-w-screen-xl mx-auto"
       onSubmit={handleSearch}
     >
       <input

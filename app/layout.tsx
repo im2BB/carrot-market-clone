@@ -100,7 +100,7 @@ export default function RootLayout({
       </head>
       <body
         className={
-          "bg-white dark:bg-neutral-900 text-black dark:text-white max-w-screen-sm mx-auto font-sans"
+          "bg-white dark:bg-neutral-900 text-black dark:text-white font-sans"
         }
       >
         <ThemeWrapper>

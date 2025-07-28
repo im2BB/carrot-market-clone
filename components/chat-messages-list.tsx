@@ -90,7 +90,7 @@ export default function ChatMessagesList({
   return (
     <div className="flex flex-col h-screen">
       {/* 메시지 영역 */}
-      <div className="flex-1 overflow-y-auto p-5 pb-24 scrollbar-hide">
+      <div className="flex-1 overflow-y-auto p-4 sm:p-6 lg:p-8 pb-24 scrollbar-hide">
         <div className="flex flex-col gap-5">
           {messages.map((message) => (
             <div
@@ -141,9 +141,9 @@ export default function ChatMessagesList({
       </div>
 
       {/* 입력창 - 탭바 위에 고정 */}
-      <div className="fixed bottom-16 mb-6 left-0 right-0 bg-white dark:bg-neutral-900 border-t border-gray-200 dark:border-neutral-700 p-4">
+      <div className="fixed bottom-16 mb-6 left-0 right-0 bg-white dark:bg-neutral-900 border-t border-gray-200 dark:border-neutral-700 p-4 sm:p-6 lg:p-8">
         <form
-          className="flex relative max-w-screen-md mx-auto"
+          className="flex relative max-w-screen-sm sm:max-w-screen-md lg:max-w-screen-lg xl:max-w-screen-xl mx-auto"
           onSubmit={onSubmit}
         >
           <input

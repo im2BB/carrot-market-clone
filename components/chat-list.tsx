@@ -48,7 +48,7 @@ export default async function ChatList() {
   const chats = await getChatList();
 
   return (
-    <div className="flex flex-col gap-4 p-4">
+    <div className="flex flex-col gap-4 p-4 sm:p-6 lg:p-8">
       {chats.length > 0 ? (
         chats.map((chat) => {
           const otherUser = chat.users[0];

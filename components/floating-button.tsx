@@ -14,7 +14,7 @@ export default function FloatingButton({
       href={href}
       className="bg-orange-500 flex items-center
       justify-center rounded-full size-12 fixed 
-      bottom-24 right-8 text-white transition-colors 
+      bottom-24 right-4 sm:right-6 lg:right-8 text-white transition-colors 
       hover:bg-orange-400"
     >
       {children}

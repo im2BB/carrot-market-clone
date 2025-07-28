@@ -47,7 +47,7 @@ export default async function SearchPage({
   const products = await getSearchedProducts(query);
 
   return (
-    <div className="p-7">
+    <div className="p-4 sm:p-6 lg:p-8">
       <SearchBar />
 
       {products.length === 0 ? (
@@ -56,7 +56,7 @@ export default async function SearchPage({
           " {query} " 에 대한 검색 결과가 없습니다.
         </div>
       ) : (
-        <div className="grid grid-cols-2 md:grid-cols-3 gap-6">
+        <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6 gap-4 sm:gap-6">
           {products.map((product) => {
             const imgSrc = getSafeImageSrc(product.photo);
             return (

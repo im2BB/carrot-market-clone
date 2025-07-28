@@ -20,7 +20,7 @@ export default async function AdminDashboard() {
       </div>
 
       {/* 통계 카드 */}
-      <div className="grid grid-cols-2 lg:grid-cols-4 gap-3 lg:gap-6">
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3 lg:gap-6">
         <div className="bg-white dark:bg-neutral-800 rounded-lg shadow-lg p-4 lg:p-6 border border-black dark:border-neutral-700">
           <div className="text-center">
             <div className="flex justify-center mb-3">
@@ -87,7 +87,7 @@ export default async function AdminDashboard() {
       </div>
 
       {/* 최근 활동 */}
-      <div className="grid grid-cols-1 xl:grid-cols-2 gap-4 lg:gap-6">
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 lg:gap-6">
         {/* 최근 가입 사용자 */}
         <div className="bg-white dark:bg-neutral-800 rounded-lg shadow-lg border border-black dark:border-neutral-700">
           <div className="px-4 lg:px-6 py-3 lg:py-4 border-b border-black dark:border-neutral-700">
