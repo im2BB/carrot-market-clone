@@ -4,18 +4,18 @@ import getSession from "@/lib/session";
 import { redirect } from "next/navigation";
 
 export default async function Home() {
-  // 세션 체크를 일시적으로 비활성화
-  // try {
-  //   const session = await getSession();
-  //   console.log("Session check:", session.id ? "User logged in" : "No user");
+  // 로그인된 사용자는 /home으로 리다이렉트
+  try {
+    const session = await getSession();
+    console.log("Session check:", session.id ? "User logged in" : "No user");
 
-  //   if (session.id) {
-  //     redirect("/home");
-  //   }
-  // } catch (error) {
-  //   console.error("Session error:", error);
-  //   // 세션 오류가 발생해도 페이지는 표시
-  // }
+    if (session.id) {
+      redirect("/home");
+    }
+  } catch (error) {
+    console.error("Session error:", error);
+    // 세션 오류가 발생해도 페이지는 표시
+  }
 
   return (
     <div className="flex flex-col items-center justify-center min-h-screen p-6">
