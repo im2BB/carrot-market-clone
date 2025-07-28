@@ -46,10 +46,10 @@ export default async function AdminEventsPage() {
     <div className="space-y-4 lg:space-y-6">
       <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-3">
         <div>
-          <h1 className="text-xl lg:text-2xl font-bold text-white">
+          <h1 className="text-xl lg:text-2xl font-bold text-black dark:text-white">
             이벤트 관리
           </h1>
-          <p className="text-sm lg:text-base text-neutral-400">
+          <p className="text-sm lg:text-base text-gray-600 dark:text-neutral-400">
             총 {totalEvents}개의 이벤트가 등록되어 있습니다
           </p>
         </div>
@@ -62,35 +62,37 @@ export default async function AdminEventsPage() {
       </div>
 
       {/* 데스크톱 테이블 뷰 */}
-      <div className="hidden lg:block bg-neutral-800 shadow-lg rounded-lg border border-neutral-700">
-        <div className="px-6 py-4 border-b border-neutral-700">
-          <h3 className="text-lg font-medium text-white">이벤트 목록</h3>
+      <div className="hidden lg:block bg-white dark:bg-neutral-800 shadow-lg rounded-lg border border-black dark:border-neutral-700">
+        <div className="px-6 py-4 border-b border-black dark:border-neutral-700">
+          <h3 className="text-lg font-medium text-black dark:text-white">
+            이벤트 목록
+          </h3>
         </div>
         <div className="overflow-x-auto">
-          <table className="min-w-full divide-y divide-neutral-700">
-            <thead className="bg-neutral-700">
+          <table className="min-w-full divide-y divide-black dark:divide-neutral-700">
+            <thead className="bg-gray-100 dark:bg-neutral-700">
               <tr>
-                <th className="px-6 py-3 text-left text-xs font-medium text-neutral-300 uppercase tracking-wider">
+                <th className="px-6 py-3 text-left text-xs font-medium text-gray-700 dark:text-neutral-300 uppercase tracking-wider">
                   이벤트
                 </th>
-                <th className="px-6 py-3 text-left text-xs font-medium text-neutral-300 uppercase tracking-wider">
+                <th className="px-6 py-3 text-left text-xs font-medium text-gray-700 dark:text-neutral-300 uppercase tracking-wider">
                   기간
                 </th>
-                <th className="px-6 py-3 text-left text-xs font-medium text-neutral-300 uppercase tracking-wider">
+                <th className="px-6 py-3 text-left text-xs font-medium text-gray-700 dark:text-neutral-300 uppercase tracking-wider">
                   생성자
                 </th>
-                <th className="px-6 py-3 text-left text-xs font-medium text-neutral-300 uppercase tracking-wider">
+                <th className="px-6 py-3 text-left text-xs font-medium text-gray-700 dark:text-neutral-300 uppercase tracking-wider">
                   상태
                 </th>
-                <th className="px-6 py-3 text-left text-xs font-medium text-neutral-300 uppercase tracking-wider">
+                <th className="px-6 py-3 text-left text-xs font-medium text-gray-700 dark:text-neutral-300 uppercase tracking-wider">
                   생성일
                 </th>
-                <th className="px-6 py-3 text-left text-xs font-medium text-neutral-300 uppercase tracking-wider">
+                <th className="px-6 py-3 text-left text-xs font-medium text-gray-700 dark:text-neutral-300 uppercase tracking-wider">
                   액션
                 </th>
               </tr>
             </thead>
-            <tbody className="bg-neutral-800 divide-y divide-neutral-700">
+            <tbody className="bg-white dark:bg-neutral-800 divide-y divide-black dark:divide-neutral-700">
               {events.map((event) => (
                 <tr key={event.id}>
                   <td className="px-6 py-4 whitespace-nowrap">
@@ -105,28 +107,28 @@ export default async function AdminEventsPage() {
                         />
                       </div>
                       <div className="ml-4">
-                        <div className="text-sm font-medium text-white">
+                        <div className="text-sm font-medium text-black dark:text-white">
                           {event.title}
                         </div>
-                        <div className="text-sm text-neutral-400">
+                        <div className="text-sm text-gray-600 dark:text-neutral-400">
                           {event.description?.substring(0, 50)}...
                         </div>
                       </div>
                     </div>
                   </td>
                   <td className="px-6 py-4 whitespace-nowrap">
-                    <div className="text-sm text-white">
+                    <div className="text-sm text-black dark:text-white">
                       {new Date(event.start_date).toLocaleDateString("ko-KR")}
                     </div>
-                    <div className="text-sm text-neutral-400">
+                    <div className="text-sm text-gray-600 dark:text-neutral-400">
                       ~ {new Date(event.end_date).toLocaleDateString("ko-KR")}
                     </div>
                   </td>
                   <td className="px-6 py-4 whitespace-nowrap">
-                    <div className="text-sm text-white">
+                    <div className="text-sm text-black dark:text-white">
                       {event.user.username}
                     </div>
-                    <div className="text-sm text-neutral-400">
+                    <div className="text-sm text-gray-600 dark:text-neutral-400">
                       {event.user.email}
                     </div>
                   </td>
@@ -141,7 +143,7 @@ export default async function AdminEventsPage() {
                       {event.isActive ? "활성" : "비활성"}
                     </span>
                   </td>
-                  <td className="px-6 py-4 whitespace-nowrap text-sm text-white">
+                  <td className="px-6 py-4 whitespace-nowrap text-sm text-black dark:text-white">
                     {formatDistanceToNow(new Date(event.created_at), {
                       addSuffix: true,
                       locale: ko,
@@ -186,13 +188,15 @@ export default async function AdminEventsPage() {
 
       {/* 모바일 카드 뷰 */}
       <div className="lg:hidden space-y-3">
-        <div className="bg-neutral-800 rounded-lg p-4 border border-neutral-700">
-          <h3 className="text-base font-medium text-white mb-3">이벤트 목록</h3>
+        <div className="bg-white dark:bg-neutral-800 rounded-lg p-4 border border-black dark:border-neutral-700">
+          <h3 className="text-base font-medium text-black dark:text-white mb-3">
+            이벤트 목록
+          </h3>
         </div>
         {events.map((event) => (
           <div
             key={event.id}
-            className="bg-neutral-800 rounded-lg p-4 border border-neutral-700"
+            className="bg-white dark:bg-neutral-800 rounded-lg p-4 border border-black dark:border-neutral-700"
           >
             <div className="flex gap-3 mb-3">
               <div className="flex-shrink-0">
@@ -206,7 +210,7 @@ export default async function AdminEventsPage() {
               </div>
               <div className="min-w-0 flex-1">
                 <div className="flex items-start justify-between mb-1">
-                  <h4 className="text-sm font-medium text-white truncate">
+                  <h4 className="text-sm font-medium text-black dark:text-white truncate">
                     {event.title}
                   </h4>
                   <span
@@ -219,10 +223,10 @@ export default async function AdminEventsPage() {
                     {event.isActive ? "활성" : "비활성"}
                   </span>
                 </div>
-                <p className="text-xs text-neutral-400 mb-1">
+                <p className="text-xs text-gray-600 dark:text-neutral-400 mb-1">
                   {event.description?.substring(0, 60)}...
                 </p>
-                <div className="text-xs text-neutral-400">
+                <div className="text-xs text-gray-600 dark:text-neutral-400">
                   {new Date(event.start_date).toLocaleDateString("ko-KR")} ~{" "}
                   {new Date(event.end_date).toLocaleDateString("ko-KR")}
                 </div>
@@ -230,16 +234,22 @@ export default async function AdminEventsPage() {
             </div>
 
             <div className="grid grid-cols-2 gap-3 mb-3">
-              <div className="bg-neutral-700 rounded p-2">
-                <div className="text-xs text-neutral-400">생성자</div>
-                <div className="text-sm text-white">{event.user.username}</div>
-                <div className="text-xs text-neutral-400 truncate">
+              <div className="bg-gray-100 dark:bg-neutral-700 rounded p-2">
+                <div className="text-xs text-gray-600 dark:text-neutral-400">
+                  생성자
+                </div>
+                <div className="text-sm text-black dark:text-white">
+                  {event.user.username}
+                </div>
+                <div className="text-xs text-gray-600 dark:text-neutral-400 truncate">
                   {event.user.email}
                 </div>
               </div>
-              <div className="bg-neutral-700 rounded p-2">
-                <div className="text-xs text-neutral-400">생성일</div>
-                <div className="text-sm text-white">
+              <div className="bg-gray-100 dark:bg-neutral-700 rounded p-2">
+                <div className="text-xs text-gray-600 dark:text-neutral-400">
+                  생성일
+                </div>
+                <div className="text-sm text-black dark:text-white">
                   {formatDistanceToNow(new Date(event.created_at), {
                     addSuffix: true,
                     locale: ko,

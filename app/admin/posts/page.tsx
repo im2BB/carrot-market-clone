@@ -59,10 +59,10 @@ export default async function AdminPostsPage({
     <div className="space-y-4 lg:space-y-6">
       <div className="flex justify-between items-center">
         <div>
-          <h1 className="text-xl lg:text-2xl font-bold text-white">
+          <h1 className="text-xl lg:text-2xl font-bold text-black dark:text-white">
             게시글 관리
           </h1>
-          <p className="text-sm lg:text-base text-neutral-400">
+          <p className="text-sm lg:text-base text-gray-600 dark:text-neutral-400">
             총 {totalPosts}개의 게시글이 등록되어 있습니다
           </p>
         </div>
@@ -118,38 +118,40 @@ export default async function AdminPostsPage({
       )}
 
       {/* 데스크톱 테이블 뷰 */}
-      <div className="hidden lg:block bg-neutral-800 shadow-lg rounded-lg border border-neutral-700">
-        <div className="px-6 py-4 border-b border-neutral-700">
-          <h3 className="text-lg font-medium text-white">게시글 목록</h3>
+      <div className="hidden lg:block bg-white dark:bg-neutral-800 shadow-lg rounded-lg border border-black dark:border-neutral-700">
+        <div className="px-6 py-4 border-b border-black dark:border-neutral-700">
+          <h3 className="text-lg font-medium text-black dark:text-white">
+            게시글 목록
+          </h3>
         </div>
         <div className="overflow-x-auto">
-          <table className="min-w-full divide-y divide-neutral-700">
-            <thead className="bg-neutral-700">
+          <table className="min-w-full divide-y divide-black dark:divide-neutral-700">
+            <thead className="bg-gray-100 dark:bg-neutral-700">
               <tr>
-                <th className="px-6 py-3 text-left text-xs font-medium text-neutral-300 uppercase tracking-wider">
+                <th className="px-6 py-3 text-left text-xs font-medium text-gray-700 dark:text-neutral-300 uppercase tracking-wider">
                   제목
                 </th>
-                <th className="px-6 py-3 text-left text-xs font-medium text-neutral-300 uppercase tracking-wider">
+                <th className="px-6 py-3 text-left text-xs font-medium text-gray-700 dark:text-neutral-300 uppercase tracking-wider">
                   타입
                 </th>
-                <th className="px-6 py-3 text-left text-xs font-medium text-neutral-300 uppercase tracking-wider">
+                <th className="px-6 py-3 text-left text-xs font-medium text-gray-700 dark:text-neutral-300 uppercase tracking-wider">
                   작성자
                 </th>
-                <th className="px-6 py-3 text-left text-xs font-medium text-neutral-300 uppercase tracking-wider">
+                <th className="px-6 py-3 text-left text-xs font-medium text-gray-700 dark:text-neutral-300 uppercase tracking-wider">
                   조회수
                 </th>
-                <th className="px-6 py-3 text-left text-xs font-medium text-neutral-300 uppercase tracking-wider">
+                <th className="px-6 py-3 text-left text-xs font-medium text-gray-700 dark:text-neutral-300 uppercase tracking-wider">
                   활동
                 </th>
-                <th className="px-6 py-3 text-left text-xs font-medium text-neutral-300 uppercase tracking-wider">
+                <th className="px-6 py-3 text-left text-xs font-medium text-gray-700 dark:text-neutral-300 uppercase tracking-wider">
                   작성일
                 </th>
-                <th className="px-6 py-3 text-left text-xs font-medium text-neutral-300 uppercase tracking-wider">
+                <th className="px-6 py-3 text-left text-xs font-medium text-gray-700 dark:text-neutral-300 uppercase tracking-wider">
                   액션
                 </th>
               </tr>
             </thead>
-            <tbody className="bg-neutral-800 divide-y divide-neutral-700">
+            <tbody className="bg-white dark:bg-neutral-800 divide-y divide-black dark:divide-neutral-700">
               {posts.map((post) => (
                 <tr key={post.id}>
                   <td className="px-6 py-4 whitespace-nowrap">
@@ -160,10 +162,10 @@ export default async function AdminPostsPage({
                         </span>
                       )}
                       <div>
-                        <div className="text-sm font-medium text-white">
+                        <div className="text-sm font-medium text-black dark:text-white">
                           {post.title}
                         </div>
-                        <div className="text-sm text-neutral-400">
+                        <div className="text-sm text-gray-600 dark:text-neutral-400">
                           {post.description?.substring(0, 50)}...
                         </div>
                       </div>
@@ -181,23 +183,23 @@ export default async function AdminPostsPage({
                     </span>
                   </td>
                   <td className="px-6 py-4 whitespace-nowrap">
-                    <div className="text-sm text-white">
+                    <div className="text-sm text-black dark:text-white">
                       {post.user.username}
                     </div>
-                    <div className="text-sm text-neutral-400">
+                    <div className="text-sm text-gray-600 dark:text-neutral-400">
                       {post.user.email}
                     </div>
                   </td>
                   <td className="px-6 py-4 whitespace-nowrap">
-                    <div className="text-sm text-white">
+                    <div className="text-sm text-black dark:text-white">
                       {post.views.toLocaleString()}회
                     </div>
                   </td>
-                  <td className="px-6 py-4 whitespace-nowrap text-sm text-white">
+                  <td className="px-6 py-4 whitespace-nowrap text-sm text-black dark:text-white">
                     <div>댓글 {post._count.comments}개</div>
                     <div>좋아요 {post._count.likes}개</div>
                   </td>
-                  <td className="px-6 py-4 whitespace-nowrap text-sm text-white">
+                  <td className="px-6 py-4 whitespace-nowrap text-sm text-black dark:text-white">
                     {formatDistanceToNow(new Date(post.created_at), {
                       addSuffix: true,
                       locale: ko,
@@ -240,13 +242,15 @@ export default async function AdminPostsPage({
 
       {/* 모바일 카드 뷰 */}
       <div className="lg:hidden space-y-3">
-        <div className="bg-neutral-800 rounded-lg p-4 border border-neutral-700">
-          <h3 className="text-base font-medium text-white mb-3">게시글 목록</h3>
+        <div className="bg-white dark:bg-neutral-800 rounded-lg p-4 border border-black dark:border-neutral-700">
+          <h3 className="text-base font-medium text-black dark:text-white mb-3">
+            게시글 목록
+          </h3>
         </div>
         {posts.map((post) => (
           <div
             key={post.id}
-            className="bg-neutral-800 rounded-lg p-4 border border-neutral-700"
+            className="bg-white dark:bg-neutral-800 rounded-lg p-4 border border-black dark:border-neutral-700"
           >
             <div className="mb-3">
               <div className="flex items-center space-x-2 mb-2">
@@ -265,13 +269,13 @@ export default async function AdminPostsPage({
                   {post.isNotice ? "공지사항" : "일반 게시글"}
                 </span>
               </div>
-              <h4 className="text-sm font-medium text-white mb-1">
+              <h4 className="text-sm font-medium text-black dark:text-white mb-1">
                 {post.title}
               </h4>
-              <p className="text-xs text-neutral-400 mb-2">
+              <p className="text-xs text-gray-600 dark:text-neutral-400 mb-2">
                 {post.description?.substring(0, 100)}...
               </p>
-              <div className="flex items-center justify-between text-xs text-neutral-400">
+              <div className="flex items-center justify-between text-xs text-gray-600 dark:text-neutral-400">
                 <span>조회수 {post.views.toLocaleString()}회</span>
                 <span>
                   {formatDistanceToNow(new Date(post.created_at), {
@@ -283,22 +287,32 @@ export default async function AdminPostsPage({
             </div>
 
             <div className="grid grid-cols-3 gap-2 mb-3">
-              <div className="bg-neutral-700 rounded p-2">
-                <div className="text-xs text-neutral-400">작성자</div>
-                <div className="text-sm text-white">{post.user.username}</div>
-                <div className="text-xs text-neutral-400 truncate">
+              <div className="bg-gray-100 dark:bg-neutral-700 rounded p-2">
+                <div className="text-xs text-gray-600 dark:text-neutral-400">
+                  작성자
+                </div>
+                <div className="text-sm text-black dark:text-white">
+                  {post.user.username}
+                </div>
+                <div className="text-xs text-gray-600 dark:text-neutral-400 truncate">
                   {post.user.email}
                 </div>
               </div>
-              <div className="bg-neutral-700 rounded p-2">
-                <div className="text-xs text-neutral-400">댓글</div>
-                <div className="text-sm text-white">
+              <div className="bg-gray-100 dark:bg-neutral-700 rounded p-2">
+                <div className="text-xs text-gray-600 dark:text-neutral-400">
+                  댓글
+                </div>
+                <div className="text-sm text-black dark:text-white">
                   {post._count.comments}개
                 </div>
               </div>
-              <div className="bg-neutral-700 rounded p-2">
-                <div className="text-xs text-neutral-400">좋아요</div>
-                <div className="text-sm text-white">{post._count.likes}개</div>
+              <div className="bg-gray-100 dark:bg-neutral-700 rounded p-2">
+                <div className="text-xs text-gray-600 dark:text-neutral-400">
+                  좋아요
+                </div>
+                <div className="text-sm text-black dark:text-white">
+                  {post._count.likes}개
+                </div>
               </div>
             </div>
 

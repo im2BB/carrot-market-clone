@@ -73,6 +73,7 @@ export async function login(prevState: any, formData: FormData) {
         select: {
           id: true,
           password: true,
+          role: true,
         },
       });
 
@@ -96,7 +97,12 @@ export async function login(prevState: any, formData: FormData) {
 
       if (ok) {
         await loginUser(user);
-        redirect("/home");
+        // 관리자인 경우 /admin 페이지로, 일반 사용자는 /home으로 리다이렉트
+        if (user.role === "ADMIN") {
+          redirect("/admin");
+        } else {
+          redirect("/home");
+        }
       } else {
         return {
           fieldErrors: {

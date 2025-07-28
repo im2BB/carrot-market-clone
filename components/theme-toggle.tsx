@@ -9,10 +9,10 @@ export default function ThemeToggle() {
     <button
       onClick={toggleTheme}
       className="
-        relative p-2 rounded-lg border border-gray-300 dark:border-gray-600
+        relative p-2 rounded-lg border border-slate-300 dark:border-gray-600
         bg-white dark:bg-gray-800 
-        text-gray-700 dark:text-gray-300
-        hover:bg-gray-50 dark:hover:bg-gray-700
+        text-slate-700 dark:text-gray-300
+        hover:bg-slate-50 dark:hover:bg-gray-700
         focus:outline-none focus:ring-2 focus:ring-orange-500 dark:focus:ring-orange-400
         shadow-sm hover:shadow-md
       "
