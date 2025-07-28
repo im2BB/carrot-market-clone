@@ -17,30 +17,29 @@ const publicOnlyUrls: Routes = {
 };
 
 export async function middleware(request: NextRequest) {
-  // 미들웨어를 일시적으로 비활성화
+  try {
+    const session = await getSession();
+    const isPublicPage = publicOnlyUrls[request.nextUrl.pathname];
+
+    // 로그인하지 않은 사용자
+    if (!session.id) {
+      // 비공개 페이지에 접근하려고 하면 초기 페이지로 리다이렉트
+      if (!isPublicPage) {
+        return NextResponse.redirect(new URL("/", request.url));
+      }
+    } else {
+      // 로그인한 사용자가 공개 페이지(로그인, 회원가입 등)에 접근하면 홈으로 리다이렉트
+      if (isPublicPage) {
+        return NextResponse.redirect(new URL("/home", request.url));
+      }
+    }
+  } catch (error) {
+    console.error("Middleware session error:", error);
+    // 세션 오류가 발생하면 요청을 그대로 통과시킴
+    return NextResponse.next();
+  }
+
   return NextResponse.next();
-
-  // try {
-  //   const session = await getSession();
-  //   const isPublicPage = publicOnlyUrls[request.nextUrl.pathname];
-
-  //   // 로그인하지 않은 사용자
-  //   if (!session.id) {
-  //     // 비공개 페이지에 접근하려고 하면 초기 페이지로 리다이렉트
-  //     if (!isPublicPage) {
-  //       return NextResponse.redirect(new URL("/", request.url));
-  //     }
-  //   } else {
-  //     // 로그인한 사용자가 공개 페이지(로그인, 회원가입 등)에 접근하면 홈으로 리다이렉트
-  //     if (isPublicPage) {
-  //       return NextResponse.redirect(new URL("/home", request.url));
-  //     }
-  //   }
-  // } catch (error) {
-  //   console.error("Middleware session error:", error);
-  //   // 세션 오류가 발생하면 요청을 그대로 통과시킴
-  //   return NextResponse.next();
-  // }
 }
 
 export const config = {
