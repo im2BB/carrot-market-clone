@@ -7,7 +7,7 @@ export default function HomeHeader() {
   return (
     <div className="relative py-8">
       {/* 토글 버튼을 우상단 고정 위치에 배치 */}
-      <div className="absolute top-0 right-0 z-10">
+      <div className="absolute top-4 right-4 z-20">
         <ThemeToggle />
       </div>
 

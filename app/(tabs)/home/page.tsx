@@ -91,7 +91,7 @@ export default async function Home() {
                     className="block hover:scale-105 transition-transform duration-200"
                     prefetch={true}
                   >
-                    <div className="bg-white dark:bg-neutral-800 rounded-lg overflow-hidden aspect-square relative">
+                    <div className="bg-white dark:bg-neutral-800 rounded-lg overflow-hidden aspect-square relative border border-orange-300 dark:border-orange-200">
                       <Image
                         src={safeImageUrl}
                         alt={product.title || "상품 이미지"}
