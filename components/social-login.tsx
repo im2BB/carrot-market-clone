@@ -1,4 +1,5 @@
 import Link from "next/link";
+import Image from "next/image";
 
 interface SocialLoginProps {
   text: string;
@@ -6,8 +7,8 @@ interface SocialLoginProps {
 export default function SocialLogin({ text }: SocialLoginProps) {
   return (
     <>
-      <div className="w-full h-px bg-gray-300 dark:bg-neutral-500" />
-      <div className="flex flex-col gap-3">
+      <div className="w-full h-px mb-5 bg-gray-300 dark:bg-neutral-500" />
+      <div className="flex flex-col mb-2">
         <Link
           className="primary-btn flex h-10 items-center justify-center gap-2"
           href="/github/start"
@@ -26,6 +27,37 @@ export default function SocialLogin({ text }: SocialLoginProps) {
             ></path>
           </svg>
           <span>Github 로 {text}</span>
+        </Link>
+      </div>
+      <div className="flex flex-col mb-2">
+        <Link
+          className="primary-btn flex h-10 items-center justify-center gap-2"
+          href="/github/start"
+        >
+          <svg
+            className="size-5"
+            viewBox="0 0 24 24"
+            fill="currentColor"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <path d="M16.273 12.845L7.376 0H0v24h7.727V11.155L16.624 24H24V0h-7.727v12.845z" />
+          </svg>
+          <span>네이버 로 {text}</span>
+        </Link>
+      </div>
+      <div className="flex flex-col ">
+        <Link
+          className="primary-btn flex h-10 items-center justify-center gap-2"
+          href="/github/start"
+        >
+          <Image
+            src="/kakaoicon.png"
+            alt="카카오"
+            width={24}
+            height={24}
+            className="size-7"
+          />
+          <span>카카오 로 {text}</span>
         </Link>
       </div>
     </>
