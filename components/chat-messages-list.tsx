@@ -88,10 +88,16 @@ export default function ChatMessagesList({
     };
   }, [chatRoomId]);
   return (
-    <div className="flex flex-col h-screen">
+    <div className="flex flex-col">
       {/* 메시지 영역 */}
-      <div className="flex-1 overflow-y-auto p-4 sm:p-6 lg:p-8 pb-24 scrollbar-hide">
-        <div className="flex flex-col gap-5">
+      <div
+        className="overflow-y-auto p-4 sm:p-6 lg:p-8 pb-32 scrollbar-hide"
+        style={{
+          height: "calc(100vh - 150px)",
+          maxHeight: "calc(100vh - 150px)",
+        }}
+      >
+        <div className="flex flex-col gap-5 justify-end min-h-full">
           {messages.map((message) => (
             <div
               key={message.id}
