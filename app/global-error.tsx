@@ -14,7 +14,7 @@ export default function GlobalError({
       <body>
         <div className="flex flex-col items-center justify-center min-h-screen p-5 text-center">
           <div className="max-w-md mx-auto">
-            <h1 className="text-6xl font-bold text-red-500 mb-4">오류</h1>
+            <h1 className="text-6xl font-bold text-red-500 mb-4">죄송합니다</h1>
             <h2 className="text-2xl font-semibold text-black dark:text-white mb-4">
               예상치 못한 오류가 발생했습니다
             </h2>

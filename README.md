@@ -11,7 +11,6 @@
 - **Database**: Prisma
 - **Authentication**: Iron Session
 - **Image Upload**: Cloudflare Images
-- **Real-time Chat**: Supabase Realtime
 - **Deployment**: Vercel
 
 ## 🚀 주요 기능
